@@ -48,7 +48,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -81,4 +81,4 @@ body {
     text-wrap: balance;
   }
 }
- */
+
