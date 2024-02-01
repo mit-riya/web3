@@ -8,7 +8,7 @@ const Login = () => {
 
     useEffect(() => {
         // Load MetaMask
-        loadMetaMask(); 
+        loadMetaMask();
     }, []);
 
     const loadMetaMask = async () => {
@@ -60,5 +60,5 @@ const Login = () => {
     );
     // return <div>hello</div>
 };
- 
+
 export default Login;
