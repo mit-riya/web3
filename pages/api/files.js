@@ -16,7 +16,7 @@ const saveFile = async (file, fields) => {
       pinataMetadata: {
         name: fields.name,
         keyvalues: {
-          description: fields.description
+          fileType: fields.fileType,
         }
       },
     };
