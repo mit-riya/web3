@@ -1,14 +1,15 @@
 import { useState, useRef } from "react";
 import Head from "next/head";
 import Files from "@/components/Files";
+import { VerifyIdentity } from "./Verify";
 
-const FileUploader = () => {
+const FileUploader = ({identityType}) => {
   const [file, setFile] = useState("");
   const [cid, setCid] = useState("");
   const [uploading, setUploading] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
-    fileType: "", // New field for file type
   });
 
   const inputFile = useRef(null);
@@ -17,45 +18,59 @@ const FileUploader = () => {
     try {
       e.preventDefault();
       setUploading(true);
+      const isVerified = VerifyIdentity(identityType);
+      if(!isVerified) {
+        throw new Error("File cannot be verified.");
+      }
+      if (!form.name) {
+        throw new Error("Name field cannot be empty.");
+      }
       const formData = new FormData();
       formData.append("file", file, { filename: file.name });
       formData.append("name", form.name);
-      formData.append("fileType", form.fileType); // Include file type in the form data
+      
       const res = await fetch("/api/files", {
         method: "POST",
         body: formData,
       });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+  
       const ipfsHash = await res.text();
       setCid(ipfsHash);
       setUploading(false);
       setForm({
         name: "",
-        fileType: "",
       });
-  
-      // Clear the file input
       setFile("");
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error(error);
+      if(form.name){
+        setForm({
+          name: "",
+        });
+        setFile("");
+      }
+      if (error instanceof TypeError || error.message === 'Failed to fetch') {
+        alert("Unable to connect to the server. Please check your internet connection or try again later.");
+      } else if(error.message === "Name field cannot be empty."){
+        alert("Name field cannot be empty");
+      } else if(error.message === "File cannot be verified."){
+        alert("File cannot be verified.");
+      } 
+      else {
+        alert("Trouble uploading file. Please try again.");
+      }
+  
       setUploading(false);
-      
-      alert("Trouble uploading file");
     }
   };
+  
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
-  };
-
-  const loadRecent = async () => {
-    try {
-      const res = await fetch("/api/files");
-      const json = await res.json();
-      setCid(json.ipfs_pin_hash);
-    } catch (e) {
-      console.log(e);
-      alert("Trouble loading files");
-    }
   };
 
   return (
@@ -71,12 +86,7 @@ const FileUploader = () => {
           <div className="h-full max-w-screen-xl">
             <div className="m-auto flex h-full w-full items-center justify-center">
               <div className="m-auto w-3/4 text-center">
-                <h1>Share files easily</h1>
-                <p className="mt-2">
-                  With Simple IPFS, you can upload a file, get a link, and share
-                  it with anyone who needs to access the file. The link is
-                  permanent, but it will only be shared once.
-                </p>
+                <h1>Upload File</h1>
                 <input
                   type="file"
                   id="file"
@@ -95,7 +105,8 @@ const FileUploader = () => {
                     ) : (
                       <div>
                         <p className="text-lg font-light">
-                          Select a file to upload to the IPFS network
+                        {file ? `Selected file: ${file.name}` : "Select a file to upload to the IPFS network"}
+                          {/* Select a file to upload to the IPFS network */}
                         </p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -123,23 +134,6 @@ const FileUploader = () => {
                         ...form, 
                         name: e.target.value
                       })} className="border border-secondary rounded-md p-2 outline-none" id="name" value={form.name} placeholder="Name" />
-                    </div>
-                    <div className="mb-2">
-                      <label htmlFor="fileType">File Type</label><br/>
-                      <select
-                        onChange={(e) => setForm({
-                          ...form, 
-                          fileType: e.target.value
-                        })}
-                        value={form.fileType}
-                        className="border border-secondary rounded-md p-2 outline-none"
-                        id="fileType"
-                      >
-                        <option value="">Select File Type</option>
-                        <option value="Aadhar">Aadhar</option>
-                        <option value="DrivingLicense">Driving License</option>
-                        {/* Add more file types as needed */}
-                      </select>
                     </div>
                     <button className="rounded-lg bg-secondary text-white w-auto p-4" type="submit">Upload</button>
                   </form>

@@ -15,9 +15,6 @@ const saveFile = async (file, fields) => {
     const options = {
       pinataMetadata: {
         name: fields.name,
-        keyvalues: {
-          fileType: fields.fileType,
-        }
       },
     };
     const response = await pinata.pinFileToIPFS(stream, options);
