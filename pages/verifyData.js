@@ -7,7 +7,7 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-const userId = "rec6";
+const userId = "req10";
 
 const YourComponent = () => {
   const url = 'http://localhost:3000/api/fetchAll';
@@ -17,7 +17,7 @@ const YourComponent = () => {
 
   useEffect(() => {
     if (data) {
-      const newFilteredRequests = data.filter((request) => (request.receiverId === userId && request.status === 'Pending'));
+      const newFilteredRequests = data.filter((request) => request.requesterId === userId);
       setFilteredRequests(newFilteredRequests);
 
       // Check for new requests
@@ -30,36 +30,67 @@ const YourComponent = () => {
     }
   }, [data, userId]);
   const [formData, setFormData] = useState()
-  const handleFormSubmit = async (formData) => {
-    try {
-        console.log(formData)
-      const response = await fetch('/api/verifyRequest', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
 
-      if (response.ok) {
-        console.log('PUT request successful');
-        mutate();
-        // Handle success
-      } else {
-        console.error('PUT request failed');
-        // Handle error
-      }
-    } catch (error) {
-      console.error('Error making PUT request:', error);
-    }
-  };
 
   if (error) return <div>Error loading data</div>;
   if (!data) return <div>Loading...</div>;
 
+//   new request
+const [requesterId, setRequesterId] = useState('');
+  const [receiverId, setReceiverId] = useState('');
+  const [details, setDetails] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('/api/newRequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, receiverId, details }),
+      });
+
+      if (response.ok) {
+        console.log('Verification request created successfully');
+        // Handle success, if needed
+      } else {
+        console.error('Failed to create verification request');
+        // Handle error, if needed
+      }
+    } catch (error) {
+      console.error('Error creating verification request:', error);
+    }
+  };
+
+
+
   return (
     <div>
-      <h1>Verification Requests for User {userId}</h1>
+        <h1>Create New Verification Request</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Receiver ID:
+          <input
+            type="text"
+            value={receiverId}
+            onChange={(e) => setReceiverId(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Details:
+          <input
+            type="text"
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
+          />
+        </label>
+        <br />
+        <button type="submit">Submit Request</button>
+      </form>
+      <h1>Verification Requests made by User {userId}</h1>
       <ul>
         {filteredRequests.map((request) => (
           <li key={request._id}>
@@ -68,12 +99,6 @@ const YourComponent = () => {
             <p>Details: {request.details}</p>
             <p>Requester ID: {request.requesterId}</p>
             <p>Receiver ID: {request.receiverId}</p>
-            <button onClick={()=>{
-                handleFormSubmit({_id: request._id, status: "Accepted"});
-            }}>Accept</button>
-            <button onClick={()=>{
-                handleFormSubmit({_id: request._id, status: "Rejected"});
-            }}>Reject</button>
             {/* Add other properties as needed */}
           </li>
         ))}

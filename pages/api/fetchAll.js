@@ -8,9 +8,7 @@ async function GET(req, res) {
         console.log(mongoose.models)
         const VerificationRequest = mongoose.models.VerificationRequest
         await connect();
-        const pendingRequests = await VerificationRequest.find({
-            status: 'Pending',
-        });
+        const pendingRequests = await VerificationRequest.find({});
 
         res.status(200).json(pendingRequests);
     } catch (error) {
