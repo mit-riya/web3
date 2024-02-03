@@ -2,17 +2,6 @@ import { useEffect, useState } from 'react';
 import web3 from '../contracts/web3';
 import FileUploader from '../components/FileUploader';
 
-// const fixedIdentities = [
-//   "Aadhar",
-//   "Pan Card",
-//   "Voter ID",
-//   "Driving License",
-//   "Passport",
-//   "Birth Certificate",
-//   "10th Certificate",
-//   "12th Certificate"
-// ];
-
 const MyIdentities = () => {
   const [identities, setIdentities] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -32,10 +21,8 @@ const MyIdentities = () => {
     try {
       // Connect to the user's MetaMask provider
       if (window.ethereum) {
-
         // Request account access
         await window.ethereum.request({ method: 'eth_requestAccounts' });
-
         // Load the user's Ethereum address
         const userAddress = (await web3.eth.getAccounts())[0];
         console.log(userAddress);
@@ -45,8 +32,6 @@ const MyIdentities = () => {
 
         // Call the contract's function to get the list of identities
         const result = await contract.methods.getIdentitiesByAccount().call({ from: userAddress });
-        console.log(result);
-
         const AllIdentities = await contract.methods.getAllIdentities().call({ from: userAddress });
         console.log(AllIdentities);
 
@@ -72,7 +57,7 @@ const MyIdentities = () => {
     // setGeneratedCID(""); // Clear previous CID
     if (functionCalled === 0) {
       setAddFunction(false);
-    } else { 
+    } else {
       setAddFunction(true);
     }
     setIsUploaderOpen(true);
@@ -93,12 +78,11 @@ const MyIdentities = () => {
   //   console.log("identity index: ",selectedIdentityIndex);
   // };
 
-  const handleUpdate = async (index,cid) => {
-    console.log("cid: ",cid);
-    console.log("identity index: ",selectedIdentityIndex);
+  const handleUpdate = async (index, cid) => {
+    console.log("cid: ", cid);
+    console.log("identity index: ", selectedIdentityIndex);
     if (cid && selectedIdentityIndex !== null) {
       try {
-        // Assuming there is a function in the contract for updating an identity
         const contract = new web3.eth.Contract(
           process.env.CONTRACT_ABI,
           process.env.CONTRACT_ADDRESS
@@ -106,15 +90,12 @@ const MyIdentities = () => {
 
         // Load the user's Ethereum address
         const userAddress = (await web3.eth.getAccounts())[0];
-        
-        // await contract.methods.updateIdentity(index, cid, true).send({ from: userAddress });
-        await contract.methods.updateIdentity(index, cid, true).send({ from: userAddress });
 
+        await contract.methods.updateIdentity(index, cid, true).send({ from: userAddress });
         console.log(`Identity updated: ${index}`);
       } catch (error) {
         console.error('Error updating identity:', error.message);
       }
-      console.log(`Identity updated: ${index}`);
       loadIdentities();
     }
     else {
@@ -124,7 +105,6 @@ const MyIdentities = () => {
 
   const handleDelete = async (index) => {
     try {
-      // Assuming there is a function in the contract for deleting an identity
       const contract = new web3.eth.Contract(
         process.env.CONTRACT_ABI,
         process.env.CONTRACT_ADDRESS
@@ -132,10 +112,7 @@ const MyIdentities = () => {
 
       // Load the user's Ethereum address
       const userAddress = (await web3.eth.getAccounts())[0];
-
-      // Replace the following line with your actual deletion logic
       await contract.methods.deleteIdentity(index).send({ from: userAddress });
-
       console.log(`Identity deleted: ${index}`);
       loadIdentities();
     } catch (error) {
@@ -143,12 +120,11 @@ const MyIdentities = () => {
     }
   };
 
-  const handleAdd = async (index,cid) => {
-    console.log("cid: ",cid);
-    console.log("identity index: ",selectedIdentityIndex);
+  const handleAdd = async (index, cid) => {
+    console.log("cid: ", cid);
+    console.log("identity index: ", selectedIdentityIndex);
     if (cid && selectedIdentityIndex !== null) {
       try {
-        // Assuming there is a function in the contract for adding an identity
         const contract = new web3.eth.Contract(
           process.env.CONTRACT_ABI,
           process.env.CONTRACT_ADDRESS
@@ -157,24 +133,19 @@ const MyIdentities = () => {
         // Load the user's Ethereum address
         const userAddress = (await web3.eth.getAccounts())[0];
 
-        // Replace the following line with your actual addition logic
         await contract.methods.addIdentity(index, cid, true).send({ from: userAddress });
-
         console.log(`Identity added: ${index}`);
+        loadIdentities();
       } catch (error) {
         console.error('Error adding identity:', error.message);
       }
-      console.log(`Identity added: ${index}`);
-      loadIdentities();
-    }
-    else {
+    } else {
       console.error('Error adding identity: CID not generated');
     }
   };
 
   return (
     <div>
-      {/* <FileUploader /> */}
       <h1>My Identities</h1>
       {loading && <p>Loading...</p>}
       {!loading && identities.length === 0 && <p>No identities found.</p>}
@@ -185,20 +156,23 @@ const MyIdentities = () => {
               <p>{`${identity}`}</p>
               {verificationStatus[index] ? (
                 <>
-                  <button onClick={() => openFileUploader(index,0)}>Update</button>
-                  <button onClick={() => handleDelete(index)}>Delete</button>
+                  <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 0)}>Update</button>
+                  <button disabled={isUploaderOpen} onClick={() => handleDelete(index)}>Delete</button>
                 </>
               ) : (
-                <button onClick={() => openFileUploader(index,1)}>Add</button>
+                <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 1)}>Add</button>
               )}
             </div>
           ))}
         </div>
       )}
-
-      {/* <button onClick={openFileUploader}>Add More Identities</button> */}
-      {isUploaderOpen && <FileUploader identityType={selectedIdentityIndex} onClose={closeFileUploader} handleAddOrUpdate={addFunction? handleAdd:handleUpdate}/>}
-      {/* {isUploaderOpen && <FileUploader identityType={selectedIdentityIndex} onUploadSuccess={handleGeneratedCID} onClose={closeFileUploader} handleAddOrUpdate={addFunction? handleAdd:handleUpdate}/>} */}
+      {isUploaderOpen && (
+        <FileUploader
+          identityType={selectedIdentityIndex}
+          onClose={closeFileUploader}
+          handleAddOrUpdate={addFunction ? handleAdd : handleUpdate}
+        />
+      )}
     </div>
   );
 };
