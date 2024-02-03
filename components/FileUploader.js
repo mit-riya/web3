@@ -2,8 +2,9 @@ import { useState, useRef } from "react";
 import Head from "next/head";
 import Files from "@/components/Files";
 import { VerifyIdentity } from "./Verify";
+import { on } from "form-data";
 
-const FileUploader = ({identityType}) => {
+const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
   const [file, setFile] = useState("");
   const [cid, setCid] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -39,7 +40,10 @@ const FileUploader = ({identityType}) => {
       }
   
       const ipfsHash = await res.text();
+      console.log("ipfsHash: ", ipfsHash);
+
       setCid(ipfsHash);
+  
       setUploading(false);
       setForm({
         name: "",
@@ -72,6 +76,13 @@ const FileUploader = ({identityType}) => {
   const handleChange = (e) => {
     setFile(e.target.files[0]);
   };
+
+  const handleCID = (cid) => {
+    console.log("CID in form component: ", cid);
+    // onUploadSuccess(cid);
+    handleAddOrUpdate(identityType, cid);
+    onClose();
+  }
 
   return (
     <>
@@ -138,7 +149,13 @@ const FileUploader = ({identityType}) => {
                     <button className="rounded-lg bg-secondary text-white w-auto p-4" type="submit">Upload</button>
                   </form>
                 )}
-                {cid && <Files cid={cid} />}
+                {/* {cid && <Files cid={cid} />} */}
+                {cid ? 
+                  <p>File successfully uploaded!!</p>
+                  : 
+                  null
+                }
+                {cid ? <button onClick={() => handleCID(cid)} className="rounded-lg bg-secondary text-white w-auto p-4">Done</button> : null}
               </div>
             </div>
           </div>

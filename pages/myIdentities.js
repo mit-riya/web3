@@ -18,10 +18,12 @@ const MyIdentities = () => {
   const [loading, setLoading] = useState(false);
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState([]);
+  // const [generatedCID, setGeneratedCID ] = useState("");
+  const [selectedIdentityIndex, setSelectedIdentityIndex] = useState(null);
+  const [addFunction, setAddFunction] = useState(true);
 
   useEffect(() => {
     loadIdentities();
-    // setIdentities(loadIdentities());
   }, []);
 
   const loadIdentities = async () => {
@@ -30,7 +32,6 @@ const MyIdentities = () => {
     try {
       // Connect to the user's MetaMask provider
       if (window.ethereum) {
-        // const web3 = new Web3(window.ethereum);
 
         // Request account access
         await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -39,12 +40,9 @@ const MyIdentities = () => {
         const userAddress = (await web3.eth.getAccounts())[0];
         console.log(userAddress);
 
-        console.log("hiiii");
-
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
 
-        console.log("hoooo");
         // Call the contract's function to get the list of identities
         const result = await contract.methods.getIdentitiesByAccount().call({ from: userAddress });
         console.log(result);
@@ -70,34 +68,61 @@ const MyIdentities = () => {
     }
   };
 
-  const openFileUploader = () => {
+  const openFileUploader = (index, functionCalled) => {
+    // setGeneratedCID(""); // Clear previous CID
+    if (functionCalled === 0) {
+      setAddFunction(false);
+    } else { 
+      setAddFunction(true);
+    }
     setIsUploaderOpen(true);
+    setSelectedIdentityIndex(index);
   };
 
-  const handleUpdate = async (index) => {
-    // Placeholder for handling the update of the identity
-    try {
-      // Assuming there is a function in the contract for updating an identity
-      const contract = new web3.eth.Contract(
-        process.env.CONTRACT_ABI,
-        process.env.CONTRACT_ADDRESS
-      );
+  const closeFileUploader = () => {
+    setIsUploaderOpen(false);
+    setSelectedIdentityIndex(null);
+    // setAddFunction(true);
 
-      // Replace the following line with your actual update logic
-      // Load the user's Ethereum address
-      const userAddress = (await web3.eth.getAccounts())[0];
-      
-      await contract.methods.updateIdentity(index, cid, true).send({ from: userAddress });
+    // Reload identities after the FileUploader is closed
+    // loadIdentities();
+  };
 
+  // const handleGeneratedCID = (cid) => {
+  //   console.log("cid: ",cid);
+  //   console.log("identity index: ",selectedIdentityIndex);
+  // };
+
+  const handleUpdate = async (index,cid) => {
+    console.log("cid: ",cid);
+    console.log("identity index: ",selectedIdentityIndex);
+    if (cid && selectedIdentityIndex !== null) {
+      try {
+        // Assuming there is a function in the contract for updating an identity
+        const contract = new web3.eth.Contract(
+          process.env.CONTRACT_ABI,
+          process.env.CONTRACT_ADDRESS
+        );
+
+        // Load the user's Ethereum address
+        const userAddress = (await web3.eth.getAccounts())[0];
+        
+        // await contract.methods.updateIdentity(index, cid, true).send({ from: userAddress });
+        await contract.methods.updateIdentity(index, cid, true).send({ from: userAddress });
+
+        console.log(`Identity updated: ${index}`);
+      } catch (error) {
+        console.error('Error updating identity:', error.message);
+      }
       console.log(`Identity updated: ${index}`);
-    } catch (error) {
-      console.error('Error updating identity:', error.message);
+      loadIdentities();
     }
-    console.log(`Identity updated: ${index}`);
+    else {
+      console.error('Error updating identity: CID not generated');
+    }
   };
 
   const handleDelete = async (index) => {
-    // Placeholder for handling the deletion of the identity
     try {
       // Assuming there is a function in the contract for deleting an identity
       const contract = new web3.eth.Contract(
@@ -112,33 +137,39 @@ const MyIdentities = () => {
       await contract.methods.deleteIdentity(index).send({ from: userAddress });
 
       console.log(`Identity deleted: ${index}`);
+      loadIdentities();
     } catch (error) {
       console.error('Error deleting identity:', error.message);
     }
-    console.log(`Identity deleted: ${index}`);
   };
 
-  const handleAdd = async (index) => {
-    // Placeholder for handling the addition of the identity
-    try {
-      // Assuming there is a function in the contract for adding an identity
-      const contract = new web3.eth.Contract(
-        process.env.CONTRACT_ABI,
-        process.env.CONTRACT_ADDRESS
-      );
+  const handleAdd = async (index,cid) => {
+    console.log("cid: ",cid);
+    console.log("identity index: ",selectedIdentityIndex);
+    if (cid && selectedIdentityIndex !== null) {
+      try {
+        // Assuming there is a function in the contract for adding an identity
+        const contract = new web3.eth.Contract(
+          process.env.CONTRACT_ABI,
+          process.env.CONTRACT_ADDRESS
+        );
 
-      // const cid = "";
-      // Load the user's Ethereum address
-      const userAddress = (await web3.eth.getAccounts())[0];
+        // Load the user's Ethereum address
+        const userAddress = (await web3.eth.getAccounts())[0];
 
-      // Replace the following line with your actual addition logic
-      await contract.methods.addIdentity(index, cid, true).send({ from: userAddress });
+        // Replace the following line with your actual addition logic
+        await contract.methods.addIdentity(index, cid, true).send({ from: userAddress });
 
+        console.log(`Identity added: ${index}`);
+      } catch (error) {
+        console.error('Error adding identity:', error.message);
+      }
       console.log(`Identity added: ${index}`);
-    } catch (error) {
-      console.error('Error adding identity:', error.message);
+      loadIdentities();
     }
-    console.log(`Identity added: ${index}`);
+    else {
+      console.error('Error adding identity: CID not generated');
+    }
   };
 
   return (
@@ -154,11 +185,11 @@ const MyIdentities = () => {
               <p>{`${identity}`}</p>
               {verificationStatus[index] ? (
                 <>
-                  <button onClick={() => handleUpdate(index)}>Update</button>
+                  <button onClick={() => openFileUploader(index,0)}>Update</button>
                   <button onClick={() => handleDelete(index)}>Delete</button>
                 </>
               ) : (
-                <button onClick={() => handleAdd(index)}>Add</button>
+                <button onClick={() => openFileUploader(index,1)}>Add</button>
               )}
             </div>
           ))}
@@ -166,7 +197,8 @@ const MyIdentities = () => {
       )}
 
       {/* <button onClick={openFileUploader}>Add More Identities</button> */}
-      {isUploaderOpen && <FileUploader />}
+      {isUploaderOpen && <FileUploader identityType={selectedIdentityIndex} onClose={closeFileUploader} handleAddOrUpdate={addFunction? handleAdd:handleUpdate}/>}
+      {/* {isUploaderOpen && <FileUploader identityType={selectedIdentityIndex} onUploadSuccess={handleGeneratedCID} onClose={closeFileUploader} handleAddOrUpdate={addFunction? handleAdd:handleUpdate}/>} */}
     </div>
   );
 };
