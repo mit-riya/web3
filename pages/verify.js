@@ -29,6 +29,30 @@ const YourComponent = () => {
       prevFilteredRequestsLength.current = newFilteredRequests.length;
     }
   }, [data, userId]);
+  const [formData, setFormData] = useState()
+  const handleFormSubmit = async (formData) => {
+    try {
+        console.log(formData)
+      const response = await fetch('/api/verifyRequest', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log('PUT request successful');
+        mutate();
+        // Handle success
+      } else {
+        console.error('PUT request failed');
+        // Handle error
+      }
+    } catch (error) {
+      console.error('Error making PUT request:', error);
+    }
+  };
 
   if (error) return <div>Error loading data</div>;
   if (!data) return <div>Loading...</div>;
@@ -40,9 +64,16 @@ const YourComponent = () => {
         {filteredRequests.map((request) => (
           <li key={request._id}>
             <h3>Status: {request.status}</h3>
+            <p>ID: {request._id}</p>
             <p>Details: {request.details}</p>
             <p>Requester ID: {request.requesterId}</p>
             <p>Receiver ID: {request.receiverId}</p>
+            <button onClick={()=>{
+                handleFormSubmit({_id: request._id, status: "Accepted"});
+            }}>Accept</button>
+            <button onClick={()=>{
+                handleFormSubmit({_id: request._id, status: "Rejected"});
+            }}>Reject</button>
             {/* Add other properties as needed */}
           </li>
         ))}

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 const MONGODB_URI = process.env.MONGO_URI || "mongodb+srv://himanshi:ZyCrarzYWJQTjLLU@cluster0.o64tbsd.mongodb.net/?retryWrites=true&w=majority";
 
 if (!MONGODB_URI) {

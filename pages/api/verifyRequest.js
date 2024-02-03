@@ -6,10 +6,11 @@ import mongoose from 'mongoose';
 async function PUT(req, res) {
     try {
       const VerificationRequest = mongoose.models.VerificationRequest;
-      const { requesterId, status } = await req.body;
+      const { _id, status } = await req.body;
+      console.log("updating...", status)
       await connect();
       const updatedVerificationRequest = await VerificationRequest.findOneAndUpdate(
-        { requesterId: requesterId },
+        {_id: _id},
         { $set: { status: status } },
         { new: true }
       );

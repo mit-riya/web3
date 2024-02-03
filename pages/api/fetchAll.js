@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import connect from '../../models/connect';
 import mongoose from 'mongoose';
-
+import VerificationRequest from '../../models/VerificationRequest';
 
 async function GET(req, res) {
     try {

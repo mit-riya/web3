@@ -1,7 +1,7 @@
 // pages/api/request-verification.js
 import mongoose from 'mongoose';
 import connect from '../../models/connect';
-
+// import VerificationRequest from '../../models/VerificationRequest';
 module.exports = async function (req, res) {
     try {
         const { requesterId, receiverId, details } = await req.body;

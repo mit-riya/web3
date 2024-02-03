@@ -7,6 +7,6 @@ const VerificationRequestSchema = new mongoose.Schema({
   status: { type: String, enum: ['Pending', 'Accepted', 'Rejected'], default: 'Pending' },
 });
 
-const VerificationRequest = mongoose.model('VerificationRequest', VerificationRequestSchema);
+ 
 
-module.exports = VerificationRequest;
+module.exports = mongoose.models.VerificationRequest || mongoose.model('VerificationRequest', VerificationRequestSchema);
