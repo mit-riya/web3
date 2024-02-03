@@ -104,19 +104,28 @@ const MyIdentities = () => {
   };
 
   const handleDelete = async (index) => {
-    try {
-      const contract = new web3.eth.Contract(
-        process.env.CONTRACT_ABI,
-        process.env.CONTRACT_ADDRESS
-      );
+    // Display confirmation dialog before deleting
+    const isConfirmedDelete = window.confirm("Are you sure you want to delete this identity?");
 
-      // Load the user's Ethereum address
-      const userAddress = (await web3.eth.getAccounts())[0];
-      await contract.methods.deleteIdentity(index).send({ from: userAddress });
-      console.log(`Identity deleted: ${index}`);
-      loadIdentities();
-    } catch (error) {
-      console.error('Error deleting identity:', error.message);
+    if (isConfirmedDelete) {
+      try {
+        const contract = new web3.eth.Contract(
+          process.env.CONTRACT_ABI,
+          process.env.CONTRACT_ADDRESS
+        );
+
+        // Load the user's Ethereum address
+        const userAddress = (await web3.eth.getAccounts())[0];
+
+        // Delete the identity if confirmed
+        await contract.methods.deleteIdentity(index).send({ from: userAddress });
+        console.log(`Identity deleted: ${index}`);
+        loadIdentities();
+      } catch (error) {
+        console.error('Error deleting identity:', error.message);
+      }
+    } else {
+      console.log("Deletion canceled by user.");
     }
   };
 
