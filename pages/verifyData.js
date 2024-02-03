@@ -9,7 +9,22 @@ const fetcher = async (url) => {
 
 const userId = "req10";
 
+const fixedIdentities = [
+  "Aadhar",
+  "Pan Card",
+  "Voter ID",
+  "Driving License",
+  "Passport",
+  "Birth Certificate",
+  "10th Certificate",
+  "12th Certificate"
+];
+
 const YourComponent = () => {
+const [receiverId, setReceiverId] = useState('');
+const [requesterId, setRequesterId] = useState('');
+  const [details, setDetails] = useState('');
+  const [selectedIdentity, setSelectedIdentity] = useState('');
   const url = 'http://localhost:3000/api/fetchAll';
   const { data, error } = useSWR(url, fetcher);
   const [filteredRequests, setFilteredRequests] = useState([]);
@@ -36,24 +51,23 @@ const YourComponent = () => {
   if (!data) return <div>Loading...</div>;
 
 //   new request
-const [requesterId, setRequesterId] = useState('');
-  const [receiverId, setReceiverId] = useState('');
-  const [details, setDetails] = useState('');
-
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setRequesterId(userId)
     try {
       const response = await fetch('/api/newRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, receiverId, details }),
+        body: JSON.stringify({ requesterId, receiverId, details }),
       });
 
       if (response.ok) {
         console.log('Verification request created successfully');
+        mutate();
         // Handle success, if needed
       } else {
         console.error('Failed to create verification request');
@@ -80,12 +94,21 @@ const [requesterId, setRequesterId] = useState('');
         </label>
         <br />
         <label>
-          Details:
-          <input
-            type="text"
-            value={details}
-            onChange={(e) => setDetails(e.target.value)}
-          />
+          Select Identity:
+          <select
+            value={selectedIdentity}
+            onChange={(e) => {
+                const selectedIndex = fixedIdentities.indexOf(e.target.value);
+                setSelectedIdentity(e.target.value);
+                setDetails(selectedIndex);
+                console.log(details)
+            }}
+          >
+            <option value="" disabled>Select an identity</option>
+            {fixedIdentities.map((identity) => (
+              <option key={identity} value={identity}>{identity}</option>
+            ))}
+          </select>
         </label>
         <br />
         <button type="submit">Submit Request</button>
@@ -96,7 +119,7 @@ const [requesterId, setRequesterId] = useState('');
           <li key={request._id}>
             <h3>Status: {request.status}</h3>
             <p>ID: {request._id}</p>
-            <p>Details: {request.details}</p>
+            <p>Details: {fixedIdentities[request.details]}</p>
             <p>Requester ID: {request.requesterId}</p>
             <p>Receiver ID: {request.receiverId}</p>
             {/* Add other properties as needed */}

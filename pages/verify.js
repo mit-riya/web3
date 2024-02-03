@@ -7,6 +7,17 @@ const fetcher = async (url) => {
   return response.json();
 };
 
+const fixedIdentities = [
+    "Aadhar",
+    "Pan Card",
+    "Voter ID",
+    "Driving License",
+    "Passport",
+    "Birth Certificate",
+    "10th Certificate",
+    "12th Certificate"
+  ];
+
 const userId = "rec6";
 
 const YourComponent = () => {
