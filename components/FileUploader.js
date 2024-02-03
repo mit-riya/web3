@@ -4,7 +4,7 @@ import Files from "@/components/Files";
 import { VerifyIdentity } from "./Verify";
 import { on } from "form-data";
 
-const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
+const FileUploader = ({ identityType, onClose, handleAddOrUpdate }) => {
   const [file, setFile] = useState("");
   const [cid, setCid] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -20,7 +20,7 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
       e.preventDefault();
       setUploading(true);
       const isVerified = VerifyIdentity(identityType);
-      if(!isVerified) {
+      if (!isVerified) {
         throw new Error("File cannot be verified.");
       }
       if (!form.name) {
@@ -29,7 +29,7 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
       const formData = new FormData();
       formData.append("file", file, { filename: file.name });
       formData.append("name", form.name);
-      
+
       const res = await fetch("/api/files", {
         method: "POST",
         body: formData,
@@ -38,12 +38,12 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
       if (!res.ok) {
         throw new Error(`HTTP error! Status: ${res.status}`);
       }
-  
+
       const ipfsHash = await res.text();
       console.log("ipfsHash: ", ipfsHash);
 
       setCid(ipfsHash);
-  
+
       setUploading(false);
       setForm({
         name: "",
@@ -51,7 +51,7 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
       setFile("");
     } catch (error) {
       console.error(error);
-      if(form.name){
+      if (form.name) {
         setForm({
           name: "",
         });
@@ -59,19 +59,19 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
       }
       if (error instanceof TypeError || error.message === 'Failed to fetch') {
         alert("Unable to connect to the server. Please check your internet connection or try again later.");
-      } else if(error.message === "Name field cannot be empty."){
+      } else if (error.message === "Name field cannot be empty.") {
         alert("Name field cannot be empty");
-      } else if(error.message === "File cannot be verified."){
+      } else if (error.message === "File cannot be verified.") {
         alert("File cannot be verified.");
-      } 
+      }
       else {
         alert("Trouble uploading file. Please try again.");
       }
-  
+
       setUploading(false);
     }
   };
-  
+
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
@@ -97,6 +97,11 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
           <div className="h-full max-w-screen-xl">
             <div className="m-auto flex h-full w-full items-center justify-center">
               <div className="m-auto w-3/4 text-center">
+
+                <div className="file-uploader-header">
+                  <button className="close-button" onClick={onClose}>X</button>
+                </div>
+                
                 <h1>Upload File</h1>
                 <input
                   type="file"
@@ -116,7 +121,7 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
                     ) : (
                       <div>
                         <p className="text-lg font-light">
-                        {file ? `Selected file: ${file.name}` : "Select a file to upload to the IPFS network"}
+                          {file ? `Selected file: ${file.name}` : "Select a file to upload to the IPFS network"}
                           {/* Select a file to upload to the IPFS network */}
                         </p>
                         <svg
@@ -140,9 +145,9 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
                 {file && (
                   <form onSubmit={uploadFile}>
                     <div className="mb-2">
-                      <label htmlFor="name">Name</label><br/>
+                      <label htmlFor="name">Name</label><br />
                       <input onChange={(e) => setForm({
-                        ...form, 
+                        ...form,
                         name: e.target.value
                       })} className="border border-secondary rounded-md p-2 outline-none" id="name" value={form.name} placeholder="Name" />
                     </div>
@@ -150,9 +155,9 @@ const FileUploader = ({identityType, onClose, handleAddOrUpdate}) => {
                   </form>
                 )}
                 {/* {cid && <Files cid={cid} />} */}
-                {cid ? 
+                {cid ?
                   <p>File successfully uploaded!!</p>
-                  : 
+                  :
                   null
                 }
                 {cid ? <button onClick={() => handleCID(cid)} className="rounded-lg bg-secondary text-white w-auto p-4">Done</button> : null}
