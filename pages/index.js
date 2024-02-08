@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 // pages/index.js
 import Head from "next/head";
-import FileUploader from "@/components/FileUploader";
+import Chatbot from "./chat";
 
 const Home = () => {
   return (
@@ -13,7 +13,7 @@ const Home = () => {
       <div>
         <h1>Your Home Page</h1>
         {/* Use the FileUploader component here */}
-        <FileUploader />
+        <Chatbot />
       </div>
     </>
   );
