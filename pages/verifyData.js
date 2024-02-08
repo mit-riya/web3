@@ -1,5 +1,6 @@
-import useSWR from 'swr';
+import useSWR, {mutate} from 'swr';
 import { useEffect, useState, useRef } from 'react';
+import MultiSelectDropdown from '../components/dropdown';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -23,8 +24,8 @@ const fixedIdentities = [
 const YourComponent = () => {
 const [receiverId, setReceiverId] = useState('');
 const [requesterId, setRequesterId] = useState('');
-  const [details, setDetails] = useState('');
-  const [selectedIdentity, setSelectedIdentity] = useState('');
+  // const [details, setDetails] = useState('');
+  const [selectedIdentities, setSelectedIdentities] = useState('');
   const url = 'http://localhost:3000/api/fetchAll';
   const { data, error } = useSWR(url, fetcher);
   const [filteredRequests, setFilteredRequests] = useState([]);
@@ -44,7 +45,7 @@ const [requesterId, setRequesterId] = useState('');
       prevFilteredRequestsLength.current = newFilteredRequests.length;
     }
   }, [data, userId]);
-  const [formData, setFormData] = useState()
+  // const [formData, setFormData] = useState()
 
 
   if (error) return <div>Error loading data</div>;
@@ -52,22 +53,25 @@ const [requesterId, setRequesterId] = useState('');
 
 //   new request
   
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setRequesterId(userId)
     try {
+      const indices = selectedIdentities.map(identity => fixedIdentities.indexOf(identity));
+      console.log('Indices:', indices);
+      // Map indices to numbers
+      const indicesAsNumbers = indices.map(index => Number(index));
       const response = await fetch('/api/newRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ requesterId, receiverId, details }),
+        body: JSON.stringify({ requesterId, receiverId, details: indicesAsNumbers}),
       });
 
       if (response.ok) {
         console.log('Verification request created successfully');
-        mutate();
+        // mutate(url);
         // Handle success, if needed
       } else {
         console.error('Failed to create verification request');
@@ -78,7 +82,14 @@ const [requesterId, setRequesterId] = useState('');
     }
   };
 
-
+  // const handleCheckboxChange = (identity) => {
+  //   const index = details.indexOf(identity);
+  //   if (index === -1) {
+  //     setDetails([...details, identity]);
+  //   } else {
+  //     setDetails(details.filter(item => item !== identity));
+  //   }
+  // };
 
   return (
     <div>
@@ -94,21 +105,12 @@ const [requesterId, setRequesterId] = useState('');
         </label>
         <br />
         <label>
-          Select Identity:
-          <select
-            value={selectedIdentity}
-            onChange={(e) => {
-                const selectedIndex = fixedIdentities.indexOf(e.target.value);
-                setSelectedIdentity(e.target.value);
-                setDetails(selectedIndex);
-                console.log(details)
-            }}
-          >
-            <option value="" disabled>Select an identity</option>
-            {fixedIdentities.map((identity) => (
-              <option key={identity} value={identity}>{identity}</option>
-            ))}
-          </select>
+        Select Identities:
+        <MultiSelectDropdown
+            options={fixedIdentities}
+            selectedValues={selectedIdentities}
+            onChange={setSelectedIdentities}
+          />
         </label>
         <br />
         <button type="submit">Submit Request</button>
@@ -119,7 +121,7 @@ const [requesterId, setRequesterId] = useState('');
           <li key={request._id}>
             <h3>Status: {request.status}</h3>
             <p>ID: {request._id}</p>
-            <p>Details: {fixedIdentities[request.details]}</p>
+            <p>Details: {request.details.map(index => fixedIdentities[index]).join(', ')}</p>
             <p>Requester ID: {request.requesterId}</p>
             <p>Receiver ID: {request.receiverId}</p>
             {/* Add other properties as needed */}
