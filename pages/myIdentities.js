@@ -153,23 +153,47 @@ const MyIdentities = () => {
     }
   };
 
+   // Group identities based on their category
+   const groupedIdentities = identities.reduce((groups, identity) => {
+    const category = identity.split(' - ')[0]; // identities are categorized with ' - '
+    if (!groups[category]) {
+      groups[category] = [];
+    }
+    groups[category].push(identity);
+    return groups;
+  }, {});
+
+  // Toggle visibility of identities under each category
+  const [expandedCategory, setExpandedCategory] = useState(null);
+
   return (
     <div>
       <h1>My Identities</h1>
       {loading && <p>Loading...</p>}
-      {!loading && identities.length === 0 && <p>No identities found.</p>}
-      {!loading && identities.length > 0 && (
+      {!loading && Object.keys(groupedIdentities).length === 0 && <p>No identities found.</p>}
+      {!loading && Object.keys(groupedIdentities).length > 0 && (
         <div>
-          {identities.map((identity, index) => (
-            <div key={index} style={{ border: '1px solid', padding: '10px', margin: '10px', display: 'inline-block' }}>
-              <p>{`${identity}`}</p>
-              {verificationStatus[index] ? (
-                <>
-                  <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 0)}>Update</button>
-                  <button disabled={isUploaderOpen} onClick={() => handleDelete(index)}>Delete</button>
-                </>
-              ) : (
-                <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 1)}>Add</button>
+          {Object.entries(groupedIdentities).map(([category, identities]) => (
+            <div key={category}>
+              <h2 onClick={() => setExpandedCategory(expandedCategory === category ? null : category)} style={{ cursor: 'pointer' }}>
+                {category}
+              </h2>
+              {expandedCategory === category && (
+                <div>
+                  {identities.map((identity, index) => (
+                    <div key={index} style={{ border: '1px solid', padding: '10px', margin: '10px', display: 'inline-block' }}>
+                      <p>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
+                      {verificationStatus[index] ? (
+                        <>
+                          <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 0)}>Update</button>
+                          <button disabled={isUploaderOpen} onClick={() => handleDelete(index)}>Delete</button>
+                        </>
+                      ) : (
+                        <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 1)}>Add</button>
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           ))}
