@@ -22,7 +22,7 @@ const Login = () => {
     };
 
     const goToOthersIdentities = () => {
-        router.push('/othersIdentities');
+        router.push('/verifyData');
     };
     return (
         <div class={styles.container}>
