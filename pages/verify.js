@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
 import DataModal from '../components/acceptRequest';
 import web3 from '../contracts/web3';
+import { useContext } from 'react';
+import { UserContext } from './../pages/context/userContext';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -54,7 +56,7 @@ const YourComponent = () => {
   if (!data) return <div>Loading...</div>;
 
   const handleAccept = async (formData) => {
-
+    const { account } = useContext(UserContext);
     try {
       
       if (window.ethereum) {
@@ -64,9 +66,8 @@ const YourComponent = () => {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
 
         // Load the user's Ethereum address
-        const userAddress = (await web3.eth.getAccounts())[0];
         console.log("user address"); 
-        console.log(userAddress);
+        console.log(account);
 
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
@@ -76,7 +77,7 @@ const YourComponent = () => {
         
           if (selectedIdentities.includes(index)) {
             // Call the function to get the response for the selected index
-            const result = await contract.methods.grantAccess(index).call({ from: userAddress });
+            const result = await contract.methods.grantAccess(index).call({ from: account });
             formData.response.push(result);
           } else {
             // If the index is not in the selected indices, append an empty string
