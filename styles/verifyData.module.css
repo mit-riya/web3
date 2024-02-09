@@ -96,6 +96,19 @@
     /* Center align the heading */
 }
 
+.text3 {
+    font-size: 1.8rem;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    /* padding-bottom: 50px; */
+    color: #C5C6C7;
+    /* bright blue */
+    margin: 0;
+    letter-spacing: 2px;
+    text-align: left;
+    /* Center align the heading */
+}
+
 .label {
     color: #C5C6C7;
     /* Internal text color */

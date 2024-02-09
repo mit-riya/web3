@@ -4,7 +4,7 @@
 
 .container {
   overflow-x: hidden;
-  background-color: #0B0C10; /* dark background */
+  background-color: #1F2833; /* dark background */
   color: #C5C6C7; /* light text */
   font-family: 'Roboto', sans-serif;
   /* padding: 20px; */
@@ -55,6 +55,40 @@
 .text {
     padding-left: 6px;
     cursor: pointer;
+}
+
+/* Style the checkbox */
+.flexbox input[type="checkbox"] {
+  /* Hide default checkbox */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* Create custom checkbox */
+  width: 18px;
+  height: 18px;
+  border: 2px solid #C5C6C7; /* Border color */
+  border-radius: 3px; /* Rounded corners */
+
+  position: relative;
+}
+
+/* Style the checkbox when checked */
+.flexbox input[type="checkbox"]:checked::before {
+  content: '\2713'; /* Unicode checkmark symbol */
+  font-size: 20px; /* Size of the checkmark */
+  font-weight: 900; /* Bold checkmark */
+  color: #0B0C10; /* Checked color */
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  top: 50%; 
+  left: 50%; 
+  /* display: block; */
+  line-height: 1;
+  text-align: center;
+  transform: translate(-50%, -50%); 
+  background-color: #C5C6C7; /* Change background color when checked */
 }
 
 
