@@ -162,6 +162,20 @@ const VerifyDataPage = () => {
     setSelectedIdentities('');
   }
 
+  const getEmail = async (metamaskAddress) => {
+    try {
+      const contract = new web3.eth.Contract(
+        process.env.CONTRACT_ABI,
+        process.env.CONTRACT_ADDRESS
+      );
+      const email = await contract.methods.getEmail(metamaskAddress).call({ from: account });
+      console.log(email);
+      return email;
+    } catch (error) {
+      console.error('Error:', error.message);
+    } 
+  }
+
   return (
     <div className={styles.container}>
       <Navbar/>
@@ -209,7 +223,7 @@ const VerifyDataPage = () => {
         }
 
       }}>
-        <h2 className={styles.text1}>Choose Documents for Verification Request</h2>
+        <h2 className={styles.text3}>Choose Documents for Verification Request</h2>
         <MultiSelectDropdown
           options={AllIdentities}
           selectedValues={selectedIdentities}
@@ -223,15 +237,34 @@ const VerifyDataPage = () => {
       {contractResultModalOpen && <ContractDataModal isOpen={contractResultModalOpen} onRequestClose={closeResultContractModal} userAddress={receiverId} indices={selectedIdentities.map(identity => AllIdentities.indexOf(identity))} />}
 
       {/* Ask CID Modal */}
-      <Modal isOpen={CIDmodalOpen}>
-        <h2>Choose Identities to Ask for CIDs</h2>
+      <Modal isOpen={CIDmodalOpen} className={styles.modalcontent} style={{
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.5', // Background color with opacity
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        content: {
+          padding: '20px', // Padding of the modal content
+          width: '60%', // Set the width of the modal
+          height: '60%', // Set the height of the modal
+          margin: '20vh 20vw', // Center the modal horizontally
+          background: '#1F2833', // Background color of the modal content
+          borderRadius: '8px', // Rounded corners of the modal content
+          border: '1px solid #ccc', // Border of the modal content
+          overflowX: 'hidden', // Allow the modal content to scroll if needed
+        }
+
+      }}>
+        <h2 className={styles.text3}>Choose Identities to Ask for CIDs</h2>
         <MultiSelectDropdown
           options={AllIdentities}
           selectedValues={selectedIdentities}
           onChange={setSelectedIdentities}
         />
-        <button onClick={handleSubmit}>Submit Request</button>
-        <button onClick={() => setCIDModalOpen(false)}>Cancel</button>
+        <div className={styles.alignRight}>
+          <button className={styles.buttonModal} onClick={handleSubmit}>Submit</button>
+          <button className={styles.buttonModal} onClick={() => setCIDModalOpen(false)}>Cancel</button>
+        </div>
       </Modal>
 
       <h1 className={styles.heading2}>Past Requests: </h1>
