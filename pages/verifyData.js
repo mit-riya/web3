@@ -1,9 +1,11 @@
 import useSWR, {mutate} from 'swr';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useId } from 'react';
 import MultiSelectDropdown from '../components/dropdown';
 import Modal from 'react-modal';
 import { set } from 'mongoose';
 import ContractDataModal from '../components/VerificationStatus';
+import { useContext } from 'react';
+import { UserContext } from './context/userContext';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -11,39 +13,10 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-const userId = "req10";
-
-const fixedIdentities = [
-  "10th Board Certificate",
-    "12th Board Certificate",
-    "Voter ID",
-    "Passport",
-    "Bachelors Degree - Tech",
-    "Bachelors Degree - Science",
-    "Bachelors Degree - Design",
-    "Masters Degree - Tech",
-    "Masters Degree - Science",
-    "Masters Degree - Design",
-    "Phd Degree",
-    "Courses - Blockchain",
-    "Courses - DSA",
-    "Courses - Probability",
-    "Courses - Machine Learning",
-    "Courses - Product Design",
-    "Work Experience - Software developer",
-    "Work Experience - Data scientist",
-    "Work Experience - Product Manager",
-    "Work Experience - Team lead",
-    "Work Experience - Consultant",
-    "Work Experience - Internship",
-    "Achievements - Gsoc Contributor",
-    "Achievements - Inter IIT Participant",
-    "Achievements - KVPY",
-    "Achievements - NTSE",
-    "Achievements - IMS"
-];
-
 const VerifyDataPage = () => {
+  const {account} = useContext(UserContext);
+  const userId = account.toString();
+  const { AllIdentities } = useContext(UserContext);
   const [receiverId, setReceiverId] = useState('');
   const [requesterId, setRequesterId] = useState('');
   const [CIDmodalOpen, setCIDModalOpen] = useState(false);
@@ -81,11 +54,50 @@ const VerifyDataPage = () => {
       prevFilteredRequestsLength.current = newFilteredRequests.length;
     }
   }, [data, userId]);
-  // const [formData, setFormData] = useState()
-
 
   if (error) return <div>Error loading data</div>;
   if (!data) return <div>Loading...</div>;
+
+  // Function to render the response for an identity
+  const renderIdentityResponse = (request) => {
+    const { status, response, details } = request;
+    if (!details || details.length === 0) {
+      return <p>No details provided</p>;
+    }
+    console.log('Details:', details);
+    console.log('Response:', response);
+    return details.map((identityIndex, index) => {
+      const identity = AllIdentities[identityIndex];
+      const [category, name] = identity.split(' - ');
+      if (status === 'Accepted') {
+      return (
+        <div key={index}>
+          {name?
+          <div>
+            <p><strong>{category}</strong></p>
+            <p>{name}: {response[index]}</p>
+          </div>
+            :
+            <p>{category}: {response[index]}</p>
+          }
+        </div>
+      )
+      } else {
+        return (
+          <div key={index}>
+          {name ?
+          <div>
+            <p><strong>{category}</strong></p>
+            <p>{name}</p>
+          </div>
+            :
+            <p>{category}</p>
+          }
+        </div>
+        )
+      }
+  });
+  };
 
 //   new request
 
@@ -93,10 +105,12 @@ const VerifyDataPage = () => {
     e.preventDefault();
     // setRequesterId(userId)
     try {
-      const indices = selectedIdentities.map(identity => fixedIdentities.indexOf(identity));
+      console.log('Selected Identities:', selectedIdentities);
+      const indices = selectedIdentities.map(identity => AllIdentities.indexOf(identity));
       console.log('Indices:', indices);
       // Map indices to numbers
       const indicesAsNumbers = indices.map(index => Number(index));
+      console.log('Indices as numbers:', indicesAsNumbers);
       const response = await fetch('/api/newRequest', {
         method: 'POST',
         headers: {
@@ -123,13 +137,18 @@ const VerifyDataPage = () => {
 
   const handleSubmitOfContract = () => {
     setContractModalOpen(false);
-    const indices = selectedIdentities.map(identity => fixedIdentities.indexOf(identity));
-
+    // const indices = selectedIdentities.map(identity => AllIdentities.indexOf(identity));
+    // console.log('Indices:', indices);
+    console.log('Selected Identities:', selectedIdentities);
     if (selectedIdentities.length > 0 && receiverId !== '') {
       setContractResultModalOpen(true);
       console.log('Receiver Address:', receiverId);
-      console.log('Selected Identities:', indices);
+      // console.log('Selected Identities:', indices);
     }
+  }
+
+  const closeResultContractModal = () => {
+    setContractResultModalOpen(false);
     setReceiverId('');
     setSelectedIdentities('');
   }
@@ -153,20 +172,20 @@ const VerifyDataPage = () => {
         <Modal isOpen={contractModalOpen}>
         <h2>Choose Identities for Direct Request from smart contract</h2>
         <MultiSelectDropdown
-          options={fixedIdentities}
+          options={AllIdentities}
           selectedValues={selectedIdentities}
           onChange={setSelectedIdentities}
         />
         <button onClick={handleSubmitOfContract}>Submit Request</button>
         <button onClick={() => setContractModalOpen(false)}>Cancel</button>
       </Modal>
-      { contractResultModalOpen && <ContractDataModal isOpen={contractResultModalOpen} onRequestClose={() => setContractResultModalOpen(false)} userAddress={receiverId} indices={selectedIdentities.map(identity => fixedIdentities.indexOf(identity))} /> }
+      { contractResultModalOpen && <ContractDataModal isOpen={contractResultModalOpen} onRequestClose={closeResultContractModal} userAddress={receiverId} indices={selectedIdentities.map(identity => AllIdentities.indexOf(identity))} /> }
       
       {/* Ask CID Modal */}
       <Modal isOpen={CIDmodalOpen}>
         <h2>Choose Identities to Ask for CIDs</h2>
         <MultiSelectDropdown
-          options={fixedIdentities}
+          options={AllIdentities}
           selectedValues={selectedIdentities}
           onChange={setSelectedIdentities}
         />
@@ -180,9 +199,13 @@ const VerifyDataPage = () => {
           <li key={request._id}>
             <h3>Status: {request.status}</h3>
             <p>ID: {request._id}</p>
-            <p>Details: {request.details.map(index => fixedIdentities[index]).join(', ')}</p>
-            <p>Requester ID: {request.requesterId}</p>
+            {/* <p>Requester ID: {request.requesterId}</p> */}
             <p>Receiver ID: {request.receiverId}</p>
+            <div>
+              <strong>Requested Identities:</strong>
+              {renderIdentityResponse(request)}
+            </div>
+            <br />
           </li>
         ))}
       </ul>
