@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import web3 from '../contracts/web3';
 import FileUploader from '../components/FileUploader';
+import styles from './../styles/myIdentities.module.css';
 
 const MyIdentities = () => {
   const [identities, setIdentities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState([]);
-  // const [generatedCID, setGeneratedCID ] = useState("");
   const [selectedIdentityIndex, setSelectedIdentityIndex] = useState(null);
   const [addFunction, setAddFunction] = useState(true);
 
@@ -67,16 +67,9 @@ const MyIdentities = () => {
   const closeFileUploader = () => {
     setIsUploaderOpen(false);
     setSelectedIdentityIndex(null);
-    // setAddFunction(true);
-
     // Reload identities after the FileUploader is closed
-    // loadIdentities();
+    loadIdentities();
   };
-
-  // const handleGeneratedCID = (cid) => {
-  //   console.log("cid: ",cid);
-  //   console.log("identity index: ",selectedIdentityIndex);
-  // };
 
   const handleUpdate = async (index, cid) => {
     console.log("cid: ", cid);
@@ -142,6 +135,7 @@ const MyIdentities = () => {
         // Load the user's Ethereum address
         const userAddress = (await web3.eth.getAccounts())[0];
 
+        console.log('index : ', index);
         await contract.methods.addIdentity(index, cid, true).send({ from: userAddress });
         console.log(`Identity added: ${index}`);
         loadIdentities();
@@ -153,8 +147,8 @@ const MyIdentities = () => {
     }
   };
 
-   // Group identities based on their category
-   const groupedIdentities = identities.reduce((groups, identity) => {
+  // Group identities based on their category
+  const groupedIdentities = identities.reduce((groups, identity) => {
     const category = identity.split(' - ')[0]; // identities are categorized with ' - '
     if (!groups[category]) {
       groups[category] = [];
@@ -166,31 +160,49 @@ const MyIdentities = () => {
   // Toggle visibility of identities under each category
   const [expandedCategory, setExpandedCategory] = useState(null);
 
+  const [originalIdentities, setOriginalIdentities] = useState([]);
+
+  useEffect(() => {
+    // Populate original identities list when loading identities
+    setOriginalIdentities(identities);
+  }, [identities]);
+
+  const getOriginalIndex = (identity, index) => {
+    // Find the original index of the identity based on the current index
+    console.log(identity);
+    console.log(index);
+    console.log(identities.findIndex((x) => x === identity));
+
+    return identities.findIndex((_identity) => _identity === identity);
+  };
+
   return (
-    <div>
-      <h1>My Identities</h1>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>My Info</h1>
       {loading && <p>Loading...</p>}
       {!loading && Object.keys(groupedIdentities).length === 0 && <p>No identities found.</p>}
       {!loading && Object.keys(groupedIdentities).length > 0 && (
-        <div>
+        <div className={styles.tileWrapper}>
           {Object.entries(groupedIdentities).map(([category, identities]) => (
-            <div key={category}>
-              <h2 onClick={() => setExpandedCategory(expandedCategory === category ? null : category)} style={{ cursor: 'pointer' }}>
+            <div key={category} className={styles.tileWrapper}>
+              <h2 className={styles.categoryHeader} onClick={() => setExpandedCategory(expandedCategory === category ? null : category)}>
                 {category}
               </h2>
               {expandedCategory === category && (
                 <div>
                   {identities.map((identity, index) => (
-                    <div key={index} style={{ border: '1px solid', padding: '10px', margin: '10px', display: 'inline-block' }}>
-                      <p>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
-                      {verificationStatus[index] ? (
-                        <>
-                          <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 0)}>Update</button>
-                          <button disabled={isUploaderOpen} onClick={() => handleDelete(index)}>Delete</button>
-                        </>
-                      ) : (
-                        <button disabled={isUploaderOpen} onClick={() => openFileUploader(index, 1)}>Add</button>
-                      )}
+                    <div key={index} className={styles.identitiesList}>
+                      <p className={styles.aligntext}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
+                      <div className={styles.buttonGroup}>
+                        {verificationStatus[getOriginalIndex(identity, index)] ? (
+                          <>
+                            <button className={styles.buttonAdd} disabled={isUploaderOpen} onClick={() => openFileUploader(getOriginalIndex(identity, index), 0)}>Update</button>
+                            <button className={styles.buttonAdd} disabled={isUploaderOpen} onClick={() => handleDelete(getOriginalIndex(identity, index))}>Delete</button>
+                          </>
+                        ) : (
+                          <button className={styles.buttonAdd} disabled={isUploaderOpen} onClick={() => openFileUploader(getOriginalIndex(identity, index), 1)}>Add</button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -200,11 +212,13 @@ const MyIdentities = () => {
         </div>
       )}
       {isUploaderOpen && (
-        <FileUploader
-          identityType={selectedIdentityIndex}
-          onClose={closeFileUploader}
-          handleAddOrUpdate={addFunction ? handleAdd : handleUpdate}
-        />
+        <div style={{ position: 'absolute', top: '0px', width: 'fit-content', height: 'fit-content', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <FileUploader
+            identityType={selectedIdentityIndex}
+            onClose={closeFileUploader}
+            handleAddOrUpdate={addFunction ? handleAdd : handleUpdate}
+          />
+        </div>
       )}
     </div>
   );
