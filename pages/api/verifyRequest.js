@@ -11,8 +11,7 @@ async function PUT(req, res) {
       await connect();
       const updatedVerificationRequest = await VerificationRequest.findOneAndUpdate(
         {_id: _id},
-        { $set: { status: status } },
-        { $set: { response: response } },
+        { $set: { status: status, response: response } },
         { new: true }
       );
       

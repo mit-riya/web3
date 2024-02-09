@@ -3,8 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
 import DataModal from '../components/acceptRequest';
 import web3 from '../contracts/web3';
-import { useContext } from 'react';
-import { UserContext } from './../pages/context/userContext';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -56,7 +54,7 @@ const YourComponent = () => {
   if (!data) return <div>Loading...</div>;
 
   const handleAccept = async (formData) => {
-    const { account } = useContext(UserContext);
+
     try {
       
       if (window.ethereum) {
@@ -66,50 +64,68 @@ const YourComponent = () => {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
 
         // Load the user's Ethereum address
+        const userAddress = (await web3.eth.getAccounts())[0];
         console.log("user address"); 
-        console.log(account);
+        console.log(userAddress);
 
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
         console.log("user address"); 
 
-        formData.details.map(async (index) => {
-        
-          if (selectedIdentities.includes(index)) {
-            // Call the function to get the response for the selected index
-            const result = await contract.methods.grantAccess(index).call({ from: account });
-            formData.response.push(result);
-          } else {
-            // If the index is not in the selected indices, append an empty string
-            const result = "grant not given";
-            formData.response.push(result);
-          }
-      });
+        formData.response = formData.response || [];
 
+        const email = await contract.methods.getEmail(formData.requesterId).call({ from: userAddress });
+            
+
+      // Use Promise.all to handle asynchronous processing
+      await Promise.all(formData.details.map(async (index) => {
+        try {
+          if (selectedIdentities.includes(index)) {
+            const result = await contract.methods.grantAccess(index).call({ from: userAddress });
+            // Use spread operator to create a new array
+            formData.response = [...formData.response, result];
+          } else {
+            formData.response = [...formData.response, 'grant not given'];
+          }
+        } catch (error) {
+          console.error('Error processing index:', error);
+          // Handle error or append a default value
+          formData.response = [...formData.response, 'error processing index'];
+        }})).then(() => {
+          // Code to execute after all promises inside Promise.all are resolved
+          console.log('formData.details:', formData.details);
+          console.log('formData.response:', formData.response);
+  
+          // Make the PUT request
+          return fetch('/api/verifyRequest', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+        })
+        .then((response) => {
+          if (response.ok) {
+            console.log('Verification request created successfully');
+            
+            console.log("email");
+            console.log(email);
+            mutate(url);
+          } else {
+            console.error('Failed to create verification request');
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+          
       }
       else {
           console.error('MetaMask is not installed');
       }
 
-      console.log(formData.details);
-      console.log(formData.response);
-
-      const response = await fetch('/api/verifyRequest', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        console.log('Verification request created successfully');
-        mutate(url);
-        // Handle success, if needed
-      } else {
-        console.error('Failed to create verification request');
-        // Handle error, if needed
-      }
+      
     } catch (error) {
       console.error('Error creating verification request:', error);
     }
@@ -122,6 +138,18 @@ const YourComponent = () => {
     formData.response = [];
     console.log(formData);
     try {
+
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // Load the user's Ethereum address
+        const userAddress = (await web3.eth.getAccounts())[0];
+        console.log("user address"); 
+        console.log(userAddress);
+
+        // Load the DigitalIdentity contract using the ABI and contract address
+        const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
+        console.log("user address"); 
+
       
       const response = await fetch('/api/verifyRequest', {
         method: 'PUT',
@@ -133,6 +161,10 @@ const YourComponent = () => {
 
       if (response.ok) {
         console.log('Verification request rejected successfully');
+        const email = await contract.methods.getEmail(formData.requesterId).call({ from: userAddress });
+        console.log("email");
+        console.log(email);
+
         mutate(url);
         // Handle success, if needed
       } else {
@@ -172,10 +204,10 @@ const YourComponent = () => {
                     onChange={setSelectedIdentities}
                   />
                   <button onClick={()=>{
-                    handleAccept({_id: request._id, details: request.details, status: "Accepted", response: []});
+                    handleAccept({_id: request._id, requesterId: request.requesterId, details: request.details, status: "Accepted", response: []});
                 }}>Accept</button>
                   <button onClick={()=>{
-                    handleReject({_id: request._id, status: "Rejected", response: []});
+                    handleReject({_id: request._id, requesterId: request.requesterId, status: "Rejected", response: []});
                 }}>Reject</button>
                   <button onClick={() => toggleModal(request._id)}>Cancel</button>
                 </Modal>
