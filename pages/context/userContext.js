@@ -5,8 +5,8 @@ export const UserContext = createContext();
 
 class UserContextProvider extends Component {
     state = { 
-        account: "",
-        email: "",
+        account: null,
+        email: null,
         AllIdentities: [], // Initialize AllIdentities as an empty array
     } 
 
@@ -55,7 +55,7 @@ class UserContextProvider extends Component {
                 const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
 
                 await contract.methods.addEmail(email).send({ from: connectedAccount });
-
+                
                 console.log('MetaMask is connected!', connectedAccount);
             } catch (error) {
                 console.error('Error connecting to MetaMask:', error.message);
