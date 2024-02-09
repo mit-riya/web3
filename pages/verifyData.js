@@ -41,6 +41,20 @@ const VerifyDataPage = () => {
     setRequesterId(userId);
   }
 
+  const userExists = async (metamaskAddress) => {
+    try {
+      const contract = new web3.eth.Contract(
+        process.env.CONTRACT_ABI,
+        process.env.CONTRACT_ADDRESS
+      );
+      const flag = await contract.methods.userExists(metamaskAddress).call({ from: account });
+      console.log(flag);
+      return flag;
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  }
+
   useEffect(() => {
     if (data) {
       const newFilteredRequests = data.filter((request) => request.requesterId === userId);
