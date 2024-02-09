@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { UserContext } from "./userContext"; // Ensure this matches the exported context
+import styles from "./../../styles/setUser.module.css"; // Import the styles file
 
 class SetUser extends Component {
     static contextType = UserContext; // Set the contextType to UserContext
@@ -28,14 +29,17 @@ class SetUser extends Component {
 
     render() { 
         return (
-            <div>
+            <div className={styles.container}>
+                <h1 className={styles.heading1}>WELCOME BACK!</h1>
+                <p class={styles.text}>Login with Metamask and your email</p>
                 <input 
                     type="email" 
                     value={this.state.email} 
                     onChange={this.handleEmailChange}
                     placeholder="Enter your email"
+                    className={styles.inputField} // Apply input field styles
                 />
-                <button onClick={this.handleSetUser}>Connect with MetaMask</button>
+                <button onClick={this.handleSetUser} className={styles.buttonType2}>Connect with MetaMask</button> {/* Apply button styles */}
             </div>
         );
     }

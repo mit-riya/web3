@@ -8,19 +8,25 @@
     color: #C5C6C7;
   }
   
-  .heading1 {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    color: #66FCF1;
-    text-align: center;
-  }
-  
-  .buttonType1 {
-    display: block;
+  .inputField {
     width: 100%;
     max-width: 400px;
-    margin: 10px auto;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1F2833;
+    color: #C5C6C7;
+    outline: none;
+  }
+  
+  .inputField::placeholder {
+    color: #C5C6C7;
+  }
+  
+  .buttonType2 {
     padding: 10px 20px;
+    width:400px;
     border: none;
     border-radius: 5px;
     background-color: #45A29E;
@@ -30,8 +36,15 @@
     transition: background-color 0.3s ease;
   }
   
-  .buttonType1:hover {
+  .buttonType2:hover {
     background-color: #1F2833;
+  }
+
+  .heading1 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    color: #66FCF1;
+    text-align: center;
   }
   
   .text {
