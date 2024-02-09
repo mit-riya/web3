@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import web3 from '../contracts/web3';
 import FileUploader from '../components/FileUploader';
 import styles from './../styles/myIdentities.module.css';
+import { UserContext } from './context/userContext';
 
 const MyIdentities = () => {
+  const { account } = useContext(UserContext);
   const [identities, setIdentities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
@@ -21,21 +24,16 @@ const MyIdentities = () => {
     try {
       // Connect to the user's MetaMask provider
       if (window.ethereum) {
-        // Request account access
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        // Load the user's Ethereum address
-        const userAddress = (await web3.eth.getAccounts())[0];
-        console.log(userAddress);
 
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
 
         // Call the contract's function to get the list of identities
-        const result = await contract.methods.getIdentitiesByAccount().call({ from: userAddress });
-        const AllIdentities = await contract.methods.getAllIdentities().call({ from: userAddress });
+        const result = await contract.methods.getIdentitiesByAccount().call({ from: account });
+        const AllIdentities = await contract.methods.getAllIdentities().call({ from: account });
         console.log(AllIdentities);
 
-        const VerificationStatus = await contract.methods.getVerificationStatus().call({ from: userAddress });
+        const VerificationStatus = await contract.methods.getVerificationStatus().call({ from: account });
         console.log(VerificationStatus);
 
         // const identityTypeToId = await contract.methods.identityTypeToId().call({ from: userAddress });
@@ -81,10 +79,7 @@ const MyIdentities = () => {
           process.env.CONTRACT_ADDRESS
         );
 
-        // Load the user's Ethereum address
-        const userAddress = (await web3.eth.getAccounts())[0];
-
-        await contract.methods.updateIdentity(index, cid, true).send({ from: userAddress });
+        await contract.methods.updateIdentity(index, cid, true).send({ from: account });
         console.log(`Identity updated: ${index}`);
       } catch (error) {
         console.error('Error updating identity:', error.message);
@@ -107,11 +102,9 @@ const MyIdentities = () => {
           process.env.CONTRACT_ADDRESS
         );
 
-        // Load the user's Ethereum address
-        const userAddress = (await web3.eth.getAccounts())[0];
 
         // Delete the identity if confirmed
-        await contract.methods.deleteIdentity(index).send({ from: userAddress });
+        await contract.methods.deleteIdentity(index).send({ from: account });
         console.log(`Identity deleted: ${index}`);
         loadIdentities();
       } catch (error) {
@@ -132,11 +125,8 @@ const MyIdentities = () => {
           process.env.CONTRACT_ADDRESS
         );
 
-        // Load the user's Ethereum address
-        const userAddress = (await web3.eth.getAccounts())[0];
-
         console.log('index : ', index);
-        await contract.methods.addIdentity(index, cid, true).send({ from: userAddress });
+        await contract.methods.addIdentity(index, cid, true).send({ from: account });
         console.log(`Identity added: ${index}`);
         loadIdentities();
       } catch (error) {
@@ -176,6 +166,25 @@ const MyIdentities = () => {
     return identities.findIndex((_identity) => _identity === identity);
   };
 
+  async function handleClick(index, isVerified) {
+    try {
+      const contract = new web3.eth.Contract(
+        process.env.CONTRACT_ABI,
+        process.env.CONTRACT_ADDRESS
+      );
+      if (isVerified) {
+        const cid = await contract.methods.getCID(index).call({ from: account });
+        const target_url = `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${cid}?pinataGatewayToken=${process.env.PINATA_URL_SECOND}`;
+        window.open(target_url, '_blank');
+      } else {
+        // no action
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  }
+  
+
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>My Info</h1>
@@ -188,10 +197,10 @@ const MyIdentities = () => {
               <h2 className={styles.categoryHeader} onClick={() => setExpandedCategory(expandedCategory === category ? null : category)}>
                 {category}
               </h2>
-              {expandedCategory === category && (
+              {expandedCategory === category && (            
                 <div>
                   {identities.map((identity, index) => (
-                    <div key={index} className={styles.identitiesList}>
+                    <div key={index} className={styles.identitiesList} onClick={()=> handleClick(getOriginalIndex(identity,index),verificationStatus[getOriginalIndex(identity, index)])}>
                       <p className={styles.aligntext}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
                       <div className={styles.buttonGroup}>
                         {verificationStatus[getOriginalIndex(identity, index)] ? (

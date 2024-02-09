@@ -1,6 +1,16 @@
 import React from 'react';
 
 const MultiSelectDropdown = ({ options, selectedValues, onChange }) => {
+  // Function to group options based on category
+  const groupedOptions = options.reduce((groups, option) => {
+    const categoryKey = option.includes(' - ') ? option.split(' - ')[0] : option;
+    if (!groups[categoryKey]) {
+      groups[categoryKey] = [];
+    }
+    groups[categoryKey].push(option);
+    return groups;
+  }, {});
+  
   const handleCheckboxChange = (option) => {
     const selectedIndex = selectedValues.indexOf(option);
     let newSelectedValues = [...selectedValues];
@@ -15,18 +25,36 @@ const MultiSelectDropdown = ({ options, selectedValues, onChange }) => {
 
   return (
     <div className="multiselect-dropdown">
-      {options.map((option, index) => (
-        <label key={index} className="checkbox-label">
-          <input
-            type="checkbox"
-            value={option}
-            checked={selectedValues.includes(option)}
-            onChange={() => handleCheckboxChange(option)}
-          />
-          {option}
-        </label>
+      {Object.entries(groupedOptions).map(([categoryKey, categoryOptions]) => (
+        <div key={categoryKey}>
+          <h3>{categoryKey}</h3>
+          {categoryOptions.map((option, index) => (
+            <label key={index} className="checkbox-label">
+              <input
+                type="checkbox"
+                value={option}
+                checked={selectedValues.includes(option)}
+                onChange={() => handleCheckboxChange(option)}
+              />
+              {option.includes(' - ') ? option.split(' - ')[1] : option}
+            </label>
+          ))}
+        </div>
       ))}
     </div>
+    // <div className="multiselect-dropdown">
+    //   {options.map((option, index) => (
+    //     <label key={index} className="checkbox-label">
+    //       <input
+    //         type="checkbox"
+    //         value={option}
+    //         checked={selectedValues.includes(option)}
+    //         onChange={() => handleCheckboxChange(option)}
+    //       />
+    //       {option}
+    //     </label>
+    //   ))}
+    // </div>
   );
 };
 

@@ -58,11 +58,13 @@ const VerifyDataPage = () => {
   const handleDirectRequest = () => {
     setSelectedIdentities('');
     setContractModalOpen(true);
+    setRequesterId(userId);
   };
 
   const handleAskCID = () => {
     setSelectedIdentities('');
     setCIDModalOpen(true);
+    setRequesterId(userId);
   }
 
   useEffect(() => {
@@ -89,7 +91,7 @@ const VerifyDataPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setRequesterId(userId)
+    // setRequesterId(userId)
     try {
       const indices = selectedIdentities.map(identity => fixedIdentities.indexOf(identity));
       console.log('Indices:', indices);
@@ -115,6 +117,8 @@ const VerifyDataPage = () => {
       console.error('Error creating verification request:', error);
     }
     setCIDModalOpen(false);
+    setReceiverId('');
+    setSelectedIdentities('');
   };
 
   const handleSubmitOfContract = () => {
@@ -126,12 +130,13 @@ const VerifyDataPage = () => {
       console.log('Receiver Address:', receiverId);
       console.log('Selected Identities:', indices);
     }
+    setReceiverId('');
+    setSelectedIdentities('');
   }
 
   return (
     <div>
         <h1>Create New Verification Request</h1>
-      {/* <form onSubmit={handleSubmit}> */}
         <label>
           Receiver ID:
           <input
@@ -169,17 +174,7 @@ const VerifyDataPage = () => {
         <button onClick={() => setCIDModalOpen(false)}>Cancel</button>
       </Modal>
 
-        {/* <label>
-        Select Identities:
-        <MultiSelectDropdown
-            options={fixedIdentities}
-            selectedValues={selectedIdentities}
-            onChange={setSelectedIdentities}
-          />
-        </label>
-        <button type="submit">Submit Request</button> */}
-      {/* </form> */}
-      {/* <h1>Verification Requests made by User {userId}</h1>
+      <h1>Verification Requests made by User {userId}</h1>
       <ul>
         {filteredRequests.map((request) => (
           <li key={request._id}>
@@ -190,7 +185,7 @@ const VerifyDataPage = () => {
             <p>Receiver ID: {request.receiverId}</p>
           </li>
         ))}
-      </ul> */}
+      </ul>
     </div>
   );
 };
