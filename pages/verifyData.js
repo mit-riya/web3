@@ -162,6 +162,20 @@ const VerifyDataPage = () => {
     setSelectedIdentities('');
   }
 
+  const getEmail = async (metamaskAddress) => {
+    try {
+      const contract = new web3.eth.Contract(
+        process.env.CONTRACT_ABI,
+        process.env.CONTRACT_ADDRESS
+      );
+      const email = await contract.methods.getEmail(metamaskAddress).call({ from: account });
+      console.log(email);
+      return email;
+    } catch (error) {
+      console.error('Error:', error.message);
+    } 
+  }
+
   return (
     <div className={styles.container}>
       <Navbar/>
