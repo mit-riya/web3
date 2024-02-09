@@ -2,7 +2,6 @@ import useSWR, { mutate } from 'swr';
 import { useEffect, useState, useRef, useId } from 'react';
 import MultiSelectDropdown from '../components/dropdown';
 import Modal from 'react-modal';
-import { set, syncIndexes } from 'mongoose';
 import ContractDataModal from '../components/VerificationStatus';
 import { useContext } from 'react';
 import { UserContext } from './context/userContext';
@@ -99,7 +98,6 @@ const VerifyDataPage = () => {
   };
 
   //   new request
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setRequesterId(userId)
@@ -136,13 +134,10 @@ const VerifyDataPage = () => {
 
   const handleSubmitOfContract = () => {
     setContractModalOpen(false);
-    // const indices = selectedIdentities.map(identity => AllIdentities.indexOf(identity));
-    // console.log('Indices:', indices);
     console.log('Selected Identities:', selectedIdentities);
     if (selectedIdentities.length > 0 && receiverId !== '') {
       setContractResultModalOpen(true);
       console.log('Receiver Address:', receiverId);
-      // console.log('Selected Identities:', indices);
     }
   }
 
@@ -171,7 +166,7 @@ const VerifyDataPage = () => {
 
         <div className={styles.container3}> </div>
         <div className={styles.container3}> </div>
-        
+
         <div className={styles.buttonWrapper}>
           <>
             <button className={styles.button} onClick={handleDirectRequest}>Check</button>
@@ -180,15 +175,34 @@ const VerifyDataPage = () => {
         </div>
 
       </div>
-      <Modal isOpen={contractModalOpen}>
-        <h2>Choose Identities for Direct Request from smart contract</h2>
+      <Modal isOpen={contractModalOpen} className={styles.modalcontent} style={{
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.5', // Background color with opacity
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        content: {
+          padding: '20px', // Padding of the modal content
+          width: '60%', // Set the width of the modal
+          height: '60%', // Set the height of the modal
+          margin: '20vh 20vw', // Center the modal horizontally
+          background: '#1F2833', // Background color of the modal content
+          borderRadius: '8px', // Rounded corners of the modal content
+          border: '1px solid #ccc', // Border of the modal content
+          overflowX: 'hidden', // Allow the modal content to scroll if needed
+        }
+
+      }}>
+        <h2 className={styles.text1}>Choose Documents for Verification Request</h2>
         <MultiSelectDropdown
           options={AllIdentities}
           selectedValues={selectedIdentities}
           onChange={setSelectedIdentities}
         />
-        <button onClick={handleSubmitOfContract}>Submit Request</button>
-        <button onClick={() => setContractModalOpen(false)}>Cancel</button>
+        <div className={styles.alignRight}>
+          <button className={styles.buttonModal} onClick={handleSubmitOfContract}>Submit</button>
+          <button className={styles.buttonModal} onClick={() => setContractModalOpen(false)}>Cancel</button>
+        </div>
       </Modal>
       {contractResultModalOpen && <ContractDataModal isOpen={contractResultModalOpen} onRequestClose={closeResultContractModal} userAddress={receiverId} indices={selectedIdentities.map(identity => AllIdentities.indexOf(identity))} />}
 
