@@ -84,6 +84,26 @@
     /* Center align the heading */
 }
 
+.text3 {
+    font-size: 1.8rem;
+    margin-top: 200px;
+    margin-bottom: 200px;
+    /* padding-bottom: 50px; */
+    color: #C5C6C7;
+    /* bright blue */
+    margin: 0;
+    letter-spacing: 2px;
+    text-align: left;
+    /* Center align the heading */
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
 .button {
     display: block;
     width: 100%;
@@ -103,6 +123,30 @@
 .button:hover {
     background-color: #0B0C10;
 }
+
+.buttonModal {
+    display: block;
+    width: 100%;
+    max-width: 100px;
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #45A29E;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* margin-right: 20px; */
+}
+
+.buttonModal:hover {
+    background-color: #1F2833;
+}
+
+.modalcontent::-webkit-scrollbar {
+    display: none;
+  }
   
 
 
