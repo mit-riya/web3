@@ -8,14 +8,16 @@ class SetUser extends Component {
         super(props);
         // Initialize the component state
         this.state = {
-            email: '', // Set initial email state to an empty string
+            email: null, // Set initial email state to an empty string
         };
     }
     handleSetUser = async () => {
         const { email } = this.state; // Destructure email from the state
         try {
-            // Pass the email as an argument to the setAccount method
-            console.log(email);
+            if (email === null) {
+                alert('Email cannot be null.');
+                return;
+            }
             await this.context.setAccount(email);
             console.log("User set successfully with email:", email);
         } catch (error) {
