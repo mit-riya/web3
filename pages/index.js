@@ -3,6 +3,8 @@ import { useState, useRef } from "react";
 import Head from "next/head";
 import Chatbot from "./chat";
 import Navbar from "@/components/navbar";
+import Login from "./login";
+
 const Home = () => {
   return (
     <>
@@ -11,9 +13,7 @@ const Home = () => {
         {/* Add other head elements if needed */}
       </Head>
       <div>
-        <h1>Your Home Page</h1>
-        {/* Use the FileUploader component here */}
-        <Navbar />
+        <Login/>
       </div>
     </>
   );

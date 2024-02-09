@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import Link from 'next/link'; // Import Link from Next.js
 import styles from './../styles/navbar.module.css'; // Import the CSS file for styles
+import { UserContext } from '@/pages/context/userContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { account, logout} = useContext(UserContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+  const logoutMetamask = () => {
+    logout();
+    console.log("Logged out successfully.");
+  }
 
   return (
     <div>
@@ -29,10 +36,11 @@ const Navbar = () => {
         </div>
         <div className={styles.navbarContainer}>
             <div className={styles.navLinks}>
-            <a href="#myIdentities" className={styles.navLink}>My Information</a>
-          <a href="#" className={styles.navLink}>Requests</a>
-          <a href="#" className={styles.navLink}>Verify Data</a>
-          <a href="#" className={styles.navLink}>Log out</a>
+            {/* Use Link for routing */}
+            <Link href="/myIdentities" className={styles.navLink}>My Information</Link>
+            <Link href="/verify" className={styles.navLink}>Requests</Link>
+            <Link href="/verifyData" className={styles.navLink}>Verify Data</Link>
+            <Link href="/login" className={styles.navLink} onClick={logoutMetamask}>Log out</Link>
             </div>
         </div>
         </nav>

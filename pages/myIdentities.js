@@ -4,6 +4,7 @@ import web3 from '../contracts/web3';
 import FileUploader from '../components/FileUploader';
 import styles from './../styles/myIdentities.module.css';
 import { UserContext } from './context/userContext';
+import Navbar from '@/components/navbar';
 
 const MyIdentities = () => {
   const { account } = useContext(UserContext);
@@ -181,6 +182,7 @@ const MyIdentities = () => {
 
   return (
     <div className={styles.container}>
+      <Navbar/>
       <h1 className={styles.heading}>My Info</h1>
       {loading && <p>Loading...</p>}
       {!loading && Object.keys(groupedIdentities).length === 0 && <p>No identities found.</p>}

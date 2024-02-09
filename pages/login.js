@@ -9,6 +9,7 @@ import Chat from './../public/chatbot-icon.svg'
 import Chatbot from './chat';
 import { useState } from 'react';
 import Navbar from '@/components/navbar';
+
 const Login = () => {
     const [vis, setVis] = useState(false);
     const { account, logout } = useContext(UserContext);
@@ -33,7 +34,6 @@ const Login = () => {
                      <Navbar/>
                     <h1 className={styles.heading1}>USER CREDENTIALS</h1>
                     <div>
-                        <p className={styles.text}>Connected Account: {account}</p>
                         <p className={styles.text}>Account Number: {account}</p>
                         <button className={styles.buttonType1} onClick={goToMyIdentities}>My Identities</button>
                         <button className={styles.buttonType1} onClick={goToOthersIdentities}>Others' Identities</button>

@@ -6,6 +6,7 @@ import ContractDataModal from '../components/VerificationStatus';
 import { useContext } from 'react';
 import { UserContext } from './context/userContext';
 import styles from './../styles/verifyData.module.css';
+import Navbar from '@/components/navbar';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -149,6 +150,7 @@ const VerifyDataPage = () => {
 
   return (
     <div className={styles.container}>
+      <Navbar/>
       <h1 className={styles.heading}>New Verification Request</h1>
       <div className={styles.container2}>
 
