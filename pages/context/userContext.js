@@ -21,7 +21,6 @@ class UserContextProvider extends Component {
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
                 // Load the user's Ethereum address
                 const userAddress = (await web3.eth.getAccounts())[0];
-                console.log(userAddress);
 
                 // Load the DigitalIdentity contract using the ABI and contract address
                 const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
@@ -44,10 +43,13 @@ class UserContextProvider extends Component {
         let connectedAccount = this.state.account;
         if (window.ethereum) {
             try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                // Load the user's Ethereum address
+                const connectedAccount = (await web3.eth.getAccounts())[0];
                 // Request account access
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                // Get the first account from the array
-                connectedAccount = accounts[0];
+                // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                // // Get the first account from the array
+                // connectedAccount = accounts[0];
 
                 this.setState({ account: connectedAccount, email });
                 const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
