@@ -5,6 +5,7 @@ import DataModal from '../components/acceptRequest';
 import web3 from '../contracts/web3';
 import styles from './../styles/verify.module.css';
 import { showThrottleMessage } from 'ethers';
+import Navbar from '@/components/navbar';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -183,6 +184,7 @@ const YourComponent = () => {
 
   return (
     <div className={styles.container}>
+      <Navbar/>
         <h1 className={styles.heading}>Verify Requests</h1>
         <div className={styles.alignCenter}>
         <ul>
