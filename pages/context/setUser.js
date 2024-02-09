@@ -8,14 +8,16 @@ class SetUser extends Component {
         super(props);
         // Initialize the component state
         this.state = {
-            email: null, // Set initial email state to an empty string
+            email: '', // Initialize email state to an empty string instead of null for form handling
         };
     }
+
     handleSetUser = async () => {
         const { email } = this.state; // Destructure email from the state
         try {
-            if (email === null) {
-                alert('Email cannot be null.');
+            if(this.state.account != null )return;
+            if (!email) { // Check if email is empty
+                alert('Email cannot be empty.');
                 return;
             }
             await this.context.setAccount(email);
@@ -30,17 +32,24 @@ class SetUser extends Component {
     };
 
     render() { 
+        const { account } = this.context; // Destructure account from context
+
+        // Conditionally render the email input only if account is null
         return (
             <div className={styles.container}>
                 <h1 className={styles.heading1}>WELCOME BACK!</h1>
-                <p class={styles.text}>Login with Metamask and your email</p>
-                <input 
-                    type="email" 
-                    value={this.state.email} 
-                    onChange={this.handleEmailChange}
-                    placeholder="Enter your email"
-                    className={styles.inputField} // Apply input field styles
-                />
+                <p className={styles.text}>Login with Metamask and your email</p>
+                {account === null && (
+                    <>
+                        <input 
+                            type="email" 
+                            value={this.state.email} 
+                            onChange={this.handleEmailChange}
+                            placeholder="Enter your email"
+                            className={styles.inputField} // Apply input field styles
+                        />
+                    </>
+                )}
                 <button onClick={this.handleSetUser} className={styles.buttonType2}>Connect with MetaMask</button> {/* Apply button styles */}
             </div>
         );
