@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Chat from './../public/chatbot-icon.svg'
 import Chatbot from './chat';
 import { useState } from 'react';
+import Navbar from '@/components/navbar';
 const Login = () => {
     const [vis, setVis] = useState(false);
     const { account, logout } = useContext(UserContext);
@@ -26,9 +27,10 @@ const Login = () => {
     };
     return (
         <div class={styles.container}>
-            
+           
             {account ? (
                 <div>
+                     <Navbar/>
                     <h1 className={styles.heading1}>USER CREDENTIALS</h1>
                     <div>
                         <p className={styles.text}>Connected Account: {account}</p>

@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 // pages/index.js
 import Head from "next/head";
 import Chatbot from "./chat";
-
+import Navbar from "@/components/navbar";
 const Home = () => {
   return (
     <>
@@ -13,7 +13,7 @@ const Home = () => {
       <div>
         <h1>Your Home Page</h1>
         {/* Use the FileUploader component here */}
-        <Chatbot />
+        <Navbar />
       </div>
     </>
   );
