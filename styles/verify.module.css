@@ -13,7 +13,8 @@
     padding-top: 0;
     /* remove padding at the top */
     min-height: 100vh;
-    min-width: 800px;
+    min-width: 100vw;
+    /* min-width: 800px; */
 }
 
 .heading {
@@ -39,11 +40,11 @@
     align-items: center;
     flex-direction: column;
     height: fit-content;
-    /* width: 800px; */
+    width: 1200px;
 }
 
 .tileWrapper {
-    width: 110%;
+    width: 700px;
     align-self: center;
     display: flex;
     flex-direction: row;

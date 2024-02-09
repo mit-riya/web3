@@ -6,6 +6,8 @@ import web3 from '../contracts/web3';
 import styles from './../styles/verify.module.css';
 import { showThrottleMessage } from 'ethers';
 import Navbar from '@/components/navbar';
+import { useContext } from 'react';
+import { UserContext } from './context/userContext';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -13,7 +15,6 @@ const fetcher = async (url) => {
   return response.json();
 };
 
-const userId = "req6";
 
 const YourComponent = () => {
   const [selectedIdentities, setSelectedIdentities] = useState('');
@@ -22,6 +23,12 @@ const YourComponent = () => {
   const [filteredRequests, setFilteredRequests] = useState([]);
   const prevFilteredRequestsLength = useRef(0);
   const [modalOpenState, setModalOpenState] = useState({});
+  const { account } = useContext(UserContext);
+
+  const userId = account.toString();
+  console.log("userId");
+  console.log(userId);
+
 
   const toggleModal = (requestId) => {
     setModalOpenState((prevState) => ({
@@ -67,9 +74,9 @@ const YourComponent = () => {
         await window.ethereum.request({ method: 'eth_requestAccounts' });
 
         // Load the user's Ethereum address
-        const userAddress = (await web3.eth.getAccounts())[0];
+        // const userAddress = (await web3.eth.getAccounts())[0];
         console.log("user address"); 
-        console.log(userAddress);
+        // console.log(userAddress);
 
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
@@ -77,14 +84,14 @@ const YourComponent = () => {
 
         formData.response = formData.response || [];
         console.log(formData.requesterId);
-        const email = await contract.methods.getEmail(formData.requesterId).call({ from: userAddress });
+        const email = await contract.methods.getEmail(formData.requesterId).call({ from: account });
         console.log(email);
 
       // Use Promise.all to handle asynchronous processing
       await Promise.all(formData.details.map(async (index) => {
         try {
           if (selectedIdentities.includes(index)) {
-            const result = await contract.methods.grantAccess(index).call({ from: userAddress });
+            const result = await contract.methods.grantAccess(index).call({ from: account });
             // Use spread operator to create a new array
             formData.response = [...formData.response, result];
           } else {
@@ -145,9 +152,9 @@ const YourComponent = () => {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
 
         // Load the user's Ethereum address
-        const userAddress = (await web3.eth.getAccounts())[0];
+        // const userAddress = (await web3.eth.getAccounts())[0];
         console.log("user address"); 
-        console.log(userAddress);
+        // console.log(userAddress);
 
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
@@ -164,7 +171,7 @@ const YourComponent = () => {
 
       if (response.ok) {
         console.log('Verification request rejected successfully');
-        const email = await contract.methods.getEmail(formData.requesterId).call({ from: userAddress });
+        const email = await contract.methods.getEmail(formData.requesterId).call({ from: account });
         console.log("email");
         console.log(email);
 
