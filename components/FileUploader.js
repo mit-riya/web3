@@ -92,7 +92,7 @@ const FileUploader = ({ identityType, onClose, handleAddOrUpdate }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/pinnie.png" />
       </Head>
-      <main className="m-auto flex min-h-screen w-full flex-col items-center justify-center">
+      <main className="m-auto flex h-screen w-screen flex-col items-center justify-center">
         <div className="m-auto flex h-full w-full flex-col items-center justify-center bg-cover bg-center">
           <div className="h-full max-w-screen-xl">
             <div className="m-auto flex h-full w-full items-center justify-center">
