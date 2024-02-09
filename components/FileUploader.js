@@ -115,6 +115,7 @@ const FileUploader = ({ identityType, onClose, handleAddOrUpdate }) => {
                 <input
                   type="text"
                   id="name"
+                  style={{ color: 'black' }} 
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
