@@ -199,6 +199,25 @@ module.exports = {
       {
         "inputs": [
           {
+            "internalType": "uint256",
+            "name": "index",
+            "type": "uint256"
+          }
+        ],
+        "name": "getCID",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "_cid",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
             "internalType": "address",
             "name": "metamaskAddress",
             "type": "address"
@@ -419,6 +438,7 @@ module.exports = {
         "type": "function"
       }
     ],
-    CONTRACT_ADDRESS: "0x9a8450b63a5ba903ed86c56ab3fd3445bfa1218e",
+    CONTRACT_ADDRESS: "0x708a4ae8d6734743c63af3c67ef6f4df257c0c7f",
+    PINATA_URL_SECOND: "E6Gk5eF8TJOPMEJLJeN1MgR-6SVCBarJ8hvWcbo8RksJPp0mi1nt8bqiFzXSHv4C",
   },
 };
