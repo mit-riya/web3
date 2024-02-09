@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #0B0C10;
+    color: #C5C6C7;
+  }
+  
+  .heading1 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    color: #66FCF1;
+  }
+  
+  .buttonType1 {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #45A29E;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .buttonType1:hover {
+    background-color: #1F2833;
+  }
+  
+  .text {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #C5C6C7; /* Adjusted to match the color palette */
+  }
