@@ -2,6 +2,7 @@ import useSWR, { mutate } from 'swr';
 import { useEffect, useState, useRef, useId } from 'react';
 import MultiSelectDropdown from '../components/dropdown';
 import Modal from 'react-modal';
+import web3 from '../contracts/web3';
 import ContractDataModal from '../components/VerificationStatus';
 import { useContext } from 'react';
 import { UserContext } from './context/userContext';
