@@ -11,6 +11,19 @@ module.exports = {
       {
         "inputs": [
           {
+            "internalType": "string",
+            "name": "email",
+            "type": "string"
+          }
+        ],
+        "name": "addEmail",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
             "internalType": "uint256",
             "name": "_certificateType",
             "type": "uint256"
@@ -152,6 +165,25 @@ module.exports = {
         "type": "function"
       },
       {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "name": "emailID",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [],
         "name": "getAllIdentities",
         "outputs": [
@@ -159,6 +191,25 @@ module.exports = {
             "internalType": "string[]",
             "name": "",
             "type": "string[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "metamaskAddress",
+            "type": "address"
+          }
+        ],
+        "name": "getEmail",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
           }
         ],
         "stateMutability": "view",
@@ -368,6 +419,6 @@ module.exports = {
         "type": "function"
       }
     ],
-    CONTRACT_ADDRESS: "0x756e92347c058dfad1e52d319996a188abb085db",
+    CONTRACT_ADDRESS: "0x9a8450b63a5ba903ed86c56ab3fd3445bfa1218e",
   },
 };
