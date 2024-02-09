@@ -194,8 +194,8 @@ const MyIdentities = () => {
               {expandedCategory === category && (
                 <div>
                   {identities.map((identity, index) => (
-                    <div key={index} className={styles.identitiesList} onClick={() => handleClick(getOriginalIndex(identity, index), verificationStatus[getOriginalIndex(identity, index)])}>
-                      <p className={styles.aligntext}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
+                    <div key={index} className={styles.identitiesList}>
+                      <p className={styles.aligntext} onClick={() => handleClick(getOriginalIndex(identity, index), verificationStatus[getOriginalIndex(identity, index)])}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
                       <div className={styles.buttonGroup}>
                         {verificationStatus[getOriginalIndex(identity, index)] ? (
                           <>
