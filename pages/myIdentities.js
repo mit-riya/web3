@@ -4,7 +4,6 @@ import web3 from '../contracts/web3';
 import FileUploader from '../components/FileUploader';
 import styles from './../styles/myIdentities.module.css';
 import { UserContext } from './context/userContext';
-import { Link } from 'react-router-dom';
 
 const MyIdentities = () => {
   const { account } = useContext(UserContext);
