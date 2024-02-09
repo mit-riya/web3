@@ -1,11 +1,12 @@
-import useSWR, {mutate} from 'swr';
+import useSWR, { mutate } from 'swr';
 import { useEffect, useState, useRef, useId } from 'react';
 import MultiSelectDropdown from '../components/dropdown';
 import Modal from 'react-modal';
-import { set } from 'mongoose';
+import { set, syncIndexes } from 'mongoose';
 import ContractDataModal from '../components/VerificationStatus';
 import { useContext } from 'react';
 import { UserContext } from './context/userContext';
+import styles from './../styles/verifyData.module.css';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -14,7 +15,7 @@ const fetcher = async (url) => {
 };
 
 const VerifyDataPage = () => {
-  const {account} = useContext(UserContext);
+  const { account } = useContext(UserContext);
   const userId = account.toString();
   const { AllIdentities } = useContext(UserContext);
   const [receiverId, setReceiverId] = useState('');
@@ -70,36 +71,34 @@ const VerifyDataPage = () => {
       const identity = AllIdentities[identityIndex];
       const [category, name] = identity.split(' - ');
       if (status === 'Accepted') {
-      return (
-        <div key={index}>
-          {name?
-          <div>
-            <p><strong>{category}</strong></p>
-            <p>{name}: {response[index]}</p>
+        return (
+          <div key={index}>
+            {name ?
+              <div>
+                <p className={styles.text2}>{category} - {name} : {response[index]}</p>
+              </div>
+              :
+              <p className={styles.text2}>{category} : {response[index]}</p>
+            }
           </div>
-            :
-            <p>{category}: {response[index]}</p>
-          }
-        </div>
-      )
+        )
       } else {
         return (
           <div key={index}>
-          {name ?
-          <div>
-            <p><strong>{category}</strong></p>
-            <p>{name}</p>
+            {name ?
+              <div>
+                <p className={styles.text2}>{category} - {name} : </p>
+              </div>
+              :
+              <p className={styles.text2}>{category} : </p>
+            }
           </div>
-            :
-            <p>{category}</p>
-          }
-        </div>
         )
       }
-  });
+    });
   };
 
-//   new request
+  //   new request
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,12 +115,12 @@ const VerifyDataPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ requesterId, receiverId, details: indicesAsNumbers}),
+        body: JSON.stringify({ requesterId, receiverId, details: indicesAsNumbers }),
       });
 
       if (response.ok) {
         console.log('Verification request created successfully');
-        // mutate(url);
+        mutate(url);
         // Handle success, if needed
       } else {
         console.error('Failed to create verification request');
@@ -154,22 +153,34 @@ const VerifyDataPage = () => {
   }
 
   return (
-    <div>
-        <h1>Create New Verification Request</h1>
-        <label>
-          Receiver ID:
-          <input
-            type="text"
-            value={receiverId}
-            onChange={(e) => setReceiverId(e.target.value)}
-          />
-        </label>
-        <br />
-        <br />
-        <button onClick={handleDirectRequest}>Make Direct Request</button>
-        <button onClick={handleAskCID}>Ask for CIDs</button>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>New Verification Request</h1>
+      <div className={styles.container2}>
+
+        <div className={styles.alignlabel}>
+          <label className={styles.label}>
+            Receiver ID:
+            <input
+              className={styles.input}
+              type="text"
+              value={receiverId}
+              onChange={(e) => setReceiverId(e.target.value)}
+            />
+          </label>
+        </div>
+
+        <div className={styles.container3}> </div>
+        <div className={styles.container3}> </div>
         
-        <Modal isOpen={contractModalOpen}>
+        <div className={styles.buttonWrapper}>
+          <>
+            <button className={styles.button} onClick={handleDirectRequest}>Check</button>
+            <button className={styles.button} onClick={handleAskCID}>Request CIDs</button>
+          </>
+        </div>
+
+      </div>
+      <Modal isOpen={contractModalOpen}>
         <h2>Choose Identities for Direct Request from smart contract</h2>
         <MultiSelectDropdown
           options={AllIdentities}
@@ -179,8 +190,8 @@ const VerifyDataPage = () => {
         <button onClick={handleSubmitOfContract}>Submit Request</button>
         <button onClick={() => setContractModalOpen(false)}>Cancel</button>
       </Modal>
-      { contractResultModalOpen && <ContractDataModal isOpen={contractResultModalOpen} onRequestClose={closeResultContractModal} userAddress={receiverId} indices={selectedIdentities.map(identity => AllIdentities.indexOf(identity))} /> }
-      
+      {contractResultModalOpen && <ContractDataModal isOpen={contractResultModalOpen} onRequestClose={closeResultContractModal} userAddress={receiverId} indices={selectedIdentities.map(identity => AllIdentities.indexOf(identity))} />}
+
       {/* Ask CID Modal */}
       <Modal isOpen={CIDmodalOpen}>
         <h2>Choose Identities to Ask for CIDs</h2>
@@ -193,22 +204,48 @@ const VerifyDataPage = () => {
         <button onClick={() => setCIDModalOpen(false)}>Cancel</button>
       </Modal>
 
-      <h1>Verification Requests made by User {userId}</h1>
-      <ul>
-        {filteredRequests.map((request) => (
-          <li key={request._id}>
-            <h3>Status: {request.status}</h3>
-            <p>ID: {request._id}</p>
-            {/* <p>Requester ID: {request.requesterId}</p> */}
-            <p>Receiver ID: {request.receiverId}</p>
-            <div>
-              <strong>Requested Identities:</strong>
-              {renderIdentityResponse(request)}
-            </div>
-            <br />
-          </li>
-        ))}
-      </ul>
+      <h1 className={styles.heading2}>Past Requests: </h1>
+      <div className={styles.alignCenter}>
+        <ul>
+          {filteredRequests.map((request) => (
+            <li key={request._id} >
+              <div className={styles.tileWrapper}>
+                <div className={styles.alignTopDown}>
+                  <div className={styles.aligntext}>
+                    <h3 className={styles.text1}>
+                      Status :
+                    </h3>
+                    {request.status === 'Accepted' ?
+                      <p className={styles.text2} style={{ color: 'green' }}>{request.status}</p>
+                      : <p></p>}
+                    {request.status === 'Rejected' ?
+                      <p className={styles.text2} style={{ color: 'red' }}>{request.status}</p>
+                      : <p></p>}
+                    {request.status === 'Pending' ?
+                      <p className={styles.text2} style={{ color: 'yellow' }}>{request.status}</p>
+                      : <p></p>}
+                  </div>
+
+                  <div className={styles.aligntext}>
+                    <h3 className={styles.text1}>
+                      Receiver ID :
+                    </h3>
+                    <p className={styles.text2}>{request.receiverId}</p>
+                  </div>
+                  <div className={styles.container3}> </div>
+                  <div className={styles.aligntext}>
+                    <strong className={styles.text1}>Requested Identities</strong>
+                  </div>
+                  <div className={styles.aligntext}>
+                    <div>{renderIdentityResponse(request)}</div>
+                  </div>
+                </div>
+                <br />
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
