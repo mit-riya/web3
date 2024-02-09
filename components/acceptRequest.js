@@ -1,6 +1,7 @@
 import React from 'react';
 import { useContext } from 'react';
 import { UserContext } from './../pages/context/userContext';
+import styles from './../styles/acceptRequest.module.css';
 
 const DataModal = ({ options, selectedValues, onChange }) => {
     const { AllIdentities } = useContext(UserContext);
@@ -27,19 +28,21 @@ const DataModal = ({ options, selectedValues, onChange }) => {
     };
 
     return (
-        <div className="multiselect-dropdown">
+        <div className={styles.container}>
             {Object.entries(groupedOptions).map(([categoryKey, categoryOptions]) => (
-                <div key={categoryKey}>
-                    <h3>{categoryKey}</h3>
+                <div key={categoryKey} className={styles.box}>
+                    <h3 className={styles.heading}>{categoryKey}</h3>
                     {categoryOptions.map((option, index) => (
-                        <label key={index} className="checkbox-label">
+                        <label key={index} className={styles.flexbox}>
                             <input
                                 type="checkbox"
                                 value={option}
                                 checked={selectedValues.includes(option)}
                                 onChange={() => handleCheckboxChange(option)}
                             />
-                            {AllIdentities[option].includes(' - ') ? AllIdentities[option].split(' - ')[1] : AllIdentities[option]}
+                            <p className={styles.text}>
+                                {AllIdentities[option].includes(' - ') ? AllIdentities[option].split(' - ')[1] : AllIdentities[option]}
+                            </p>
                         </label>
                     ))}
                 </div>
