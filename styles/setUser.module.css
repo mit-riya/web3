@@ -1,11 +1,12 @@
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     min-height: 100vh;
     background-color: #0B0C10;
     color: #C5C6C7;
+    padding-left: 60px;
   }
   
   .inputField {

@@ -4,10 +4,15 @@ import { useContext } from 'react';
 import { UserContext } from './context/userContext';
 import SetUser from './context/setUser';
 import styles from './../styles/login.module.css'
+import Image from 'next/image';
+import Chat from './../public/chatbot-icon.svg'
+import Chatbot from './chat';
+import { useState } from 'react';
 const Login = () => {
+    const [vis, setVis] = useState(false);
     const { account, logout } = useContext(UserContext);
     const router = useRouter();
-
+    
     const logoutMetamask = () => {
         logout();
     };
@@ -32,13 +37,29 @@ const Login = () => {
                         <button className={styles.buttonType1} onClick={goToOthersIdentities}>Others' Identities</button>
                         <button className={styles.buttonType1} onClick={logoutMetamask}>Logout</button>
                     </div>
+                    
+                    
                 </div>
+                
             ) : (
                 <div>
                     <SetUser/>
                     
                 </div>
             )}
+            <div className={styles.chatBot}>
+            {vis?(
+                <div>
+                    <Chatbot/>
+                </div>
+            ):(
+                <div></div>
+            )}
+            <button onClick={()=>{setVis(!vis)}}>
+                    <img src={Chat.src} className={styles.svgImage}  />
+                </button>
+            
+            </div>
         </div>
     );
 };
