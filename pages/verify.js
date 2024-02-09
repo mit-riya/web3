@@ -73,9 +73,9 @@ const YourComponent = () => {
         console.log("user address"); 
 
         formData.response = formData.response || [];
-
+        console.log(formData.requesterId);
         const email = await contract.methods.getEmail(formData.requesterId).call({ from: userAddress });
-            
+        console.log(email);
 
       // Use Promise.all to handle asynchronous processing
       await Promise.all(formData.details.map(async (index) => {
