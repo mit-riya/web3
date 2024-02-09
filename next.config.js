@@ -9,6 +9,49 @@ module.exports = {
   env: {
     CONTRACT_ABI: [
       {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "AllIdentities",
+        "outputs": [
+          {
+            "internalType": "string",
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "name": "VerificationStatus",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "string",
@@ -55,113 +98,6 @@ module.exports = {
         "name": "deleteIdentity",
         "outputs": [],
         "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "getVerificationStatus",
-        "outputs": [
-          {
-            "internalType": "bool[]",
-            "name": "",
-            "type": "bool[]"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_index",
-            "type": "uint256"
-          }
-        ],
-        "name": "removeItem",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "setAllIdentities",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "setHeaderIdentities",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "setSubHeaderIdentities",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          }
-        ],
-        "name": "setVerificationStatus",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_certificateType",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "_cid",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "_isVerified",
-            "type": "bool"
-          }
-        ],
-        "name": "updateIdentity",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "AllIdentities",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
         "type": "function"
       },
       {
@@ -219,7 +155,7 @@ module.exports = {
         "inputs": [
           {
             "internalType": "address",
-            "name": "metamaskAddress",
+            "name": "addr",
             "type": "address"
           }
         ],
@@ -299,6 +235,19 @@ module.exports = {
         "type": "function"
       },
       {
+        "inputs": [],
+        "name": "getVerificationStatus",
+        "outputs": [
+          {
+            "internalType": "bool[]",
+            "name": "",
+            "type": "bool[]"
+          }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
         "inputs": [
           {
             "internalType": "uint256",
@@ -358,6 +307,76 @@ module.exports = {
       {
         "inputs": [
           {
+            "internalType": "uint256",
+            "name": "_index",
+            "type": "uint256"
+          }
+        ],
+        "name": "removeItem",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "setAllIdentities",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "setHeaderIdentities",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "setSubHeaderIdentities",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          }
+        ],
+        "name": "setVerificationStatus",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_certificateType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "_cid",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "_isVerified",
+            "type": "bool"
+          }
+        ],
+        "name": "updateIdentity",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
             "internalType": "address",
             "name": "",
             "type": "address"
@@ -397,25 +416,6 @@ module.exports = {
       {
         "inputs": [
           {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "VerificationStatus",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
             "internalType": "address",
             "name": "_id",
             "type": "address"
@@ -438,7 +438,7 @@ module.exports = {
         "type": "function"
       }
     ],
-    CONTRACT_ADDRESS: "0x708a4ae8d6734743c63af3c67ef6f4df257c0c7f",
+    CONTRACT_ADDRESS: "0xce26bba6e090051c0ec6cd6bf7697548306db3e1",
     PINATA_URL_SECOND: "E6Gk5eF8TJOPMEJLJeN1MgR-6SVCBarJ8hvWcbo8RksJPp0mi1nt8bqiFzXSHv4C",
   },
 };
