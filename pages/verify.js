@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
 import DataModal from '../components/acceptRequest';
 import web3 from '../contracts/web3';
+import styles from './../styles/verify.module.css';
+import { showThrottleMessage } from 'ethers';
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -180,44 +182,54 @@ const YourComponent = () => {
   }
 
   return (
-    <div>
-        <h1>Verify Requests</h1>
-      
+    <div className={styles.container}>
+        <h1 className={styles.heading}>Verify Requests</h1>
+        <div className={styles.alignCenter}>
         <ul>
           {filteredRequests.map((request) => (
             <li key={request._id}>
 
-            <h3>Requested by:  {request.requesterId}</h3>
+            <div className={styles.tileWrapper}>
+
+              <div>
+                <h3 className={styles.text1}>Requested by: </h3>
+                <h3 className={styles.text2}> {request.requesterId}</h3>
+              </div>
               
               {/* <button onClick={handleAskCID}>Grant CIDs</button> */}
-              <button onClick={() => toggleModal(request._id)}>See details</button>
-
+              <div>
+                <button className={styles.button} onClick={() => toggleModal(request._id)}>See details</button>
+              </div>
 
               {modalOpenState[request._id] && (
           
 
                 <Modal isOpen={modalOpenState[request._id]} key={request._id}>
-                  <h2>Choose Identities to grant access</h2>
+                  <h2 className={styles.heading}>Choose Identities to grant access</h2>
                   <DataModal
                     options={request.details}
                     selectedValues={selectedIdentities}
                     onChange={setSelectedIdentities}
                   />
-                  <button onClick={()=>{
+                  <div className={styles.buttonGroup}></div>
+                  <button className={styles.button} onClick={()=>{
                     handleAccept({_id: request._id, requesterId: request.requesterId, details: request.details, status: "Accepted", response: []});
                 }}>Accept</button>
-                  <button onClick={()=>{
+                  <button className={styles.button} onClick={()=>{
                     handleReject({_id: request._id, requesterId: request.requesterId, status: "Rejected", response: []});
                 }}>Reject</button>
-                  <button onClick={() => toggleModal(request._id)}>Cancel</button>
+                  <button className={styles.button} onClick={() => toggleModal(request._id)}>Cancel</button>
                 </Modal>
 
               )}
+
+              </div>
 
             </li>
           ))}
 
         </ul>
+        </div>
         
     </div>
   );
