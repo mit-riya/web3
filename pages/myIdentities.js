@@ -7,6 +7,7 @@ import { UserContext } from './context/userContext';
 
 const MyIdentities = () => {
   const { account } = useContext(UserContext);
+  const { AllIdentities } = useContext(UserContext);
   const [identities, setIdentities] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isUploaderOpen, setIsUploaderOpen] = useState(false);
@@ -24,19 +25,13 @@ const MyIdentities = () => {
     try {
       // Connect to the user's MetaMask provider
       if (window.ethereum) {
+        console.log('account : ', account);
+        console.log('All Identities : ', AllIdentities);
 
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
-
-        // Call the contract's function to get the list of identities
-        const result = await contract.methods.getIdentitiesByAccount().call({ from: account });
-        const AllIdentities = await contract.methods.getAllIdentities().call({ from: account });
-        console.log(AllIdentities);
-
         const VerificationStatus = await contract.methods.getVerificationStatus().call({ from: account });
         console.log(VerificationStatus);
-
-        // const identityTypeToId = await contract.methods.identityTypeToId().call({ from: userAddress });
 
         // Update the state with the fetched identities
         setIdentities(AllIdentities || []);
@@ -101,7 +96,6 @@ const MyIdentities = () => {
           process.env.CONTRACT_ABI,
           process.env.CONTRACT_ADDRESS
         );
-
 
         // Delete the identity if confirmed
         await contract.methods.deleteIdentity(index).send({ from: account });
@@ -183,7 +177,7 @@ const MyIdentities = () => {
       console.error('Error:', error.message);
     }
   }
-  
+
 
   return (
     <div className={styles.container}>
@@ -197,10 +191,10 @@ const MyIdentities = () => {
               <h2 className={styles.categoryHeader} onClick={() => setExpandedCategory(expandedCategory === category ? null : category)}>
                 {category}
               </h2>
-              {expandedCategory === category && (            
+              {expandedCategory === category && (
                 <div>
                   {identities.map((identity, index) => (
-                    <div key={index} className={styles.identitiesList} onClick={()=> handleClick(getOriginalIndex(identity,index),verificationStatus[getOriginalIndex(identity, index)])}>
+                    <div key={index} className={styles.identitiesList} onClick={() => handleClick(getOriginalIndex(identity, index), verificationStatus[getOriginalIndex(identity, index)])}>
                       <p className={styles.aligntext}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
                       <div className={styles.buttonGroup}>
                         {verificationStatus[getOriginalIndex(identity, index)] ? (
