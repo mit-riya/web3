@@ -2,7 +2,7 @@
 
 .container {
   overflow-x: hidden;
-  background-color: #0B0C10; /* dark background */
+  background-color: #1F2833; /* dark background */
   color: #C5C6C7; /* light text */
   font-family: 'Roboto', sans-serif;
   /* padding: 20px; */
@@ -10,6 +10,8 @@
   min-height: 80vh;
   min-width: 70vw;
 }
+
+
 
 .box {
     display: flex;
@@ -26,16 +28,10 @@
 
 .heading {
   font-size: 20px;
-  /* margin-top: 200px; */
-  /* margin-bottom: 100px; */
-  /* padding-bottom: 50px; */
   font-family: 'Roboto'; 
   color: #66FCF1; /* bright blue */
   margin: 0; /* remove margin to shift to the top */
-  /* padding-top: 70px; Padding at the top to avoid touching the edge */
-  /* text-transform: uppercase; if the 'HELLO' is in uppercase */
   letter-spacing: 1px; 
-  /* text-align: center; Center align the heading */
 }
 
 .flexbox {
@@ -62,8 +58,7 @@
     height: 18px;
     border: 2px solid #C5C6C7; /* Border color */
     border-radius: 3px; /* Rounded corners */
-    /* outline: none;  */
-    /* cursor: pointer; */
+
     position: relative;
 }
 
