@@ -19,7 +19,6 @@ const Login = () => {
     const goToOthersIdentities = () => {
         router.push('/othersIdentities');
     };
-
     return (
         <div class={styles.container}>
             <h1 className={styles.heading1}>LOGIN PAGE</h1>
@@ -32,7 +31,10 @@ const Login = () => {
                     <button className={styles.buttonType1} onClick={logoutMetamask}>Logout</button>
                 </div>
             ) : (
-                <SetUser/>
+                <div>
+                    <SetUser/>
+                    
+                </div>
             )}
         </div>
     );

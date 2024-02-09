@@ -1,12 +1,13 @@
 import React, {createContext, Component} from "react";
-
+import web3 from './../../contracts/web3';
 export const UserContext = createContext();
 
 class UserContextProvider extends Component {
     state = { 
         account : "",
+        email : "",
     } 
-    setAccount = async () => {
+    setAccount = async (email) => {
         let connectedAccount = this.state.account;
         if (window.ethereum) {
             try {
@@ -14,9 +15,12 @@ class UserContextProvider extends Component {
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 // Get the first account from the array
                 connectedAccount = accounts[0];
-                this.setState({account : connectedAccount});
 
-                // setAccount(connectedAccount);
+                this.setState({ account: connectedAccount, email: email });
+                const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
+
+                await contract.methods.addEmail(email).send({ from: connectedAccount });
+
                 console.log('MetaMask is connected!', connectedAccount);
             } catch (error) {
                 console.error('Error connecting to MetaMask:', error.message);
@@ -26,7 +30,7 @@ class UserContextProvider extends Component {
         }
     }
     logout = () => {
-        this.setState({account: null}); // Set account to null on logout
+        this.setState({ account: null, email: null });
         console.log('Logged out');
     }
     render() { 
