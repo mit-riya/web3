@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.container {
+  overflow-x: hidden;
+  background-color: #0B0C10; /* dark background */
+  color: #C5C6C7; /* light text */
+  font-family: 'Roboto', sans-serif;
+  /* padding: 20px; */
+  padding-top: 0; /* remove padding at the top */
+  min-height: 80vh;
+  min-width: 70vw;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.heading {
+  font-size: 20px;
+  /* margin-top: 200px; */
+  /* margin-bottom: 100px; */
+  /* padding-bottom: 50px; */
+  font-family: 'Roboto'; 
+  color: #66FCF1; /* bright blue */
+  margin: 0; /* remove margin to shift to the top */
+  /* padding-top: 70px; Padding at the top to avoid touching the edge */
+  /* text-transform: uppercase; if the 'HELLO' is in uppercase */
+  letter-spacing: 1px; 
+  /* text-align: center; Center align the heading */
+}
+
+.flexbox {
+    display: flex;
+    align-items: center;
+    color: #C5C6C7; /* Internal text color */
+    padding-left: 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.flexbox:hover {
+    color: #45A29E; 
+}
+
+/* Style the checkbox */
+.flexbox input[type="checkbox"] {
+    /* Hide default checkbox */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Create custom checkbox */
+    width: 18px;
+    height: 18px;
+    border: 2px solid #C5C6C7; /* Border color */
+    border-radius: 3px; /* Rounded corners */
+    /* outline: none;  */
+    /* cursor: pointer; */
+    position: relative;
+}
+
+/* Style the checkbox when checked */
+.flexbox input[type="checkbox"]:checked::before {
+    content: '\2713'; /* Unicode checkmark symbol */
+    font-size: 20px; /* Size of the checkmark */
+    font-weight: 900; /* Bold checkmark */
+    color: #0B0C10; /* Checked color */
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    top: 50%; 
+    left: 50%; 
+    /* display: block; */
+    line-height: 1;
+    text-align: center;
+    transform: translate(-50%, -50%); 
+    background-color: #C5C6C7; /* Change background color when checked */
+}
+
+.text {
+    padding-left: 6px;
+    cursor: pointer;
+}
+
+

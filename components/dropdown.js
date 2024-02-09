@@ -1,6 +1,7 @@
 import React from 'react';
+import styles from './../styles/modal.module.css';
 
-const MultiSelectDropdown = ({ options, selectedValues, onChange }) => {
+const IdentityModal = ({ options, selectedValues, onChange }) => {
   // Function to group options based on category
   const groupedOptions = options.reduce((groups, option) => {
     const categoryKey = option.includes(' - ') ? option.split(' - ')[0] : option;
@@ -24,38 +25,28 @@ const MultiSelectDropdown = ({ options, selectedValues, onChange }) => {
   };
 
   return (
-    <div className="multiselect-dropdown">
+    <div className={styles.container}>
       {Object.entries(groupedOptions).map(([categoryKey, categoryOptions]) => (
-        <div key={categoryKey}>
-          <h3>{categoryKey}</h3>
+        <div key={categoryKey} className={styles.box}>
+          <h3 className={styles.heading}>{categoryKey}</h3>
           {categoryOptions.map((option, index) => (
-            <label key={index} className="checkbox-label">
+            <label key={index} className={styles.flexbox}>
               <input
+                // id={option}
                 type="checkbox"
                 value={option}
                 checked={selectedValues.includes(option)}
                 onChange={() => handleCheckboxChange(option)}
               />
-              {option.includes(' - ') ? option.split(' - ')[1] : option}
+              <p className={styles.text}>
+                {option.includes(' - ') ? option.split(' - ')[1] : option}
+              </p>
             </label>
           ))}
         </div>
       ))}
     </div>
-    // <div className="multiselect-dropdown">
-    //   {options.map((option, index) => (
-    //     <label key={index} className="checkbox-label">
-    //       <input
-    //         type="checkbox"
-    //         value={option}
-    //         checked={selectedValues.includes(option)}
-    //         onChange={() => handleCheckboxChange(option)}
-    //       />
-    //       {option}
-    //     </label>
-    //   ))}
-    // </div>
   );
 };
 
-export default MultiSelectDropdown;
+export default IdentityModal;
