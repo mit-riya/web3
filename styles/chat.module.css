@@ -10,6 +10,7 @@
     transition: smooth;
     border-radius: 16px;
     margin:12px;
+    border: 1px solid #1F2833;
   }
   
   .chatbox {
@@ -51,6 +52,7 @@
     border-radius: 5px;
     background-color: #C5C6C7;
     outline: none;
+    color:#1F2833;
   }
   
   .inputForm button {

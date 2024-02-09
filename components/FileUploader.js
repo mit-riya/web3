@@ -3,18 +3,17 @@ import Head from "next/head";
 import Files from "@/components/Files";
 import { VerifyIdentity } from "./Verify";
 import { on } from "form-data";
+import ChatbotIcon from "./../public/chatbot-icon.svg"; // Assuming you have the correct path to your SVG file
 
 const FileUploader = ({ identityType, onClose, handleAddOrUpdate }) => {
+  // State variables
   const [file, setFile] = useState("");
   const [cid, setCid] = useState("");
   const [uploading, setUploading] = useState(false);
-
-  const [form, setForm] = useState({
-    name: "",
-  });
-
+  const [form, setForm] = useState({ name: "" });
   const inputFile = useRef(null);
 
+  // Function to handle file upload
   const uploadFile = async (e) => {
     try {
       e.preventDefault();
@@ -45,16 +44,12 @@ const FileUploader = ({ identityType, onClose, handleAddOrUpdate }) => {
       setCid(ipfsHash);
 
       setUploading(false);
-      setForm({
-        name: "",
-      });
+      setForm({ name: "" });
       setFile("");
     } catch (error) {
       console.error(error);
       if (form.name) {
-        setForm({
-          name: "",
-        });
+        setForm({ name: "" });
         setFile("");
       }
       if (error instanceof TypeError || error.message === 'Failed to fetch') {
@@ -72,100 +67,81 @@ const FileUploader = ({ identityType, onClose, handleAddOrUpdate }) => {
     }
   };
 
-
+  // Function to handle file change
   const handleChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  // Function to handle CID
   const handleCID = (cid) => {
     console.log("CID in form component: ", cid);
-    // onUploadSuccess(cid);
     handleAddOrUpdate(identityType, cid);
     onClose();
   }
 
   return (
     <>
-      <Head>
-        <title>Simple IPFS</title>
-        <meta name="description" content="Generated with create-pinata-app" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/pinnie.png" />
-      </Head>
-      <main className="m-auto flex h-screen w-screen flex-col items-center justify-center">
-        <div className="m-auto flex h-full w-full flex-col items-center justify-center bg-cover bg-center">
-          <div className="h-full max-w-screen-xl">
-            <div className="m-auto flex h-full w-full items-center justify-center">
-              <div className="m-auto w-3/4 text-center">
-
-                <div className="file-uploader-header">
-                  <button className="close-button" onClick={onClose}>X</button>
-                </div>
-                
-                <h1>Upload File</h1>
-                <input
-                  type="file"
-                  id="file"
-                  ref={inputFile}
-                  onChange={handleChange}
-                  style={{ display: "none" }}
-                />
-                <div className="mt-8 flex flex-col items-center justify-center rounded-lg bg-light p-2 text-center text-secondary">
-                  <button
-                    disabled={uploading}
-                    onClick={() => inputFile.current.click()}
-                    className="align-center flex h-64 w-3/4 flex-row items-center justify-center rounded-3xl bg-secondary px-4 py-2 text-light transition-all duration-300 ease-in-out hover:bg-accent hover:text-light"
-                  >
-                    {uploading ? (
-                      "Uploading..."
-                    ) : (
-                      <div>
-                        <p className="text-lg font-light">
-                          {file ? `Selected file: ${file.name}` : "Select a file to upload to the IPFS network"}
-                          {/* Select a file to upload to the IPFS network */}
-                        </p>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="m-auto mt-4 h-12 w-12 text-white"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                          />
-                        </svg>
-                      </div>
-                    )}
-                  </button>
-                </div>
-                {file && (
-                  <form onSubmit={uploadFile}>
-                    <div className="mb-2">
-                      <label htmlFor="name">Name</label><br />
-                      <input onChange={(e) => setForm({
-                        ...form,
-                        name: e.target.value
-                      })} className="border border-secondary rounded-md p-2 outline-none" id="name" value={form.name} placeholder="Name" />
-                    </div>
-                    <button className="rounded-lg bg-secondary text-white w-auto p-4" type="submit">Upload</button>
-                  </form>
-                )}
-                {/* {cid && <Files cid={cid} />} */}
-                {cid ?
-                  <p>File successfully uploaded!!</p>
-                  :
-                  null
-                }
-                {cid ? <button onClick={() => handleCID(cid)} className="rounded-lg bg-secondary text-white w-auto p-4">Done</button> : null}
-              </div>
-            </div>
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="bg-gray-900 text-white rounded-lg shadow-lg p-8 max-w-md w-full">
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold">Upload File</h1>
+            <button className="p-2 rounded-full hover:bg-gray-700" onClick={onClose}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
+          <input
+            type="file"
+            id="file"
+            ref={inputFile}
+            onChange={handleChange}
+            className="hidden"
+          />
+          <div className="mt-8 flex flex-col items-center justify-center bg-gray-800 p-6 rounded-lg">
+            <button
+              disabled={uploading}
+              onClick={() => inputFile.current.click()}
+              className="py-4 px-8 bg-blue-500 text-white font-semibold rounded-full shadow-md transition-all duration-300 ease-in-out "
+              style={{backgroundColor:'#66FCF1', color:'#1F2833'}}
+            >
+              {uploading ? "Uploading..." : (file ? `Selected file: ${file.name}` : "Select a file")}
+            </button>
+          </div>
+          {file && (
+            <form onSubmit={uploadFile} className="mt-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  placeholder="Name"
+                />
+              </div>
+              <button
+                type="submit"
+                className="mt-4 py-2 px-4 bg-blue-500 text-white font-semibold rounded-full shadow-md transition-all duration-300 ease-in-out hover:bg-blue-600"
+              >
+                Upload
+              </button>
+            </form>
+          )}
+          {cid && (
+            <div className="mt-4">
+              <p className="text-green-500">File successfully uploaded!!</p>
+              <button
+                onClick={() => handleCID(cid)}
+                className="mt-2 py-2 px-4 bg-blue-500 text-white font-semibold rounded-full shadow-md transition-all duration-300 ease-in-out hover:bg-blue-600"
+              >
+                Done
+              </button>
+            </div>
+          )}
         </div>
-      </main>
+      </div>
     </>
   );
 };
