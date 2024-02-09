@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { UserContext } from './context/userContext';
 import styles from './../styles/verifyData.module.css';
 import Navbar from '@/components/navbar';
-
+import { sendNotification } from '@/lib/api';
 const fetcher = async (url) => {
   const response = await fetch(url);
   console.log('Response:', response);
@@ -133,6 +133,7 @@ const VerifyDataPage = () => {
 
       if (response.ok) {
         console.log('Verification request created successfully');
+        sendNotification({to: "",subject : `Verification request from user ${requesterId}`, text: `Dear user ${receiverId}, \nUser ${requesterId} has requested some verifications from you.\nRegards,\nTeam BlockCV` })
         mutate(url);
         // Handle success, if needed
       } else {
