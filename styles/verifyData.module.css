@@ -10,6 +10,8 @@
     padding-top: 0;
     min-height: 100vh;
     min-width: 100vw;
+    display: flex;
+    flex-direction: column;
 }
 
 .container2 {
@@ -17,6 +19,8 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    width: 44%;
+    align-self: center;
 }
 
 .container3 {
@@ -24,14 +28,30 @@
     min-width: 50px;
 }
 
+.container4 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 10%;
+    margin-bottom: 2%;
+}
+
+.options {
+    height: 30px;
+}
+
 .alignlabel {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .buttonWrapper {
-    flex-direction: column;
+    flex-direction: row;
     display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .heading {
@@ -49,12 +69,7 @@
 
 .heading2 {
     font-size: 2rem;
-    margin-top: 200px;
-    margin-bottom: 100px;
-    padding-bottom: 50px;
     color: #C5C6C7;
-    margin: 0;
-    padding-top: 70px;
     letter-spacing: 5px;
     text-align: left;
 }
@@ -115,12 +130,13 @@
     padding-bottom: 5px;
     padding-top: 10px;
     font-size: 1.5em;
-    margin-right: 10px;
+    width: 100%;
+    /* margin-right: 10px; */
     transition: color 0.3s ease;
 }
 
 .input {
-    width: 500px;
+    width: 100%;
     height: 50px;
     background-color: #1F2833;
     border-radius: 5px;
@@ -187,9 +203,9 @@
 
 .button {
     display: block;
-    width: 100%;
+    width: 40%;
     max-width: 400px;
-    margin: 10px auto;
+    /* margin: 10px auto; */
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -235,7 +251,7 @@
 
 .filter {
     margin-bottom: 30px;
-    margin-right: 40px;
+    margin-right: 10px;
     display: flex;
     justify-content: flex-end;
 }

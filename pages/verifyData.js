@@ -31,7 +31,7 @@ const VerifyDataPage = () => {
   const [contractModalOpen, setContractModalOpen] = useState(false); // State for contract modal
   const [contractResultModalOpen, setContractResultModalOpen] = useState(false); // State for contract result modal
   const [selectedIdentities, setSelectedIdentities] = useState(''); // State for selected identities
-  const url = 'http://localhost:3000/api/fetchAll'; // API URL for data fetching
+  const url = '/api/fetchAll'; // API URL for data fetching
   const { data, error } = useSWR(url, fetcher); // Fetch data using SWR
   const [filteredRequests, setFilteredRequests] = useState([]); // State for filtered requests
   const prevFilteredRequestsLength = useRef(0); // Reference for previous filtered requests length
@@ -375,12 +375,12 @@ const VerifyDataPage = () => {
         </div>
       </Modal>
 
-      <div >
+      <div className={styles.container4}>
         <h1 className={styles.heading2}>Past Requests: </h1>
         {/* Filter dropdown */}
         <div className={styles.filter}>
           <label>Filter by Status:</label>
-          <select value={filterOption} onChange={(e) => setFilterOption(e.target.value)}>
+          <select className={styles.options} value={filterOption} onChange={(e) => setFilterOption(e.target.value)}>
             <option value="All" className={styles.option} >All</option>
             <option value="Accepted">Accepted</option>
             <option value="Rejected">Rejected</option>
