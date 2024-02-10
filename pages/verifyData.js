@@ -228,7 +228,7 @@ const VerifyDataPage = () => {
       if (response.ok) {
         console.log('Verification request created successfully');
         const email = await getEmail(receiverId);
-        sendNotification({ to: `${email}`, subject: `Verification request from user ${requesterId}`, text: `Dear user ${receiverId}, \nUser ${requesterId} has requested some verifications from you.\nRegards,\nTeam BlockCV` })
+        sendNotification({ to: `${email}`, subject: `Verification request from user ${requesterId}`, text: `Dear user ${receiverId}, \n\nUser ${requesterId} has requested some verifications from you.\n\nRegards,\nTeam trustfolio` })
         mutate(url);
         // Handle success, if needed
       } else {
