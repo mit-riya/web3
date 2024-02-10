@@ -87,16 +87,21 @@ const YourComponent = () => {
         const email = await contract.methods.getEmail(formData.requesterId).call({ from: account });
         console.log(email);
 
+        formData.response = formData.details;
+
       // Use Promise.all to handle asynchronous processing
-      await Promise.all(formData.details.map(async (index) => {
+      await Promise.all(formData.details.map(async (option,index) => {
         try {
-          if (selectedIdentities.includes(index)) {
-            const result = await contract.methods.grantAccess(index).call({ from: account });
+          if (selectedIdentities.includes(option)) {
+            const result = await contract.methods.grantAccess(option).call({ from: account });
             // Use spread operator to create a new array
-            formData.response = [...formData.response, result];
+            formData.response[index] = result;
           } else {
-            formData.response = [...formData.response, 'grant not given'];
+            formData.response[index] = 'grant not given';
           }
+          console.log(index);
+          console.log(option);
+          console.log(formData.response);
         } catch (error) {
           console.error('Error processing index:', error);
           // Handle error or append a default value
@@ -121,6 +126,10 @@ const YourComponent = () => {
             
             console.log("email");
             console.log(email);
+            setModalOpenState((prevState) => ({
+              ...prevState,
+              [formData._requestId]: !prevState[formData._requestId],
+            }));
             mutate(url);
           } else {
             console.error('Failed to create verification request');
