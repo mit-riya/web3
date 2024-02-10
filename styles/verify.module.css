@@ -38,9 +38,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
+    align-self: center;
     flex-direction: column;
     height: fit-content;
-    width: 1200px;
+    width: 100%;
 }
 
 .tileWrapper {
@@ -53,8 +55,9 @@
     /* dark element background */
     border-radius: 5px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 20px;
     justify-content: space-between;
+    /* align-items: center; */
     /* aligns text left and buttons right */
     /* align-items: row; */
     transition: background-color 0.3s ease;
