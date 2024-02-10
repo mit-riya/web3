@@ -3,7 +3,7 @@
 // Import the necessary libraries and components
 import useSWR, { mutate } from 'swr'; // Import SWR for data fetching
 import { useEffect, useState, useRef } from 'react'; // Import React hooks
-import MultiSelectDropdown from '../components/dropdown'; // Import custom MultiSelectDropdown component
+import IdentityModal from '../components/modal'; // Import custom MultiSelectDropdown component
 import Modal from 'react-modal'; // Import Modal component
 import web3 from '../contracts/web3'; // Import web3 library
 import ContractDataModal from '../components/VerificationStatus'; // Import ContractDataModal component
@@ -331,7 +331,7 @@ const VerifyDataPage = () => {
 
       }}>
         <h2 className={styles.text3}>Choose Documents for Verification Request</h2>
-        <MultiSelectDropdown
+        <IdentityModal
           options={AllIdentities}
           selectedValues={selectedIdentities}
           onChange={setSelectedIdentities}
@@ -363,7 +363,7 @@ const VerifyDataPage = () => {
 
       }}>
         <h2 className={styles.text3}>Choose Identities to Ask for CIDs</h2>
-        <MultiSelectDropdown
+        <IdentityModal
           options={AllIdentities}
           selectedValues={selectedIdentities}
           onChange={setSelectedIdentities}

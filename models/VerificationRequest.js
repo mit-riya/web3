@@ -11,4 +11,4 @@ const VerificationRequestSchema = new mongoose.Schema({
 });
 
 // Export the model using the existing model if available; otherwise, create a new one
-module.exports = mongoose.models.VerificationRequest || mongoose.model('VerificationRequest', VerificationRequestSchema);
+export default mongoose.models.VerificationRequest || mongoose.model('VerificationRequest', VerificationRequestSchema);

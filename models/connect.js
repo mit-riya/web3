@@ -25,4 +25,4 @@ async function connect() {
 }
 
 // Export the connect function for use in other modules
-module.exports = connect;
+export default connect;

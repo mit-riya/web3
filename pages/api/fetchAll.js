@@ -26,4 +26,4 @@ async function GET(req, res) {
     }
 }
 
-module.exports = GET;
+export default GET;
