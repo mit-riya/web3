@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { UserContext } from "./userContext"; // Ensure this matches the exported context
-import styles from "./../../styles/setUser.module.css"; // Import the styles file
+import { UserContext } from "./userContext"; 
+import styles from "./../../styles/setUser.module.css"; 
 
 class SetUser extends Component {
     static contextType = UserContext; // Set the contextType to UserContext
@@ -8,7 +8,7 @@ class SetUser extends Component {
         super(props);
         // Initialize the component state
         this.state = {
-            email: '', // Initialize email state to an empty string instead of null for form handling
+            email: '', 
         };
     }
 
@@ -17,33 +17,36 @@ class SetUser extends Component {
         try {
             const emailInput = document.getElementById('email');
             if (!emailInput.validity.valid){
+                // check if email entered is of valid form
                 alert("Invalid input. Enter your mail.");
                 return;
             }
-            if(this.state.account != null )return;
-            if (!email) { // Check if email is empty
+            if(this.state.account != null)return;
+            if (!email) { 
+                // Check if email is empty
                 alert('Email cannot be empty.');
                 return;
             }
+            // set email in context
             await this.context.setAccount(email);
-            console.log("User set successfully with email:", email);
         } catch (error) {
-            console.error("Error setting user with email:", email, error);
+            console.error("Error setting user with email:", error);
         }
     };
 
     handleEmailChange = (event) => {
-        this.setState({ email: event.target.value }); // Update the email in the state
+        // Update the email in the state of this component
+        this.setState({ email: event.target.value }); 
     };
 
     render() { 
         const { account } = this.context; // Destructure account from context
 
-        // Conditionally render the email input only if account is null
         return (
             <div className={styles.container}>
-                <h1 className={styles.heading1}>WELCOME BACK!</h1>
+                <h1 className={styles.heading1}>WELCOME!</h1>
                 <p className={styles.text}>Login with Metamask and your email</p>
+                {/* take email input if not entered before */}
                 {account === null && (
                     <>
                         <input 
@@ -52,11 +55,12 @@ class SetUser extends Component {
                             value={this.state.email} 
                             onChange={this.handleEmailChange}
                             placeholder="Enter your email"
-                            className={styles.inputField} // Apply input field styles
+                            className={styles.inputField} 
                         />
                     </>
                 )}
-                <button onClick={this.handleSetUser} className={styles.buttonType2}>Connect with MetaMask</button> {/* Apply button styles */}
+                {/* add login with metamask functionality */}
+                <button onClick={this.handleSetUser} className={styles.buttonType2}>Connect with MetaMask</button> 
             </div>
         );
     }
