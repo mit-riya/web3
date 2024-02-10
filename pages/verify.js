@@ -23,8 +23,6 @@ const YourComponent = () => {
   const [modalOpenState, setModalOpenState] = useState({});
   const { account } = useContext(UserContext);
 
-  const userId = account.toString();
-
   const toggleModal = (requestId) => {
     setModalOpenState((prevState) => ({
       ...prevState,
@@ -34,8 +32,8 @@ const YourComponent = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      const newFilteredRequests = data.filter((request) => ( request.receiverId === userId && request.status === "Pending"));
+    if (account && data) {
+      const newFilteredRequests = data.filter((request) => ( request.receiverId === account && request.status === "Pending"));
       setFilteredRequests(newFilteredRequests);
 
       // Check for new requests
@@ -53,7 +51,7 @@ const YourComponent = () => {
       setModalOpenState(newModalOpenState);
 
     }
-  }, [data, userId]);
+  }, [data, account]);
  
   if (error) return <div>Error loading data</div>;
   if (!data) return <div>Loading...</div>;
