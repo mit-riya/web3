@@ -68,6 +68,22 @@
   text-align: left; /* align text to the left */
 }
 
+.clickabletext {
+  margin-left: 20px;
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  text-align: left; /* align text to the left */
+}
+
+.clickabletext:hover {
+  margin-left: 20px;
+  font-size: 1.2rem;
+  color: #0B0C10;
+  font-family: 'Roboto', sans-serif;
+  text-align: left; /* align text to the left */
+  cursor: pointer;
+}
+
 .buttonGroup {
   display: flex;
   justify-content: flex-end; /* align buttons to the right */
