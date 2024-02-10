@@ -1,3 +1,5 @@
+/* modal.js */
+
 import React from 'react';
 import styles from './../styles/modal.module.css';
 

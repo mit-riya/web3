@@ -1,3 +1,5 @@
+/* acceptRequest.js: Component to display a modal with categorized options, each having a checkbox */
+
 import React, { useContext } from 'react';
 import { UserContext } from './../pages/context/userContext';
 import styles from './../styles/acceptRequest.module.css';
