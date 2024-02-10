@@ -82,12 +82,10 @@ const YourComponent = () => {
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
         console.log("user address"); 
 
-        formData.response = formData.response || [];
+        // formData.response = formData.response || [];
         console.log(formData.requesterId);
         const email = await contract.methods.getEmail(formData.requesterId).call({ from: account });
         console.log(email);
-
-        formData.response = formData.details;
 
       // Use Promise.all to handle asynchronous processing
       await Promise.all(formData.details.map(async (option,index) => {
