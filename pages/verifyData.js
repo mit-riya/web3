@@ -1,38 +1,43 @@
-import useSWR, { mutate } from 'swr';
-import { useEffect, useState, useRef, useId } from 'react';
-import MultiSelectDropdown from '../components/dropdown';
-import Modal from 'react-modal';
-import web3 from '../contracts/web3';
-import ContractDataModal from '../components/VerificationStatus';
-import { useContext } from 'react';
-import { UserContext } from './context/userContext';
-import styles from './../styles/verifyData.module.css';
-import Navbar from '@/components/navbar';
-import { sendNotification } from '@/lib/api';
+/* verifyData.js */
 
+// Import the necessary libraries and components
+import useSWR, { mutate } from 'swr'; // Import SWR for data fetching
+import { useEffect, useState, useRef } from 'react'; // Import React hooks
+import MultiSelectDropdown from '../components/dropdown'; // Import custom MultiSelectDropdown component
+import Modal from 'react-modal'; // Import Modal component
+import web3 from '../contracts/web3'; // Import web3 library
+import ContractDataModal from '../components/VerificationStatus'; // Import ContractDataModal component
+import { useContext } from 'react'; // Import useContext hook
+import { UserContext } from './context/userContext'; // Import UserContext from context/userContext
+import styles from './../styles/verifyData.module.css'; // Import styles for VerifyDataPage
+import Navbar from '@/components/navbar'; // Import Navbar component
+import { sendNotification } from '@/lib/api'; // Import sendNotification function from lib/api
+
+// Function to fetch data from the API
 const fetcher = async (url) => {
   const response = await fetch(url);
-  console.log('Response:', response);
   return response.json();
 };
 
+// VerifyDataPage Component
 const VerifyDataPage = () => {
+  // Accessing user account from context
   const { account } = useContext(UserContext);
-  // const userId = account.toString();
-  const [isDisabled, setIsDisabled] = useState(false);
-  const { AllIdentities } = useContext(UserContext);
-  const [receiverId, setReceiverId] = useState('');
-  const [requesterId, setRequesterId] = useState('');
-  const [CIDmodalOpen, setCIDModalOpen] = useState(false);
-  const [contractModalOpen, setContractModalOpen] = useState(false);
-  const [contractResultModalOpen, setContractResultModalOpen] = useState(false);
-  const [selectedIdentities, setSelectedIdentities] = useState('');
-  const url = 'http://localhost:3000/api/fetchAll';
-  const { data, error } = useSWR(url, fetcher);
-  const [filteredRequests, setFilteredRequests] = useState([]);
-  const prevFilteredRequestsLength = useRef(0);
+  const [isDisabled, setIsDisabled] = useState(false); // State to disable the Select button
+  const { AllIdentities } = useContext(UserContext); // Accessing all identities from context
+  const [receiverId, setReceiverId] = useState(''); // State for receiver ID
+  const [requesterId, setRequesterId] = useState(''); // State for requester ID
+  const [CIDmodalOpen, setCIDModalOpen] = useState(false); // State for CID modal
+  const [contractModalOpen, setContractModalOpen] = useState(false); // State for contract modal
+  const [contractResultModalOpen, setContractResultModalOpen] = useState(false); // State for contract result modal
+  const [selectedIdentities, setSelectedIdentities] = useState(''); // State for selected identities
+  const url = 'http://localhost:3000/api/fetchAll'; // API URL for data fetching
+  const { data, error } = useSWR(url, fetcher); // Fetch data using SWR
+  const [filteredRequests, setFilteredRequests] = useState([]); // State for filtered requests
+  const prevFilteredRequestsLength = useRef(0); // Reference for previous filtered requests length
   const [filterOption, setFilterOption] = useState('All'); // Initialize filter option state
 
+  // Function to check if a user exists
   const userExists = async (metamaskAddress) => {
     try {
       const contract = new web3.eth.Contract(
@@ -40,13 +45,13 @@ const VerifyDataPage = () => {
         process.env.CONTRACT_ADDRESS
       );
       const flag = await contract.methods.userExists(metamaskAddress).call({ from: account });
-      console.log(flag);
       return flag;
     } catch (error) {
       console.error('Error:', error.message);
     }
-  }
+  };
 
+  // Handle direct request
   const handleDirectRequest = async () => {
     const _userExists = await userExists(receiverId);
     if (_userExists) {
@@ -59,6 +64,7 @@ const VerifyDataPage = () => {
     }
   };
 
+  // Handle asking for CID
   const handleAskCID = async () => {
     const _userExists = await userExists(receiverId);
     if (_userExists) {
@@ -69,8 +75,9 @@ const VerifyDataPage = () => {
       alert('User does not exist');
       setReceiverId('');
     }
-  }
+  };
 
+  // Function to handle click and open URL in a new tab
   async function handleClick(cid) {
     try {
       const target_url = `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${cid}?pinataGatewayToken=${process.env.PINATA_URL_SECOND}`;
@@ -80,6 +87,7 @@ const VerifyDataPage = () => {
     }
   }
 
+  // Effect to filter and check for new requests
   useEffect(() => {
     if (account && data && data.length) {
       const newFilteredRequests = data.filter((request) => request.requesterId === account);
@@ -114,8 +122,7 @@ const VerifyDataPage = () => {
     if (!details || details.length === 0) {
       return <p>No details provided</p>;
     }
-    console.log('Details:', details);
-    console.log('Response:', response);
+
     return details.map((identityIndex, index) => {
       const identity = AllIdentities[identityIndex];
       const [category, name] = identity.split(' - ');
@@ -167,17 +174,17 @@ const VerifyDataPage = () => {
     });
   };
 
-  //  new request
+  // Function to handle submission of new request
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setRequesterId(userId)
     try {
-      console.log('Selected Identities:', selectedIdentities);
+      // Get indices of selected identities
       const indices = selectedIdentities.map(identity => AllIdentities.indexOf(identity));
-      console.log('Indices:', indices);
+
       // Map indices to numbers
       const indicesAsNumbers = indices.map(index => Number(index));
-      console.log('Indices as numbers:', indicesAsNumbers);
+
+      // Send a POST request to the API
       const response = await fetch('/api/newRequest', {
         method: 'POST',
         headers: {
@@ -188,8 +195,7 @@ const VerifyDataPage = () => {
 
       if (response.ok) {
         console.log('Verification request created successfully');
-        const email = await getEmail(receiverId)
-        console.log(email)
+        const email = await getEmail(receiverId);
         sendNotification({ to: `${email}`, subject: `Verification request from user ${requesterId}`, text: `Dear user ${receiverId}, \nUser ${requesterId} has requested some verifications from you.\nRegards,\nTeam BlockCV` })
         mutate(url);
         // Handle success, if needed
@@ -205,21 +211,22 @@ const VerifyDataPage = () => {
     setSelectedIdentities('');
   };
 
+  // Handle submission of contract
   const handleSubmitOfContract = () => {
     setContractModalOpen(false);
-    console.log('Selected Identities:', selectedIdentities);
     if (selectedIdentities.length > 0 && receiverId !== '') {
       setContractResultModalOpen(true);
-      console.log('Receiver Address:', receiverId);
     }
   }
 
+  // Close contract result modal
   const closeResultContractModal = () => {
     setContractResultModalOpen(false);
     setReceiverId('');
     setSelectedIdentities('');
   }
 
+  // Function to get email from smart contract
   const getEmail = async (metamaskAddress) => {
     try {
       const contract = new web3.eth.Contract(
@@ -227,7 +234,6 @@ const VerifyDataPage = () => {
         process.env.CONTRACT_ADDRESS
       );
       const email = await contract.methods.getEmail(metamaskAddress).call({ from: account });
-      console.log(email);
       return email;
     } catch (error) {
       console.error('Error:', error.message);
