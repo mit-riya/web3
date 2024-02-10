@@ -6,8 +6,13 @@ This is a website for secure document verification while protecting individuals'
 ## Technologies used
 
   * Blockchain and smart contract
-      * Firebase Authentication
-      * Cloud Firestore
+      * Solidity
+      * Web3.js
+  * IPFS (InterPlanetary File System)
+  * Metamask
+  * Next.js
+  * MongoDB
+
         
 ## Features
 
