@@ -20,7 +20,7 @@ const ContractDataModal = ({ isOpen, onRequestClose, userAddress, indices }) => 
                 const data = [];
                 for (let i = 0; i < indices.length; i++) {
                     const index = indices[i];
-                    const verificationStatus = await contract.methods.verifyIdentity(userAddress, index).call({ from: account });
+                    const verificationStatus = await contract.methods.verifyReceiverIdentity(userAddress, index).call({ from: account });
                     data.push({ identity: AllIdentities[index], verificationStatus });
                 }
 
