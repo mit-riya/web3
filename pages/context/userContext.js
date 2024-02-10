@@ -34,7 +34,7 @@ class UserContextProvider extends Component {
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
                 // Load the user's Ethereum address
                 const userAddress = (await web3.eth.getAccounts())[0];
-
+                console.log(userAddress);
                 // Load the DigitalIdentity contract using the ABI and contract address
                 const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
 
@@ -62,9 +62,10 @@ class UserContextProvider extends Component {
                 this.setState({ account: connectedAccount, email });
                 localStorage.setItem('account', connectedAccount);
                 localStorage.setItem('email', email);
-    
+                console.log(connectedAccount);
+                console.log(email);
                 // Assume you have the contract setup as before
-                const contract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_CONTRACT_ABI), process.env.REACT_APP_CONTRACT_ADDRESS);
+                const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
                 await contract.methods.addEmail(email).send({ from: connectedAccount });
                 
                 console.log('MetaMask is connected!', connectedAccount);
