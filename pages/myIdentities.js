@@ -8,7 +8,7 @@ import FileUploader from '../components/FileUploader';
 import styles from './../styles/myIdentities.module.css';
 import { UserContext } from './context/userContext';
 import Navbar from '@/components/navbar';
-
+import Logo from '@/components/logo';
 // Define the MyIdentities component
 const MyIdentities = () => {
   const { account, loadingAccount } = useContext(UserContext);  // Get the account and loadingAccount from the UserContext
@@ -184,6 +184,7 @@ const MyIdentities = () => {
   return (
     <div className={styles.container}>
       <Navbar />
+      <Logo/>
       <h1 className={styles.heading}>My Info</h1> {/* Heading for the page */}
 
       {loading && <p>Loading...</p>}  {/* Display a loading message if the identities are loading */}

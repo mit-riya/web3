@@ -9,6 +9,7 @@ import Chat from './../public/chatbot-icon.svg'; // Import Chatbot icon SVG
 import Chatbot from './chat'; // Import Chatbot component
 import { useState } from 'react'; // Import useState hook from React
 import Navbar from '@/components/navbar'; // Import Navbar component
+import Logo from '@/components/logo'
 // Define Login component
 const Login = () => {
     // Define state variables and functions using React hooks
@@ -34,6 +35,7 @@ const Login = () => {
     return (
         <div className={styles.container}>
             {/* Check if user is logged in */}
+            <Logo/>
             <div>
             {account ? (
                 <div className={styles.container3}>
