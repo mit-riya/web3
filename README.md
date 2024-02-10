@@ -16,6 +16,22 @@ This is a website for secure document verification while protecting individuals'
         
 ## Features
 
+### Distributed storage of documents
+
+IPFS generates unique hashes for user-uploaded documents, ensuring encryption and privacy. This distributed storage enhances data resilience and accessibility, aligning with our commitment to security and privacy.
+
+### User-centric access control
+
+ Users can check verification statuses directly through the smart contract or request access to full documents. Owners can then accept or reject requests, ensuring privacy and trust in document sharing.
+
+ ### Email notifications
+
+ The blockchain-based verifier sends email notifications to users upon receiving new verification requests, ensuring prompt updates and user engagement.
+
+ ### AI-supported chatbot assistance
+
+ An AI-powered chatbot provides real-time assistance for users navigating the platform, offering instant support and guidance on verification processes and inquiries.
+
 ## Demo
 
 ## How to run
