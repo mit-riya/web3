@@ -91,20 +91,6 @@ module.exports = {
         "type": "function"
       },
       {
-        "inputs": [],
-        "name": "setHeaderIdentities",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "setSubHeaderIdentities",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
         "inputs": [
           {
             "internalType": "uint256",
@@ -236,19 +222,6 @@ module.exports = {
       },
       {
         "inputs": [],
-        "name": "getHeaderIdentities",
-        "outputs": [
-          {
-            "internalType": "string[]",
-            "name": "",
-            "type": "string[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
         "name": "getIdentitiesByAccount",
         "outputs": [
           {
@@ -283,25 +256,6 @@ module.exports = {
         "inputs": [
           {
             "internalType": "uint256",
-            "name": "index",
-            "type": "uint256"
-          }
-        ],
-        "name": "getSubHeaderIdentities",
-        "outputs": [
-          {
-            "internalType": "string[]",
-            "name": "",
-            "type": "string[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
             "name": "_certificateType",
             "type": "uint256"
           }
@@ -325,45 +279,20 @@ module.exports = {
             "type": "uint256"
           }
         ],
-        "name": "headerIdentities",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "name": "identityTypeToId",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
         "name": "metamaskAddresses",
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "re",
         "outputs": [
           {
             "internalType": "address",
@@ -474,9 +403,33 @@ module.exports = {
         ],
         "stateMutability": "view",
         "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_id",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_certificateType",
+            "type": "uint256"
+          }
+        ],
+        "name": "verifyReceiverIdentity",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
       }
     ],
-    CONTRACT_ADDRESS: "0x718e93067bdc6ad840e9b7fadb50b8ddf29f7e29",
+    CONTRACT_ADDRESS: "0x69b4f1ea0f5dddccee37a58deb27d24390387f0f",
     PINATA_URL_SECOND: "E6Gk5eF8TJOPMEJLJeN1MgR-6SVCBarJ8hvWcbo8RksJPp0mi1nt8bqiFzXSHv4C",
   },
 };
