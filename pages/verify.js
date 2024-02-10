@@ -1,28 +1,32 @@
-import useSWR, {mutate} from 'swr';
-import { useEffect, useState, useRef } from 'react';
-import Modal from 'react-modal';
-import AccessModal from '../components/acceptRequest';
-import web3 from '../contracts/web3';
-import styles from './../styles/verify.module.css';
-import Navbar from '@/components/navbar';
-import { useContext } from 'react';
-import { UserContext } from './context/userContext';
+/* verify.js */
 
+import useSWR, { mutate } from 'swr'; // Importing SWR for data fetching and mutation
+import { useEffect, useState, useRef } from 'react'; // Importing React hooks
+import Modal from 'react-modal'; // Importing Modal component
+import AccessModal from '../components/acceptRequest'; // Importing custom AccessModal component
+import web3 from '../contracts/web3'; // Importing web3 for Ethereum interactions
+import styles from './../styles/verify.module.css'; // Importing CSS styles
+import Navbar from '@/components/navbar'; // Importing Navbar component
+import { useContext } from 'react'; // Importing React context
+import { UserContext } from './context/userContext'; // Importing UserContext
+
+// Function to fetch data
 const fetcher = async (url) => {
-  const response = await fetch(url);
-  console.log('Response:', response);
-  return response.json();
+  const response = await fetch(url); // Fetching data from the provided URL
+  return response.json(); // Returning the JSON data
 };
 
+// Main component
 const YourComponent = () => {
-  const [selectedIdentities, setSelectedIdentities] = useState('');
-  const url = 'http://localhost:3000/api/fetchAll';
-  const { data, error } = useSWR(url, fetcher);
-  const [filteredRequests, setFilteredRequests] = useState([]);
-  const prevFilteredRequestsLength = useRef(0);
-  const [modalOpenState, setModalOpenState] = useState({});
-  const { account } = useContext(UserContext);
+  const [selectedIdentities, setSelectedIdentities] = useState(''); // State for selected identities
+  const url = 'http://localhost:3000/api/fetchAll'; // URL for data fetching
+  const { data, error } = useSWR(url, fetcher); // Using SWR for data fetching
+  const [filteredRequests, setFilteredRequests] = useState([]); // State for filtered requests
+  const prevFilteredRequestsLength = useRef(0); // Ref for previous filtered requests length
+  const [modalOpenState, setModalOpenState] = useState({}); // State for modal open state
+  const { account } = useContext(UserContext); // Using context to get the user account
 
+  // Function to toggle modal state
   const toggleModal = (requestId) => {
     setModalOpenState((prevState) => ({
       ...prevState,
@@ -33,11 +37,12 @@ const YourComponent = () => {
 
   useEffect(() => {
     if (account && data && data.length) {
-      const newFilteredRequests = data.filter((request) =>( request.receiverId === account && request.status === "Pending"));
+      // Filtering requests based on user account and status
+      const newFilteredRequests = data.filter((request) => (request.receiverId === account && request.status === "Pending"));
       setFilteredRequests(newFilteredRequests);
 
       // Check for new requests
-      if (newFilteredRequests.length > prevFilteredRequestsLength.current && (prevFilteredRequestsLength.current != 0 || newFilteredRequests.length == 1)) {
+      if (newFilteredRequests.length > prevFilteredRequestsLength.current && (prevFilteredRequestsLength.current !== 0 || newFilteredRequests.length === 1)) {
         alert("New Request");
       }
 
@@ -45,32 +50,34 @@ const YourComponent = () => {
       prevFilteredRequestsLength.current = newFilteredRequests.length;
 
       const newModalOpenState = {};
+      // Setting modal open state for each request
       filteredRequests.forEach((request) => {
         newModalOpenState[request._id] = modalOpenState[request._id] || false;
       });
       setModalOpenState(newModalOpenState);
-
     }
   }, [data, account]);
- 
+
+  // Handling data loading error
   if (error) return <div>Error loading data</div>;
+  // Rendering loading state
   if (!data) return <div>Loading...</div>;
 
+  // Function to handle acceptance of requests
   const handleAccept = async (formData) => {
     try {
       if (window.ethereum) {
-        
         // Request account access
         await window.ethereum.request({ method: 'eth_requestAccounts' });
 
         // Load the DigitalIdentity contract using the ABI and contract address
         const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
 
+        // Get email from the contract
         const email = await contract.methods.getEmail(formData.requesterId).call({ from: account });
-        console.log(email);
 
         // Use Promise.all to handle asynchronous processing
-        await Promise.all(formData.details.map(async (option,index) => {
+        await Promise.all(formData.details.map(async (option, index) => {
           try {
             if (selectedIdentities.includes(option)) {
               const result = await contract.methods.grantAccess(option).call({ from: account });
@@ -85,7 +92,6 @@ const YourComponent = () => {
             formData.response = [...formData.response, 'error processing index'];
           }
         })).then(() => {
-          
           // Make the PUT request
           return fetch('/api/verifyRequest', {
             method: 'PUT',
@@ -97,38 +103,34 @@ const YourComponent = () => {
         }).then((response) => {
           if (response.ok) {
             console.log('Verification request created successfully');
-            
             setModalOpenState((prevState) => ({
               ...prevState,
               [formData._requestId]: !prevState[formData._requestId],
             }));
             mutate(url);
-
           } else {
             console.error('Failed to create verification request');
           }
         }).catch((error) => {
           console.error('Error:', error);
         });
-          
       } else {
-          console.error('MetaMask is not installed');
-      } 
+        console.error('MetaMask is not installed');
+      }
     } catch (error) {
       console.error('Error creating verification request:', error);
     }
-    
     setSelectedIdentities('');
   };
 
-
+  // Function to handle rejection of requests
   const handleReject = async (formData) => {
     try {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-        // Load the DigitalIdentity contract using the ABI and contract address
+      // Load the DigitalIdentity contract using the ABI and contract address
       const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
-        
+
       const response = await fetch('/api/verifyRequest', {
         method: 'PUT',
         headers: {
@@ -141,45 +143,35 @@ const YourComponent = () => {
         console.log('Verification request rejected successfully');
         const email = await contract.methods.getEmail(formData.requesterId).call({ from: account });
         mutate(url);
-        
         console.error('Failed to reject verification request');
-        
       } else {
         console.error('Failed to create verification request');
       }
     } catch (error) {
       console.error('Error rejecting request:', error);
     }
-
     setSelectedIdentities('');
-  }
+  };
 
+  // Rendering component UI
   return (
     <div className={styles.container}>
-      <Navbar/>
-        <h1 className={styles.heading}>
-          Verify Requests
-        </h1>
-
-        <div className={styles.alignCenter}>
-          <ul>
-            {filteredRequests.map((request) => (
-
-              <li key={request._id}>
+      <Navbar />
+      <h1 className={styles.heading}>Verify Requests</h1>
+      <div className={styles.alignCenter}>
+        <ul>
+          {filteredRequests.map((request) => (
+            <li key={request._id}>
               <div className={styles.tileWrapper}>
                 <div>
                   <h3 className={styles.text1}>Requested by: </h3>
                   <h3 className={styles.text2}> {request.requesterId}</h3>
                 </div>
-                
                 <div>
                   <button className={styles.button} onClick={() => toggleModal(request._id)}>See details</button>
                 </div>
-
                 {modalOpenState[request._id] && (
-          
-
-                  <Modal isOpen={modalOpenState[request._id]} key={request._id}  className={styles.modalcontent} style={{
+                  <Modal isOpen={modalOpenState[request._id]} key={request._id} className={styles.modalcontent} style={{
                     overlay: {
                       backgroundColor: 'rgba(0, 0, 0, 0.5', // Background color with opacity
                       alignItems: 'center',
@@ -195,38 +187,31 @@ const YourComponent = () => {
                       border: '1px solid #ccc', // Border of the modal content
                       overflowX: 'hidden', // Allow the modal content to scroll if needed
                     }
-            
                   }}>
-                    <h2 className={styles.text3}>
-                      Choose Identities to grant access
-                    </h2>
+                    <h2 className={styles.text3}>Choose Identities to grant access</h2>
                     <AccessModal
                       options={request.details}
                       selectedValues={selectedIdentities}
                       onChange={setSelectedIdentities}
                     />
                     <div className={styles.buttonGroup}>
-                      <button className={styles.buttonModal} onClick={()=>{
-                        handleAccept({_id: request._id, requesterId: request.requesterId, details: request.details, status: "Accepted", response: []});
+                      <button className={styles.buttonModal} onClick={() => {
+                        handleAccept({ _id: request._id, requesterId: request.requesterId, details: request.details, status: "Accepted", response: [] });
                       }}>Accept</button>
-                      
-                      <button className={styles.buttonModal} onClick={()=>{
-                        handleReject({_id: request._id, requesterId: request.requesterId, status: "Rejected", response: []});
+                      <button className={styles.buttonModal} onClick={() => {
+                        handleReject({ _id: request._id, requesterId: request.requesterId, status: "Rejected", response: [] });
                       }}>Reject</button>
-                      
                       <button className={styles.buttonModal} onClick={() => toggleModal(request._id)}>Cancel</button>
-
                     </div>
                   </Modal>
-
                 )}
               </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
-export default YourComponent;
+export default YourComponent; // Exporting the component
