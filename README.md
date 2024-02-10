@@ -1,7 +1,7 @@
 # Trustfolio
 
 ## Introduction
-This is a website for secure document verification while protecting individuals' privacy, and also leveraging blockchain technology. Our solution involves securely storing and verifying documents, ensuring authenticity without compromising sensitive information. Third parties can access verification status without full document access, along with an option for requesting document access, enhancing privacy and user control. The immutability of blockchain assures trust in the verification process, providing a reliable solution for identity verification while safeguarding personal data.
+This is a website for automated resume verification while protecting individuals' privacy by leveraging blockchain technology. Our solution involves securely storing and verifying documents, ensuring authenticity without compromising sensitive information. Third parties can access verification status without full document access, along with an option for requesting document access, enhancing privacy and user control. The immutability of blockchain assures trust in the verification process.
 
 ## Technologies used
 
@@ -13,24 +13,33 @@ This is a website for secure document verification while protecting individuals'
   * Next.js
   * MongoDB
 
+## APIs used
+
+  * Nodemailer api for sending email notifications
+  * Pinata api for storing files on IPFS
+  * OPENAI API for making customised chatbot
         
 ## Features
 
-### Distributed storage of documents
+### Distributed storage of verified documents
 
 IPFS generates unique hashes for user-uploaded documents, ensuring encryption and privacy. This distributed storage enhances data resilience and accessibility, aligning with our commitment to security and privacy.
 
+### Verification of documents through blockchain
+
+Transactions containing link for the verified documents are added to the blockchain. Recruiters can verify the resume by just checking the status of the document in the blockchain, instead of doing it manually.
+
 ### User-centric access control
 
- Users can check verification statuses directly through the smart contract or request access to full documents. Owners can then accept or reject requests, ensuring privacy and trust in document sharing.
+Recruiters can check verification status directly through the smart contract or request access to full documents. Owners can then accept or reject requests, ensuring privacy and trust in document sharing.
 
- ### Email notifications
+### Email notifications
 
- The blockchain-based verifier sends email notifications to users upon receiving new verification requests, ensuring prompt updates and user engagement.
+The blockchain-based verifier sends email notifications to users upon receiving new verification requests, ensuring prompt updates and user engagement.
 
- ### AI-supported chatbot assistance
+### AI-supported chatbot assistance
 
- An AI-powered chatbot provides real-time assistance for users navigating the platform, offering instant support and guidance on verification processes and inquiries.
+An AI-powered chatbot provides real-time assistance for users navigating the platform, offering instant support and guidance on verification processes and inquiries.
 
 ## Demo
 
