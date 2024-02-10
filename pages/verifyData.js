@@ -29,6 +29,7 @@ const VerifyDataPage = () => {
   const { data, error } = useSWR(url, fetcher);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const prevFilteredRequestsLength = useRef(0);
+  const [filterOption, setFilterOption] = useState('All'); // Initialize filter option state
 
   const userExists = async (metamaskAddress) => {
     try {
@@ -192,6 +193,15 @@ const VerifyDataPage = () => {
     }
   }
 
+  // Function to filter past requests based on status
+  const filterPastRequests = () => {
+    if (filterOption === 'All') {
+      return filteredRequests; // Return all requests if 'All' is selected
+    } else {
+      return filteredRequests.filter(request => request.status === filterOption); // Filter requests based on status
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Navbar />
@@ -283,10 +293,26 @@ const VerifyDataPage = () => {
         </div>
       </Modal>
 
+      <div >
+
       <h1 className={styles.heading2}>Past Requests: </h1>
+
+        {/* Filter dropdown */}
+        <div className={styles.filter}>
+          <label>Filter by Status:</label>
+          <select value={filterOption} onChange={(e) => setFilterOption(e.target.value)}>
+            <option value="All" className={styles.option} >All</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+
+      </div>
       <div className={styles.alignCenter}>
         <ul>
-          {filteredRequests.map((request) => (
+          {filterPastRequests().map((request) => (
+
             <li key={request._id} >
               <div className={styles.tileWrapper}>
                 <div className={styles.alignTopDown}>
