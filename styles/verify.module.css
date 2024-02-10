@@ -5,16 +5,12 @@
 .container {
     overflow-x: hidden;
     background-color: #0B0C10;
-    /* dark background */
     color: #C5C6C7;
-    /* light text */
     font-family: 'Roboto', sans-serif;
     padding: 60px;
     padding-top: 0;
-    /* remove padding at the top */
     min-height: 100vh;
     min-width: 100vw;
-    /* min-width: 800px; */
 }
 
 .heading {
@@ -23,24 +19,22 @@
     margin-bottom: 100px;
     padding-bottom: 50px;
     color: #66FCF1;
-    /* bright blue */
     margin: 0;
-    /* remove margin to shift to the top */
     padding-top: 70px;
-    /* Padding at the top to avoid touching the edge */
     text-transform: uppercase;
     letter-spacing: 5px;
     text-align: center;
-    /* Center align the heading */
 }
 
 .alignCenter {
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
+    align-self: center;
     flex-direction: column;
     height: fit-content;
-    width: 1200px;
+    width: 100%;
 }
 
 .tileWrapper {
@@ -48,15 +42,11 @@
     align-self: center;
     display: flex;
     flex-direction: row;
-    /* half of the page size */
     background-color: #1F2833;
-    /* dark element background */
     border-radius: 5px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 20px;
     justify-content: space-between;
-    /* aligns text left and buttons right */
-    /* align-items: row; */
     transition: background-color 0.3s ease;
 }
 
@@ -64,13 +54,10 @@
     font-size: 1rem;
     margin-top: 200px;
     margin-bottom: 200px;
-    /* padding-bottom: 50px; */
     color: #45A29E;
-    /* bright blue */
     margin: 0;
     letter-spacing: 2px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .text2 {
@@ -78,24 +65,19 @@
     margin-top: 200px;
     margin-bottom: 100px;
     color: #C5C6C7;
-    /* bright blue */
     margin: 0;
     letter-spacing: 1px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .text3 {
     font-size: 1.8rem;
     margin-top: 200px;
     margin-bottom: 200px;
-    /* padding-bottom: 50px; */
     color: #C5C6C7;
-    /* bright blue */
     margin: 0;
     letter-spacing: 2px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .buttonGroup {
@@ -118,7 +100,6 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    /* margin-right: 20px; */
 }
 
 .button:hover {
@@ -138,7 +119,6 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    /* margin-right: 20px; */
 }
 
 .buttonModal:hover {

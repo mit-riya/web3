@@ -291,19 +291,6 @@ module.exports = {
         "type": "function"
       },
       {
-        "inputs": [],
-        "name": "re",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
         "inputs": [
           {
             "internalType": "address",
@@ -429,7 +416,7 @@ module.exports = {
         "type": "function"
       }
     ],
-    CONTRACT_ADDRESS: "0x69b4f1ea0f5dddccee37a58deb27d24390387f0f",
+    CONTRACT_ADDRESS: "0xa1c3d7d19ed1cfc5bdfa03d4f1dc652c8cad1a84",
     PINATA_URL_SECOND: "E6Gk5eF8TJOPMEJLJeN1MgR-6SVCBarJ8hvWcbo8RksJPp0mi1nt8bqiFzXSHv4C",
   },
 };

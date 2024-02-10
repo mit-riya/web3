@@ -2,11 +2,10 @@
 
 .container {
   overflow-x: hidden;
-  background-color: #1F2833; /* dark background */
-  color: #C5C6C7; /* light text */
+  background-color: #1F2833; 
+  color: #C5C6C7; 
   font-family: 'Roboto', sans-serif;
-  /* padding: 20px; */
-  padding-top: 0; /* remove padding at the top */
+  padding-top: 0;
   min-height: 80vh;
   min-width: 70vw;
 }
@@ -39,23 +38,23 @@
 .heading1{
   font-size: 1.3rem;
   font-family: 'Roboto'; 
-  color: #ffffff; /* bright blue */
-  margin: 0; /* remove margin to shift to the top */
+  color: #ffffff; 
+  margin: 0;
   letter-spacing: 1px; 
 }
 
 .heading {
   font-size: 20px;
   font-family: 'Roboto'; 
-  color: #66FCF1; /* bright blue */
-  margin: 0; /* remove margin to shift to the top */
+  color: #66FCF1;
+  margin: 0; 
   letter-spacing: 1px; 
 }
 
 .flexbox {
     display: flex;
     align-items: center;
-    color: #C5C6C7; /* Internal text color */
+    color: #C5C6C7; 
     padding-left: 5px;
     cursor: pointer;
     transition: color 0.3s ease;
@@ -65,38 +64,32 @@
     color: #45A29E; 
 }
 
-/* Style the checkbox */
 .flexbox input[type="checkbox"] {
-    /* Hide default checkbox */
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    /* Create custom checkbox */
     width: 18px;
     height: 18px;
-    border: 2px solid #C5C6C7; /* Border color */
-    border-radius: 3px; /* Rounded corners */
-
+    border: 2px solid #C5C6C7;
+    border-radius: 3px; 
     position: relative;
 }
 
-/* Style the checkbox when checked */
 .flexbox input[type="checkbox"]:checked::before {
-    content: '\2713'; /* Unicode checkmark symbol */
-    font-size: 20px; /* Size of the checkmark */
-    font-weight: 900; /* Bold checkmark */
-    color: #0B0C10; /* Checked color */
+    content: '\2713'; 
+    font-size: 20px; 
+    font-weight: 900; 
+    color: #0B0C10;
     position: absolute;
     width: 18px;
     height: 18px;
     border-radius: 3px;
     top: 50%; 
     left: 50%; 
-    /* display: block; */
     line-height: 1;
     text-align: center;
     transform: translate(-50%, -50%); 
-    background-color: #C5C6C7; /* Change background color when checked */
+    background-color: #C5C6C7; 
 }
 
 .text {
@@ -108,13 +101,10 @@
     font-size: 1rem;
     margin-top: 200px;
     margin-bottom: 200px;
-    /* padding-bottom: 50px; */
     color: #45A29E;
-    /* bright blue */
     margin: 0;
     letter-spacing: 2px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .alignRight {
@@ -137,7 +127,6 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    /* margin-right: 20px; */
 }
 
 .buttonModal:hover {

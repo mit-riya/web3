@@ -4,11 +4,11 @@
 
 .container {
   overflow-x: hidden;
-  background-color: #0B0C10; /* dark background */
-  color: #C5C6C7; /* light text */
+  background-color: #0B0C10; 
+  color: #C5C6C7;
   font-family: 'Roboto', sans-serif;
   padding: 20px;
-  padding-top: 0; /* remove padding at the top */
+  padding-top: 0; 
   min-height: 100vh;
   min-width: 100vw;
 }
@@ -18,22 +18,21 @@
   margin-top: 200px;
   margin-bottom: 100px;
   padding-bottom: 50px;
-  /* font-family: 'Roboto', sans-serif; This should be your custom font matching 'HELLO' */
-  color: #66FCF1; /* bright blue */
-  margin: 0; /* remove margin to shift to the top */
-  padding-top: 70px; /* Padding at the top to avoid touching the edge */
-  text-transform: uppercase; /* if the 'HELLO' is in uppercase */
-  letter-spacing: 5px; /* Adjust letter spacing to match the 'HELLO' style */
-  text-align: center; /* Center align the heading */
+  color: #66FCF1; 
+  margin: 0; 
+  padding-top: 70px; 
+  text-transform: uppercase; 
+  letter-spacing: 5px; 
+  text-align: center; 
 }
 
 .tileWrapper {
-  width: 70%; /* half of the page size */
+  width: 70%; 
   margin: auto;
 }
 
 .categoryHeader {
-  color: #C5C6C7; /* Internal text color */
+  color: #C5C6C7;
   padding-bottom: 5px;
   padding-top: 10px;
   font-size: 1.5em;
@@ -42,37 +41,37 @@
 }
 
 .categoryHeader:hover {
-  color: #45A29E; /* bright blue on hover */
+  color: #45A29E;
 }
 
 .identitiesList {
-  background-color: #1F2833; /* dark element background */
+  background-color: #1F2833; 
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 10px;
   display: flex;
-  justify-content: space-between; /* aligns text left and buttons right */
+  justify-content: space-between; 
   align-items: center;
   transition: background-color 0.3s ease;
 }
 
 .identitiesList:hover {
   text-decoration-color: #0B0C10;
-  background-color: #45A29E; /* lighter element background on hover */
+  background-color: #45A29E; 
 }
 
 .aligntext {
   margin-left: 20px;
   font-size: 1.2rem;
   font-family: 'Roboto', sans-serif;
-  text-align: left; /* align text to the left */
+  text-align: left; 
 }
 
 .clickabletext {
   margin-left: 20px;
   font-size: 1.2rem;
   font-family: 'Roboto', sans-serif;
-  text-align: left; /* align text to the left */
+  text-align: left; 
 }
 
 .clickabletext:hover {
@@ -80,13 +79,13 @@
   font-size: 1.2rem;
   color: #0B0C10;
   font-family: 'Roboto', sans-serif;
-  text-align: left; /* align text to the left */
+  text-align: left; 
   cursor: pointer;
 }
 
 .buttonGroup {
   display: flex;
-  justify-content: flex-end; /* align buttons to the right */
+  justify-content: flex-end;
 }
 
 .buttonAdd {
@@ -111,8 +110,8 @@
 }
 
 .buttonAdd:disabled {
-  background-color: #C5C6C7; /* light grey when disabled */
-  color: #0B0C10; /* dark text when disabled */
+  background-color: #C5C6C7; 
+  color: #0B0C10;
   cursor: not-allowed;
 }
 

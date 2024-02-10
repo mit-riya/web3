@@ -5,7 +5,7 @@
     color: #C5C6C7;
     position: fixed;
     top: 0;
-    left: -250px; /* Move Navbar off-screen initially */
+    left: -250px; 
     width: 250px;
     height: 100vh;
     transition: left 0.3s ease;
@@ -24,13 +24,13 @@
     position: absolute;
     top: 1rem;
     left: 1rem;
-    z-index: 0; /* Ensure toggle button is above Navbar */
+    z-index: 0;
   }
   .hamburger2 {
     cursor: pointer;
     position: absolute;
     top: 1rem;
-    left: 1rem;/* Ensure toggle button is above Navbar */
+    left: 1rem;
   }
   
   .srOnly {
@@ -49,17 +49,17 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 24px; /* Adjust as needed */
+    height: 24px; 
   }
   
   .bar {
-    width: 24px; /* Adjust as needed */
+    width: 24px; 
     height: 2px;
     background-color: #C5C6C7;
   }
   
   .showMenu {
-    left: 0; /* Slide in Navbar */
+    left: 0; 
   }
   
   .navLinks {
