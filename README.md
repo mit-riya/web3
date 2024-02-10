@@ -23,7 +23,7 @@ This is a website for automated resume verification while protecting individuals
 
 ### Distributed storage of verified documents
 
-IPFS generates unique hashes for user-uploaded documents, ensuring encryption and privacy. This distributed storage enhances data resilience and accessibility, aligning with our commitment to security and privacy.
+IPFS generates unique hashes for user-uploaded documents. This distributed storage enhances data resilience and accessibility, aligning with our commitment to security and privacy.
 
 ### Verification of documents through blockchain
 
