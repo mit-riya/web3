@@ -183,7 +183,7 @@ const MyIdentities = () => {
   // Return the MyIdentities component
   return (
     <div className={styles.container}>
-      <Navbar/>
+      <Navbar />
       <h1 className={styles.heading}>My Info</h1> {/* Heading for the page */}
 
       {loading && <p>Loading...</p>}  {/* Display a loading message if the identities are loading */}
@@ -202,7 +202,15 @@ const MyIdentities = () => {
                 <div>
                   {identities.map((identity, index) => (
                     <div key={index} className={styles.identitiesList}>
-                      <p className={styles.aligntext} onClick={() => handleClick(getOriginalIndex(identity), verificationStatus[getOriginalIndex(identity)])}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}</p>
+                      {verificationStatus[getOriginalIndex(identity)]
+                        ?
+                        <p className={styles.clickabletext} onClick={() => handleClick(getOriginalIndex(identity), verificationStatus[getOriginalIndex(identity)])}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}
+                        </p>
+                        :
+                        <p className={styles.aligntext} onClick={() => handleClick(getOriginalIndex(identity), verificationStatus[getOriginalIndex(identity)])}>{identity.includes(' - ') ? identity.split(' - ')[1] : identity}
+                        </p>
+                      }
+
                       <div className={styles.buttonGroup}>
                         {verificationStatus[getOriginalIndex(identity)] ? (
                           <>
