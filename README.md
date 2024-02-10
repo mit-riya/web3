@@ -1,8 +1,17 @@
-## Trustfolio
+# Trustfolio
 
+## Introduction
 This is a website for secure document verification while protecting individuals' privacy, and also leveraging blockchain technology. Our solution involves securely storing and verifying documents, ensuring authenticity without compromising sensitive information. Third parties can access verification status without full document access, along with an option for requesting document access, enhancing privacy and user control. The immutability of blockchain assures trust in the verification process, providing a reliable solution for identity verification while safeguarding personal data.
 
-### How to run
+## Technologies used
+    * Blockchain and smart contract
+        * Solidity
+        
+## Features
+
+## Demo
+
+## How to run
 
 ### Step 1: Clone this repo
 Clone this repo using
