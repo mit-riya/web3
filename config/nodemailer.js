@@ -1,3 +1,5 @@
+/* nodemailer.js */
+
 // Importing nodemailer library
 import nodemailer from "nodemailer";
 
