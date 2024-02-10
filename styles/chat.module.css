@@ -23,7 +23,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
   .chatbox::-webkit-scrollbar {
-    display: none; /* Hide scrollbar in WebKit browsers */
+    display: none; 
 }
   .chatbox h3 {
     font-size: 1rem;

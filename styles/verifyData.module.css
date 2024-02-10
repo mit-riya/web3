@@ -5,13 +5,10 @@
 .container {
     overflow-x: hidden;
     background-color: #0B0C10;
-    /* dark background */
     color: #C5C6C7;
-    /* light text */
     font-family: 'Roboto', sans-serif;
     padding: 60px;
     padding-top: 0;
-    /* remove padding at the top */
     min-height: 100vh;
     min-width: 100vw;
 }
@@ -44,14 +41,11 @@
     margin-bottom: 100px;
     padding-bottom: 50px;
     color: #66FCF1;
-    /* bright blue */
     margin: 0;
     padding-top: 70px;
-    /* Padding at the top to avoid touching the edge */
     text-transform: uppercase;
     letter-spacing: 5px;
     text-align: center;
-    /* Center align the heading */
 }
 
 .heading2 {
@@ -60,27 +54,20 @@
     margin-bottom: 100px;
     padding-bottom: 50px;
     color: #C5C6C7;
-    /* bright blue */
     margin: 0;
-    /* remove margin to shift to the top */
     padding-top: 70px;
-    /* Padding at the top to avoid touching the edge */
     letter-spacing: 5px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .text1 {
     font-size: 1rem;
     margin-top: 200px;
     margin-bottom: 200px;
-    /* padding-bottom: 50px; */
     color: #45A29E;
-    /* bright blue */
     margin: 0;
     letter-spacing: 2px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .text2 {
@@ -88,24 +75,19 @@
     margin-top: 200px;
     margin-bottom: 100px;
     color: #C5C6C7;
-    /* bright blue */
     margin: 0;
     letter-spacing: 1px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .text3 {
     font-size: 1.8rem;
     margin-top: 200px;
     margin-bottom: 200px;
-    /* padding-bottom: 50px; */
     color: #C5C6C7;
-    /* bright blue */
     margin: 0;
     letter-spacing: 2px;
     text-align: left;
-    /* Center align the heading */
 }
 
 .textCID {
@@ -123,7 +105,6 @@
     margin-top: 200px;
     margin-bottom: 100px;
     color: #66FCF1;
-    /* bright blue */
     margin: 0;
     letter-spacing: 1px;
     text-align: left;
@@ -132,7 +113,6 @@
 
 .label {
     color: #C5C6C7;
-    /* Internal text color */
     padding-bottom: 5px;
     padding-top: 10px;
     font-size: 1.5em;
@@ -144,13 +124,11 @@
     width: 500px;
     height: 50px;
     background-color: #1F2833;
-    /* dark element background */
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    /* aligns text left and buttons right */
     align-items: center;
     transition: background-color 0.3s ease;
 }
@@ -162,16 +140,12 @@
 
 .tileWrapper {
     width: 90%;
-    /* half of the page size */
     background-color: #1F2833;
-    /* dark element background */
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;
     display: flex;
     justify-content: left;
-    /* aligns text left and buttons right */
-    /* align-items: row; */
     transition: background-color 0.3s ease;
 }
 
@@ -210,7 +184,6 @@
     font-size: 1.2rem;
     font-family: 'Roboto', sans-serif;
     text-align: left;
-    /* align text to the left */
 }
 
 .button {
@@ -252,12 +225,11 @@
 }
 
 .buttonModal:disabled {
-    background-color: #C5C6C7; /* light grey when disabled */
-    color: #0B0C10; /* dark text when disabled */
+    background-color: #C5C6C7; 
+    color: #0B0C10; 
     cursor: not-allowed;
   }
 
-/* Hide scrollbar for webkit browsers */
 .modalcontent::-webkit-scrollbar {
     display: none;
 }
@@ -273,7 +245,6 @@
     margin-right: 10px;
 }
 
-/* Styles for the dropdown */
 .filter select {
     padding: 5px;
     font-size: 16px;
@@ -284,7 +255,6 @@
     cursor: pointer;
 }
 
-/* Hover styles for dropdown options */
 .filter option {
     background-color: #1F2833; 
     color: #C5C6C7; 
