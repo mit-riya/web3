@@ -24,7 +24,7 @@ const VerifyDataPage = () => {
   // Accessing user account from context
   const { account } = useContext(UserContext);
   const [isDisabled, setIsDisabled] = useState(false); // State to disable the Select button
-  const { AllIdentities } = useContext(UserContext); // Accessing all identities from context
+  const { AllIdentities, loadingAccount } = useContext(UserContext); // Accessing all identities from context
   const [receiverId, setReceiverId] = useState(''); // State for receiver ID
   const [requesterId, setRequesterId] = useState(''); // State for requester ID
   const [CIDmodalOpen, setCIDModalOpen] = useState(false); // State for CID modal
@@ -280,7 +280,9 @@ const VerifyDataPage = () => {
       return filteredRequests.filter(request => request.status === filterOption); // Filter requests based on status
     }
   };
-
+  if (loadingAccount) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className={styles.container}>
       <Navbar />
