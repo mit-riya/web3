@@ -44,7 +44,9 @@ class SetUser extends Component {
 
         return (
             <div className={styles.container}>
-                <h1 className={styles.heading1}>WELCOME!</h1>
+                
+                <h1 className={styles.heading1}>WELCOME</h1>
+                <h1 className={styles.heading2}>@trustfolio</h1>
                 <p className={styles.text}>Login with Metamask and your email</p>
                 {/* take email input if not entered before */}
                 {account === null && (

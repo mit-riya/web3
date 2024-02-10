@@ -45,11 +45,17 @@
 
 .heading1 {
   font-size: 5rem;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   color: #66FCF1;
   text-align: center;
 }
 
+.heading2 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  color: #66FCF1;
+  text-align: center;
+}
 .text {
   font-size: 1.2rem;
   margin-bottom: 10px;
