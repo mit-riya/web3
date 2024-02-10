@@ -69,6 +69,15 @@ const VerifyDataPage = () => {
     }
   }
 
+  async function handleClick(cid) {
+    try {
+      const target_url = `${process.env.NEXT_PUBLIC_GATEWAY_URL}/ipfs/${cid}?pinataGatewayToken=${process.env.PINATA_URL_SECOND}`;
+      window.open(target_url, '_blank');
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  }
+
   useEffect(() => {
     if (data) {
       const newFilteredRequests = data.filter((request) => request.requesterId === userId);
@@ -103,10 +112,28 @@ const VerifyDataPage = () => {
           <div key={index}>
             {name ?
               <div>
-                <p className={styles.text2}>{category} - {name} : {response[index]}</p>
+                {response[index] === 'Access denied' || response[index] === 'Not verified yet'
+                  ?
+                  <p className={styles.text2} >{category} - {name} : {response[index]}</p>
+                  :
+                  <p className={styles.alignLeft}>
+                    <p>{category} - {name} : </p>
+                  <p className={styles.textCID} onClick={() => handleClick(response[index])}>{response[index]}</p>
+                  </p>
+                }
               </div>
               :
-              <p className={styles.text2}>{category} : {response[index]}</p>
+              <div>
+                {response[index] === 'Access denied' || response[index] === 'Not verified yet'
+                  ?
+                  <p className={styles.text2} >{category} : {response[index]}</p>
+                  :
+                  <p className={styles.alignLeft}>
+                    <p>{category} :</p>
+                    <p className={styles.textCID} onClick={() => handleClick(response[index])}> {response[index]}</p>
+                  </p>
+                }
+              </div>
             }
           </div>
         )
@@ -115,10 +142,12 @@ const VerifyDataPage = () => {
           <div key={index}>
             {name ?
               <div>
-                <p className={styles.text2}>{category} - {name} : </p>
+                  <p className={styles.text2} >{category} - {name} : {response[index]}</p>
               </div>
               :
-              <p className={styles.text2}>{category} : </p>
+              <div>
+                  <p className={styles.text2} >{category} : {response[index]}</p>
+              </div>
             }
           </div>
         )
@@ -294,9 +323,7 @@ const VerifyDataPage = () => {
       </Modal>
 
       <div >
-
-      <h1 className={styles.heading2}>Past Requests: </h1>
-
+        <h1 className={styles.heading2}>Past Requests: </h1>
         {/* Filter dropdown */}
         <div className={styles.filter}>
           <label>Filter by Status:</label>
@@ -307,8 +334,8 @@ const VerifyDataPage = () => {
             <option value="Pending">Pending</option>
           </select>
         </div>
-
       </div>
+      
       <div className={styles.alignCenter}>
         <ul>
           {filterPastRequests().map((request) => (
