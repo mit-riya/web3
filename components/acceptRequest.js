@@ -5,7 +5,12 @@ import styles from './../styles/acceptRequest.module.css';
 
 const DataModal = ({ options, selectedValues, onChange }) => {
     const { AllIdentities } = useContext(UserContext);
+    console.log(AllIdentities);
+    // try{
+        console.log(options);
     const groupedOptions = options.reduce((groups, option) => {
+        console.log(groups);
+        console.log(option);
         const categoryKey = AllIdentities[option].includes(' - ') ? AllIdentities[option].split(' - ')[0] : AllIdentities[option];
         if (!groups[categoryKey]) {
             groups[categoryKey] = [];
@@ -13,6 +18,9 @@ const DataModal = ({ options, selectedValues, onChange }) => {
         groups[categoryKey].push(option);
         return groups;
     }, {});
+    // }catch(e){
+    //     console.log(e);
+    // }
 
     console.log(options);
     const handleCheckboxChange = (option) => {

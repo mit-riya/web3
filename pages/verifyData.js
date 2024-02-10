@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import { UserContext } from './context/userContext';
 import styles from './../styles/verifyData.module.css';
 import Navbar from '@/components/navbar';
-
+import { sendNotification } from '@/lib/api';
 const fetcher = async (url) => {
   const response = await fetch(url);
   console.log('Response:', response);
@@ -29,18 +29,7 @@ const VerifyDataPage = () => {
   const { data, error } = useSWR(url, fetcher);
   const [filteredRequests, setFilteredRequests] = useState([]);
   const prevFilteredRequestsLength = useRef(0);
-
-  const handleDirectRequest = () => {
-    setSelectedIdentities('');
-    setContractModalOpen(true);
-    setRequesterId(userId);
-  };
-
-  const handleAskCID = () => {
-    setSelectedIdentities('');
-    setCIDModalOpen(true);
-    setRequesterId(userId);
-  }
+  const [filterOption, setFilterOption] = useState('All'); // Initialize filter option state
 
   const userExists = async (metamaskAddress) => {
     try {
@@ -53,6 +42,30 @@ const VerifyDataPage = () => {
       return flag;
     } catch (error) {
       console.error('Error:', error.message);
+    }
+  }
+
+  const handleDirectRequest = async () => {
+    const _userExists = await userExists(receiverId);
+    if (_userExists) {
+      setSelectedIdentities('');
+      setContractModalOpen(true);
+      setRequesterId(userId);
+    } else {
+      alert('User does not exist');
+      setReceiverId('');
+    }
+  };
+
+  const handleAskCID = async () => {
+    const _userExists = await userExists(receiverId);
+    if (_userExists) {
+      setSelectedIdentities('');
+      setCIDModalOpen(true);
+      setRequesterId(userId);
+    } else {
+      alert('User does not exist');
+      setReceiverId('');
     }
   }
 
@@ -113,7 +126,7 @@ const VerifyDataPage = () => {
     });
   };
 
-  //   new request
+  //  new request
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setRequesterId(userId)
@@ -134,6 +147,9 @@ const VerifyDataPage = () => {
 
       if (response.ok) {
         console.log('Verification request created successfully');
+        const email = await getEmail(receiverId)
+        console.log(email)
+        sendNotification({ to: `${email}`, subject: `Verification request from user ${requesterId}`, text: `Dear user ${receiverId}, \nUser ${requesterId} has requested some verifications from you.\nRegards,\nTeam BlockCV` })
         mutate(url);
         // Handle success, if needed
       } else {
@@ -174,12 +190,21 @@ const VerifyDataPage = () => {
       return email;
     } catch (error) {
       console.error('Error:', error.message);
-    } 
+    }
   }
+
+  // Function to filter past requests based on status
+  const filterPastRequests = () => {
+    if (filterOption === 'All') {
+      return filteredRequests; // Return all requests if 'All' is selected
+    } else {
+      return filteredRequests.filter(request => request.status === filterOption); // Filter requests based on status
+    }
+  };
 
   return (
     <div className={styles.container}>
-      <Navbar/>
+      <Navbar />
       <h1 className={styles.heading}>New Verification Request</h1>
       <div className={styles.container2}>
 
@@ -268,10 +293,26 @@ const VerifyDataPage = () => {
         </div>
       </Modal>
 
+      <div >
+
       <h1 className={styles.heading2}>Past Requests: </h1>
+
+        {/* Filter dropdown */}
+        <div className={styles.filter}>
+          <label>Filter by Status:</label>
+          <select value={filterOption} onChange={(e) => setFilterOption(e.target.value)}>
+            <option value="All" className={styles.option} >All</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </div>
+
+      </div>
       <div className={styles.alignCenter}>
         <ul>
-          {filteredRequests.map((request) => (
+          {filterPastRequests().map((request) => (
+
             <li key={request._id} >
               <div className={styles.tileWrapper}>
                 <div className={styles.alignTopDown}>
