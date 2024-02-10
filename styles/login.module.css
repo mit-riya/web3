@@ -1,48 +1,61 @@
 /* login.module.css */
 
 .container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+    background-color: #0B0C10;
+    color: #C5C6C7;
+    padding-left: 60px;
+  }
+
+.container3{
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #0B0C10;
-  color: #C5C6C7;
-  padding-left: 60px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 }
 
-.heading1 {
-  font-size: 5rem;
-  margin-bottom: 20px;
-  color: #66FCF1;
-  text-align: left;
+.container2 {
+  width:40vw;
+  height:100vh;
+  background-image: linear-gradient(to right, rgba(11, 12, 16, 1), rgba(11, 12, 16, 0)),url('./../public/tfbg.jpeg');
+  background-repeat: repeat;
 }
-
-.buttonType1 {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #45A29E;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.buttonType1:hover {
-  background-color: #1F2833;
-}
-
-.text {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #C5C6C7;
-  text-align: left;
-}
+  .heading1 {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    color: #66FCF1;
+    text-align: left;
+  }
+  
+  .buttonType1 {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #45A29E;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .buttonType1:hover {
+    background-color: #1F2833;
+  }
+  
+  .text {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #C5C6C7;
+    text-align: left;
+  }
 
 .svgImage {
   background-color: #66FCF1;

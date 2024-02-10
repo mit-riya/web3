@@ -12,7 +12,7 @@ import { UserContext } from './context/userContext'; // Import UserContext from 
 import styles from './../styles/verifyData.module.css'; // Import styles for VerifyDataPage
 import Navbar from '@/components/navbar'; // Import Navbar component
 import { sendNotification } from '@/lib/api'; // Import sendNotification function from lib/api
-
+import Logo from '@/components/logo';
 // Function to fetch data from the API
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -286,6 +286,7 @@ const VerifyDataPage = () => {
   return (
     <div className={styles.container}>
       <Navbar />
+      <Logo/>
       <h1 className={styles.heading}>New Verification Request</h1>
       <div className={styles.container2}>
 

@@ -9,7 +9,7 @@ import styles from './../styles/verify.module.css'; // Importing CSS styles
 import Navbar from '@/components/navbar'; // Importing Navbar component
 import { useContext } from 'react'; // Importing React context
 import { UserContext } from './context/userContext'; // Importing UserContext
-
+import Logo from '@/components/logo';
 // Function to fetch data
 const fetcher = async (url) => {
   const response = await fetch(url); // Fetching data from the provided URL
@@ -157,6 +157,7 @@ const YourComponent = () => {
   return (
     <div className={styles.container}>
       <Navbar />
+      <Logo/>
       <h1 className={styles.heading}>Verify Requests</h1>
       <div className={styles.alignCenter}>
         <ul>
