@@ -2,6 +2,7 @@
 
 ## Introduction
 This is a website for automated resume verification while protecting individuals' privacy by leveraging blockchain technology. Our solution involves securely storing and verifying documents, ensuring authenticity without compromising sensitive information. Third parties can access verification status without full document access, along with an option for requesting document access, enhancing privacy and user control. The immutability of blockchain assures trust in the verification process.
+![image](https://github.com/mit-riya/web3/assets/95142933/2007f7a2-6284-42c8-ae8c-02a2b4bcdbea)
 
 ## Technologies used
 
@@ -42,6 +43,7 @@ The blockchain-based verifier sends email notifications to users upon receiving 
 An AI-powered chatbot provides real-time assistance for users navigating the platform, offering instant support and guidance on verification processes and inquiries.
 
 ## Demo
+https://drive.google.com/drive/folders/14nksEyxV_1k-nI1PdttvCflRCh6-fUOr?usp=drive_link
 
 ## How to run
 
