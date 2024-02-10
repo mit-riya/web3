@@ -37,7 +37,7 @@ const YourComponent = () => {
       setFilteredRequests(newFilteredRequests);
 
       // Check for new requests
-      if (newFilteredRequests.length > prevFilteredRequestsLength.current) {
+      if (newFilteredRequests.length > prevFilteredRequestsLength.current && (prevFilteredRequestsLength.current != 0 || newFilteredRequests.length == 1)) {
         alert("New Request");
       }
 
