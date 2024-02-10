@@ -51,29 +51,61 @@ const VerifyDataPage = () => {
     }
   };
 
+  // Function to check if receiver Id is same as requester Id`
+  const receiverIdSameAsRequesterId = (reciverId) => {
+    if (reciverId === account) {
+      return true;
+    }
+    return false;
+  };
+
   // Handle direct request
   const handleDirectRequest = async () => {
+    // Check if user exists
     const _userExists = await userExists(receiverId);
-    if (_userExists) {
-      setSelectedIdentities('');
-      setContractModalOpen(true);
-      setRequesterId(account);
-    } else {
-      alert('User does not exist');
+    // Check if receiver Id is same as requester Id
+    const _receiverIdSameAsRequesterId = receiverIdSameAsRequesterId(receiverId);
+
+    // If receiver Id is same as requester Id, show alert
+    if (_receiverIdSameAsRequesterId) {
+      alert('You cannot request verification from yourself');
       setReceiverId('');
+    }
+    else {
+      // If user exists, open modal
+      if (_userExists) {
+        setSelectedIdentities('');
+        setContractModalOpen(true);
+        setRequesterId(account);
+      } else {
+        alert('User does not exist');
+        setReceiverId('');
+      }
     }
   };
 
   // Handle asking for CID
   const handleAskCID = async () => {
+    // Check if user exists
     const _userExists = await userExists(receiverId);
-    if (_userExists) {
-      setSelectedIdentities('');
-      setCIDModalOpen(true);
-      setRequesterId(account);
-    } else {
-      alert('User does not exist');
+    // Check if receiver Id is same as requester Id
+    const _receiverIdSameAsRequesterId = receiverIdSameAsRequesterId(receiverId);
+
+    // If receiver Id is same as requester Id, show alert
+    if (_receiverIdSameAsRequesterId) {
+      alert('You cannot request verification from yourself');
       setReceiverId('');
+    }
+    else {
+      // If user exists, open modal
+      if (_userExists) {
+        setSelectedIdentities('');
+        setCIDModalOpen(true);
+        setRequesterId(account);
+      } else {
+        alert('User does not exist');
+        setReceiverId('');
+      }
     }
   };
 
@@ -105,7 +137,7 @@ const VerifyDataPage = () => {
 
   // Disable Select button if no identities are selected
   useEffect(() => {
-    if(selectedIdentities.length > 0) {
+    if (selectedIdentities.length > 0) {
       setIsDisabled(false);
     }
     else {
@@ -137,7 +169,7 @@ const VerifyDataPage = () => {
                   :
                   <p className={styles.alignLeft}>
                     <p>{category} - {name} : </p>
-                  <p className={styles.textCID} onClick={() => handleClick(response[index])}>{response[index]}</p>
+                    <p className={styles.textCID} onClick={() => handleClick(response[index])}>{response[index]}</p>
                   </p>
                 }
               </div>
@@ -161,11 +193,11 @@ const VerifyDataPage = () => {
           <div key={index}>
             {name ?
               <div>
-                  <p className={styles.text2} >{category} - {name} : {response[index]}</p>
+                <p className={styles.text2} >{category} - {name} : {response[index]}</p>
               </div>
               :
               <div>
-                  <p className={styles.text2} >{category} : {response[index]}</p>
+                <p className={styles.text2} >{category} : {response[index]}</p>
               </div>
             }
           </div>
@@ -336,7 +368,7 @@ const VerifyDataPage = () => {
         />
         <div className={styles.alignRight}>
           <button className={styles.buttonModal} disabled={isDisabled} onClick={handleSubmit}>Submit</button>
-          <button className={styles.buttonModal}  onClick={() => setCIDModalOpen(false)}>Cancel</button>
+          <button className={styles.buttonModal} onClick={() => setCIDModalOpen(false)}>Cancel</button>
         </div>
       </Modal>
 
