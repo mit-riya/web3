@@ -2,7 +2,8 @@
 import mongoose from 'mongoose';
 import connect from '../../models/connect';
 // import VerificationRequest from '../../models/VerificationRequest';
-module.exports = async function (req, res) {
+
+export default async function handler(req, res) {
     try {
         const { requesterId, receiverId, details } = await req.body;
         await connect();

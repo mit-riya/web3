@@ -1,3 +1,5 @@
+/* Files.jsx: Component to display a file entry with CID and copy functionality */
+
 import React from "react";
 
 // Files Component: Displays a file entry with CID and copy functionality

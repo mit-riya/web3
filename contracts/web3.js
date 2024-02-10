@@ -1,3 +1,5 @@
+/*web3.js is a utility file that configures the web3 instance based on the environment. */
+
 // Importing the Web3 library
 import Web3 from 'web3';
 

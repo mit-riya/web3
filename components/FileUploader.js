@@ -1,4 +1,4 @@
-// FileUploader.js
+/* FileUploader.js : Component to upload files with verification and CID display */
 
 import { useState, useRef } from "react";
 import { VerifyIdentity } from "./Verify";

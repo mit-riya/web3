@@ -1,3 +1,5 @@
+/* login.module.css */
+
 .container {
     display: flex;
     flex-direction: row;
@@ -55,24 +57,24 @@
     text-align: left;
   }
 
-  .svgImage{
-    background-color:#66FCF1;
-    border-radius: 40px;
-    padding: 12px;
-    width:80px;
-    height:80px;
-    color:white;
-    margin:12px;
-  }
+.svgImage {
+  background-color: #66FCF1;
+  border-radius: 40px;
+  padding: 12px;
+  width: 80px;
+  height: 80px;
+  color: white;
+  margin: 12px;
+}
 
-  .chatBot{
-    height:fit-content;
-    width: fit-content;
-    position:absolute;
-    bottom:0;
-    right:0;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
+.chatBot {
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}

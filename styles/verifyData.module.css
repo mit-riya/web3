@@ -3,7 +3,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 .container {
-    overflow-x: hidden;
     background-color: #0B0C10;
     color: #C5C6C7;
     font-family: 'Roboto', sans-serif;
@@ -225,10 +224,10 @@
 }
 
 .buttonModal:disabled {
-    background-color: #C5C6C7; 
-    color: #0B0C10; 
+    background-color: #C5C6C7;
+    color: #0B0C10;
     cursor: not-allowed;
-  }
+}
 
 .modalcontent::-webkit-scrollbar {
     display: none;
@@ -256,6 +255,6 @@
 }
 
 .filter option {
-    background-color: #1F2833; 
-    color: #C5C6C7; 
-  }
+    background-color: #1F2833;
+    color: #C5C6C7;
+}

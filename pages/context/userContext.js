@@ -7,7 +7,7 @@ class UserContextProvider extends Component {
     state = { 
         account: null,
         email: null,
-        AllIdentities: [], // Initialize AllIdentities as an empty array
+        AllIdentities: [], 
         loadingAccount: true,
     } 
 
@@ -15,9 +15,9 @@ class UserContextProvider extends Component {
         const account = localStorage.getItem('account');
         const email = localStorage.getItem('email');
         if (account && email) {
+            // fetch account and email again on page refresh
             this.setState({ account, email });
         }
-    
         this.loadAllIdentities().then(() => {
             this.setState({ loadingAccount: false }); // Set loading to false once everything is loaded
         }).catch(error => {
@@ -30,17 +30,11 @@ class UserContextProvider extends Component {
     loadAllIdentities = async () => {
         if (window.ethereum) {
             try {
-                // Load MetaMask
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                // Load the user's Ethereum address
-                const userAddress = (await web3.eth.getAccounts())[0];
-                console.log(userAddress);
                 // Load the DigitalIdentity contract using the ABI and contract address
                 const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
 
                 // Call the contract's function to get all identities
-                const AllIdentities = await contract.methods.getAllIdentities().call({ from: userAddress });
-                console.log('All Identities:', AllIdentities);
+                const AllIdentities = await contract.methods.getAllIdentities().call({ from: this.state.account });
 
                 // Update the state with the fetched identities
                 this.setState({ AllIdentities });
@@ -55,20 +49,20 @@ class UserContextProvider extends Component {
     setAccount = async (email) => {
         if (window.ethereum) {
             try {
+                // Load MetaMask
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
+                // Load the user's Ethereum address
                 const connectedAccount = (await web3.eth.getAccounts())[0];
     
                 // Save account and email to state and localStorage
                 this.setState({ account: connectedAccount, email });
                 localStorage.setItem('account', connectedAccount);
                 localStorage.setItem('email', email);
-                console.log(connectedAccount);
-                console.log(email);
-                // Assume you have the contract setup as before
+
+                // Load the DigitalIdentity contract using the ABI and contract address
                 const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
                 await contract.methods.addEmail(email).send({ from: connectedAccount });
                 
-                console.log('MetaMask is connected!', connectedAccount);
             } catch (error) {
                 console.error('Error connecting to MetaMask:', error.message);
             }
@@ -82,7 +76,6 @@ class UserContextProvider extends Component {
         this.setState({ account: null, email: null });
         localStorage.removeItem('account');
         localStorage.removeItem('email');
-        console.log('Logged out');
     }
     
 

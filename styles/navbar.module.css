@@ -1,82 +1,82 @@
 /* navbar.module.css */
 
 .navbar {
-    background-color: #1F2833;
-    color: #C5C6C7;
-    position: fixed;
-    top: 0;
-    left: -250px; 
-    width: 250px;
-    height: 100vh;
-    transition: left 0.3s ease;
-    z-index: 1;
-  }
-  
-  .navbarContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding-top: 1rem;
-  }
-  
-  .hamburger {
-    cursor: pointer;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    z-index: 0;
-  }
-  .hamburger2 {
-    cursor: pointer;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-  }
-  
-  .srOnly {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-  
-  .hamburgerIcon {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 24px; 
-  }
-  
-  .bar {
-    width: 24px; 
-    height: 2px;
-    background-color: #C5C6C7;
-  }
-  
-  .showMenu {
-    left: 0; 
-  }
-  
-  .navLinks {
-    padding-top: 40px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .navLink {
-    color: inherit;
-    text-decoration: none;
-    font-size: 1rem;
-    width: 100%;
-    padding:8px 12px;
-  }
+  background-color: #1F2833;
+  color: #C5C6C7;
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100vh;
+  transition: left 0.3s ease;
+  z-index: 1;
+}
 
-  .navLink:hover {
-    background-color: #0B0C10;
-  }
-  
+.navbarContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 1rem;
+}
+
+.hamburger {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 0;
+}
+
+.hamburger2 {
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.hamburgerIcon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+}
+
+.bar {
+  width: 24px;
+  height: 2px;
+  background-color: #C5C6C7;
+}
+
+.showMenu {
+  left: 0;
+}
+
+.navLinks {
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.navLink {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1rem;
+  width: 100%;
+  padding: 8px 12px;
+}
+
+.navLink:hover {
+  background-color: #0B0C10;
+}

@@ -1,56 +1,58 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #0B0C10;
-    color: #C5C6C7;
-    padding-left: 60px;
-  }
-  
-  .inputField {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #1F2833;
-    color: #C5C6C7;
-    outline: none;
-  }
-  
-  .inputField::placeholder {
-    color: #C5C6C7;
-  }
-  
-  .buttonType2 {
-    padding: 10px 20px;
-    width:400px;
-    border: none;
-    border-radius: 5px;
-    background-color: #45A29E;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .buttonType2:hover {
-    background-color: #1F2833;
-  }
+/* set user page styles */
 
-  .heading1 {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    color: #66FCF1;
-    text-align: center;
-  }
-  
-  .text {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #C5C6C7; 
-    text-align: center;
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #0B0C10;
+  color: #C5C6C7;
+  padding-left: 60px;
+}
+
+.inputField {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1F2833;
+  color: #C5C6C7;
+  outline: none;
+}
+
+.inputField::placeholder {
+  color: #C5C6C7;
+}
+
+.buttonType2 {
+  padding: 10px 20px;
+  width: 400px;
+  border: none;
+  border-radius: 5px;
+  background-color: #45A29E;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buttonType2:hover {
+  background-color: #1F2833;
+}
+
+.heading1 {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  color: #66FCF1;
+  text-align: center;
+}
+
+.text {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #C5C6C7;
+  text-align: center;
+}
