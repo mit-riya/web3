@@ -19,6 +19,7 @@ const fetcher = async (url) => {
 const VerifyDataPage = () => {
   const { account } = useContext(UserContext);
   // const userId = account.toString();
+  const [isDisabled, setIsDisabled] = useState(false);
   const { AllIdentities } = useContext(UserContext);
   const [receiverId, setReceiverId] = useState('');
   const [requesterId, setRequesterId] = useState('');
@@ -93,6 +94,16 @@ const VerifyDataPage = () => {
       prevFilteredRequestsLength.current = newFilteredRequests.length;
     }
   }, [data, account]);
+
+  // Disable Select button if no identities are selected
+  useEffect(() => {
+    if(selectedIdentities.length > 0) {
+      setIsDisabled(false);
+    }
+    else {
+      setIsDisabled(true);
+    }
+  }, [selectedIdentities]);
 
   if (error) return <div>Error loading data</div>;
   if (!data) return <div>Loading...</div>;
@@ -286,7 +297,7 @@ const VerifyDataPage = () => {
           onChange={setSelectedIdentities}
         />
         <div className={styles.alignRight}>
-          <button className={styles.buttonModal} onClick={handleSubmitOfContract}>Submit</button>
+          <button className={styles.buttonModal} disabled={isDisabled} onClick={handleSubmitOfContract}>Submit</button>
           <button className={styles.buttonModal} onClick={() => setContractModalOpen(false)}>Cancel</button>
         </div>
       </Modal>
@@ -318,8 +329,8 @@ const VerifyDataPage = () => {
           onChange={setSelectedIdentities}
         />
         <div className={styles.alignRight}>
-          <button className={styles.buttonModal} onClick={handleSubmit}>Submit</button>
-          <button className={styles.buttonModal} onClick={() => setCIDModalOpen(false)}>Cancel</button>
+          <button className={styles.buttonModal} disabled={isDisabled} onClick={handleSubmit}>Submit</button>
+          <button className={styles.buttonModal}  onClick={() => setCIDModalOpen(false)}>Cancel</button>
         </div>
       </Modal>
 
@@ -336,7 +347,7 @@ const VerifyDataPage = () => {
           </select>
         </div>
       </div>
-      
+
       <div className={styles.alignCenter}>
         <ul>
           {filterPastRequests().map((request) => (
