@@ -126,8 +126,8 @@ const VerifyDataPage = () => {
       setFilteredRequests(newFilteredRequests);
 
       // Check for new requests
-      if (newFilteredRequests.length > prevFilteredRequestsLength.current) {
-        alert("New Request");
+      if (newFilteredRequests.length > prevFilteredRequestsLength.current && (prevFilteredRequestsLength.current !== 0 || newFilteredRequests.length === 1)) {
+        alert("Request sent");
       }
 
       // Update the previous length
