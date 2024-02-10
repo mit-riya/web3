@@ -1,67 +1,67 @@
 /* login.module.css */
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #0B0C10;
-    color: #C5C6C7;
-    padding-left: 60px;
-  }
-  
-  .heading1 {
-    font-size: 5rem;
-    margin-bottom: 20px;
-    color: #66FCF1;
-    text-align: left;
-  }
-  
-  .buttonType1 {
-    display: block;
-    width: 100%;
-    max-width: 400px;
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #45A29E;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .buttonType1:hover {
-    background-color: #1F2833;
-  }
-  
-  .text {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #C5C6C7;
-    text-align: left;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #0B0C10;
+  color: #C5C6C7;
+  padding-left: 60px;
+}
 
-  .svgImage{
-    background-color:#66FCF1;
-    border-radius: 40px;
-    padding: 12px;
-    width:80px;
-    height:80px;
-    color:white;
-    margin:12px;
-  }
+.heading1 {
+  font-size: 5rem;
+  margin-bottom: 20px;
+  color: #66FCF1;
+  text-align: left;
+}
 
-  .chatBot{
-    height:fit-content;
-    width: fit-content;
-    position:absolute;
-    bottom:0;
-    right:0;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
-  }
+.buttonType1 {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #45A29E;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.buttonType1:hover {
+  background-color: #1F2833;
+}
+
+.text {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #C5C6C7;
+  text-align: left;
+}
+
+.svgImage {
+  background-color: #66FCF1;
+  border-radius: 40px;
+  padding: 12px;
+  width: 80px;
+  height: 80px;
+  color: white;
+  margin: 12px;
+}
+
+.chatBot {
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
