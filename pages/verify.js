@@ -32,8 +32,8 @@ const YourComponent = () => {
   };
 
   useEffect(() => {
-    if (account && data) {
-      const newFilteredRequests = data.filter((request) => ( request.receiverId === account && request.status === "Pending"));
+    if (account && data && data.length) {
+      const newFilteredRequests = data.filter((request) =>( request.receiverId === account && request.status === "Pending"));
       setFilteredRequests(newFilteredRequests);
 
       // Check for new requests
