@@ -49,7 +49,7 @@ const Navbar = () => {
           <div className={styles.navLinks}>
             {/* Navigation links using Next.js Link */}
             <Link href="/login" className={styles.navLink}>Home Page</Link>
-            <Link href="/myIdentities" className={styles.navLink}>My Information</Link>
+            <Link href="/myIdentities" className={styles.navLink}>My Info</Link>
             <Link href="/verify" className={styles.navLink}>Requests</Link>
             <Link href="/verifyData" className={styles.navLink}>Verify Data</Link>
             {/* Logout link with the onClick event */}
