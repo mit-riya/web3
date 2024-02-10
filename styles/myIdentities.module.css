@@ -9,8 +9,8 @@
   font-family: 'Roboto', sans-serif;
   padding: 20px;
   padding-top: 0; 
-  min-height: 100vh;
-  min-width: 100vw;
+  min-height: 100%;
+  min-width: 100%;
 }
 
 .heading {
@@ -35,7 +35,7 @@
   color: #C5C6C7;
   padding-bottom: 5px;
   padding-top: 10px;
-  font-size: 1.5em;
+  font-size: 1.2em;
   cursor: pointer;
   transition: color 0.3s ease;
 }
@@ -62,21 +62,21 @@
 
 .aligntext {
   margin-left: 20px;
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   font-family: 'Roboto', sans-serif;
   text-align: left; 
 }
 
 .clickabletext {
   margin-left: 20px;
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   font-family: 'Roboto', sans-serif;
   text-align: left; 
 }
 
 .clickabletext:hover {
   margin-left: 20px;
-  font-size: 1.2rem;
+  font-size: 1.0rem;
   color: #0B0C10;
   font-family: 'Roboto', sans-serif;
   text-align: left; 
