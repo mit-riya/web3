@@ -44,8 +44,8 @@ const Login = () => {
                     <div>
                         <p className={styles.text}>Account Number: {account}</p> {/* Display user account number */}
                         {/* Buttons to navigate to different pages and log out */}
-                        <button className={styles.buttonType1} onClick={goToMyIdentities}>My Identities</button>
-                        <button className={styles.buttonType1} onClick={goToOthersIdentities}>Others' Identities</button>
+                        <button className={styles.buttonType1} onClick={goToMyIdentities}>My Info</button>
+                        <button className={styles.buttonType1} onClick={goToOthersIdentities}>Verify Data</button>
                         <button className={styles.buttonType1} onClick={logoutMetamask}>Logout</button>
                     </div>
                 </div>
