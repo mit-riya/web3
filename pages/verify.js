@@ -10,6 +10,7 @@ import Navbar from '@/components/navbar'; // Importing Navbar component
 import { useContext } from 'react'; // Importing React context
 import { UserContext } from './context/userContext'; // Importing UserContext
 import Logo from '@/components/logo';
+
 // Function to fetch data
 const fetcher = async (url) => {
   const response = await fetch(url); // Fetching data from the provided URL
@@ -19,7 +20,7 @@ const fetcher = async (url) => {
 // Main component
 const YourComponent = () => {
   const [selectedIdentities, setSelectedIdentities] = useState(''); // State for selected identities
-  const url = 'http://localhost:3000/api/fetchAll'; // URL for data fetching
+  const url = '/api/fetchAll'; // URL for data fetching
   const { data, error } = useSWR(url, fetcher); // Using SWR for data fetching
   const [filteredRequests, setFilteredRequests] = useState([]); // State for filtered requests
   const prevFilteredRequestsLength = useRef(0); // Ref for previous filtered requests length
