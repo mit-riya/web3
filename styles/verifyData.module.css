@@ -1,4 +1,4 @@
-/* myIdentities.module.css */
+/* verifyData.module.css */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
@@ -116,8 +116,6 @@
     padding-top: 10px;
     font-size: 1.5em;
     margin-right: 10px;
-    /* margin-right: 50px;
-    padding-right: 50px; */
     transition: color 0.3s ease;
 }
 
@@ -159,7 +157,7 @@
 .alignCenter {
     display: flex;
     justify-content: center;
-    align-items: letf;
+    align-items: left;
     flex-direction: column;
     height: fit-content;
     width: 100vw;
@@ -200,7 +198,6 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    /* margin-right: 20px; */
 }
 
 .button:hover {
@@ -220,7 +217,6 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    /* margin-right: 20px; */
 }
 
 .buttonModal:hover {
@@ -230,4 +226,32 @@
 /* Hide scrollbar for webkit browsers */
 .modalcontent::-webkit-scrollbar {
     display: none;
+}
+
+.filter {
+    margin-bottom: 30px;
+    margin-right: 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.filter label {
+    margin-right: 10px;
+}
+
+/* Styles for the dropdown */
+.filter select {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #1F2833;
+    border-radius: 5px;
+    background-color: #1F2833;
+    color: #C5C6C7;
+    cursor: pointer;
+}
+
+/* Hover styles for dropdown options */
+.filter option {
+    background-color: #1F2833; 
+    color: #C5C6C7; 
   }
