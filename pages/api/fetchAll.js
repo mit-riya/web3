@@ -1,6 +1,7 @@
 // Import the necessary dependencies
 import connect from '../../models/connect'; 
 import mongoose from 'mongoose'; 
+import VerificationRequest from '../../models/VerificationRequest';
 
 async function GET(req, res) {
     try {
@@ -10,7 +11,7 @@ async function GET(req, res) {
         
         // Establish a connection to the database using the connect function.
         await connect();
-        
+        console.log(mongoose.models)
         // Fetch all documents from the VerificationRequest collection in the database.
         const pendingRequests = await VerificationRequest.find({});
         
