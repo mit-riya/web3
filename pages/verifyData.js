@@ -9,6 +9,7 @@ import { UserContext } from './context/userContext';
 import styles from './../styles/verifyData.module.css';
 import Navbar from '@/components/navbar';
 import { sendNotification } from '@/lib/api';
+
 const fetcher = async (url) => {
   const response = await fetch(url);
   console.log('Response:', response);
@@ -17,7 +18,7 @@ const fetcher = async (url) => {
 
 const VerifyDataPage = () => {
   const { account } = useContext(UserContext);
-  const userId = account.toString();
+  // const userId = account.toString();
   const { AllIdentities } = useContext(UserContext);
   const [receiverId, setReceiverId] = useState('');
   const [requesterId, setRequesterId] = useState('');
@@ -50,7 +51,7 @@ const VerifyDataPage = () => {
     if (_userExists) {
       setSelectedIdentities('');
       setContractModalOpen(true);
-      setRequesterId(userId);
+      setRequesterId(account);
     } else {
       alert('User does not exist');
       setReceiverId('');
@@ -62,7 +63,7 @@ const VerifyDataPage = () => {
     if (_userExists) {
       setSelectedIdentities('');
       setCIDModalOpen(true);
-      setRequesterId(userId);
+      setRequesterId(account);
     } else {
       alert('User does not exist');
       setReceiverId('');
@@ -79,8 +80,8 @@ const VerifyDataPage = () => {
   }
 
   useEffect(() => {
-    if (data) {
-      const newFilteredRequests = data.filter((request) => request.requesterId === userId);
+    if (account && data && data.length) {
+      const newFilteredRequests = data.filter((request) => request.requesterId === account);
       setFilteredRequests(newFilteredRequests);
 
       // Check for new requests
@@ -91,7 +92,7 @@ const VerifyDataPage = () => {
       // Update the previous length
       prevFilteredRequestsLength.current = newFilteredRequests.length;
     }
-  }, [data, userId]);
+  }, [data, account]);
 
   if (error) return <div>Error loading data</div>;
   if (!data) return <div>Loading...</div>;
