@@ -9,7 +9,6 @@ import Chat from './../public/chatbot-icon.svg'; // Import Chatbot icon SVG
 import Chatbot from './chat'; // Import Chatbot component
 import { useState } from 'react'; // Import useState hook from React
 import Navbar from '@/components/navbar'; // Import Navbar component
-
 // Define Login component
 const Login = () => {
     // Define state variables and functions using React hooks
@@ -35,8 +34,9 @@ const Login = () => {
     return (
         <div className={styles.container}>
             {/* Check if user is logged in */}
+            <div>
             {account ? (
-                <div>
+                <div className={styles.container3}>
                      <Navbar/> {/* Render Navbar component */}
                     <h1 className={styles.heading1}>USER CREDENTIALS</h1>
                     <div>
@@ -52,6 +52,9 @@ const Login = () => {
                     <SetUser/> {/* Render SetUser component to prompt user to log in */}
                 </div>
             )}
+            </div>
+            <div className={styles.container2}>
+            </div>
             {/* Chatbot section */}
             <div className={styles.chatBot}>
             {/* Conditionally render Chatbot component based on visibility state */}
