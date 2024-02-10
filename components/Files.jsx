@@ -1,17 +1,26 @@
 import React from "react";
 
+// Files Component: Displays a file entry with CID and copy functionality
 export default function Files(props) {
+  // Function to copy the CID to the clipboard
   const copyLink = async () => {
+    // Construct the copy text with the CID and current origin
     const copyText = `${window.location.origin}/${props.cid}`;
+
+    // Use the Clipboard API to write the text to the clipboard
     await navigator.clipboard.writeText(copyText);
+
+    // Show an alert indicating that the CID has been copied
     alert("Copied: " + copyText);
   };
 
+  // Render the Files component
   return (
     <div
       onClick={copyLink}
       className="m-auto mt-8 flex w-3/4 cursor-pointer flex-row justify-around rounded-lg"
     >
+      {/* Copy icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -27,7 +36,10 @@ export default function Files(props) {
         />
       </svg>
 
+      {/* Displaying the CID */}
       <p>{props.cid}</p>
+
+      {/* Download icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

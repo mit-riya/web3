@@ -1,8 +1,10 @@
-// web3.js
+// Importing the Web3 library
 import Web3 from 'web3';
 
+// Declare the web3 variable
 let web3;
 
+// Check if the code is running in the browser and MetaMask is available
 if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
     // Use MetaMask or other injected Web3 provider
     web3 = new Web3(window.ethereum);
@@ -12,4 +14,5 @@ if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
     web3 = new Web3(provider);
 }
 
+// Export the configured web3 instance for use in other modules
 export default web3;

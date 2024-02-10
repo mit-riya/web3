@@ -1,7 +1,7 @@
 import useSWR, {mutate} from 'swr';
 import { useEffect, useState, useRef } from 'react';
 import Modal from 'react-modal';
-import DataModal from '../components/acceptRequest';
+import AccessModal from '../components/acceptRequest';
 import web3 from '../contracts/web3';
 import styles from './../styles/verify.module.css';
 import Navbar from '@/components/navbar';
@@ -144,6 +144,8 @@ const YourComponent = () => {
         
         console.error('Failed to reject verification request');
         
+      } else {
+        console.error('Failed to create verification request');
       }
     } catch (error) {
       console.error('Error rejecting request:', error);
@@ -198,7 +200,7 @@ const YourComponent = () => {
                     <h2 className={styles.text3}>
                       Choose Identities to grant access
                     </h2>
-                    <DataModal
+                    <AccessModal
                       options={request.details}
                       selectedValues={selectedIdentities}
                       onChange={setSelectedIdentities}

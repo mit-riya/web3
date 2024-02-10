@@ -5,18 +5,25 @@ import styles from './../styles/modal.module.css';
 import { useContext } from 'react';
 import { UserContext } from './../pages/context/userContext';
 
+// Component to display verification status of user identities
 const ContractDataModal = ({ isOpen, onRequestClose, userAddress, indices }) => {
+    // Accessing user identities from context
     const { AllIdentities } = useContext(UserContext);
+    
+    // Accessing the user account from context
     const { account } = useContext(UserContext);
+
+    // State to store identity data
     const [identityData, setIdentityData] = useState([]);
 
+    // Effect to fetch data when the modal is opened
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // Creating a contract instance
                 const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
-                console.log('userAddress:', userAddress);
-                console.log('indices:', indices);
-
+                
+                // Fetching verification status for each identity index
                 const data = [];
                 for (let i = 0; i < indices.length; i++) {
                     const index = indices[i];
@@ -24,12 +31,14 @@ const ContractDataModal = ({ isOpen, onRequestClose, userAddress, indices }) => 
                     data.push({ identity: AllIdentities[index], verificationStatus });
                 }
 
+                // Updating the state with fetched data
                 setIdentityData(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
+        // Fetch data when the modal is opened
         if (isOpen) {
             fetchData();
         }
@@ -37,6 +46,7 @@ const ContractDataModal = ({ isOpen, onRequestClose, userAddress, indices }) => 
 
     return (
         <div className={styles.container}>
+            
             <Modal isOpen={isOpen} className={styles.modalcontent} style={{
                 overlay: {
                     backgroundColor: 'rgba(0, 0, 0, 0.5', // Background color with opacity
@@ -44,27 +54,33 @@ const ContractDataModal = ({ isOpen, onRequestClose, userAddress, indices }) => 
                     justifyContent: 'center',
                 },
                 content: {
-                    padding: '20px', // Padding of the modal content
-                    width: '60%', // Set the width of the modal
-                    height: '60%', // Set the height of the modal
-                    margin: '20vh 20vw', // Center the modal horizontally
-                    background: '#1F2833', // Background color of the modal content
-                    borderRadius: '8px', // Rounded corners of the modal content
-                    border: '1px solid #ccc', // Border of the modal content
-                    overflowX: 'hidden', // Allow the modal content to scroll if needed
+                    padding: '20px', 
+                    width: '60%', 
+                    height: '60%',
+                    margin: '20vh 20vw', 
+                    background: '#1F2833', 
+                    borderRadius: '8px', 
+                    border: '1px solid #ccc', 
+                    overflowX: 'hidden',
                 }
 
             }}>
-                <h2 className={styles.heading1}>Verification Status</h2>
+                <h2 className={styles.heading1}>
+                    Verification Status
+                </h2>
                 <div className={styles.container3}> </div>
+                    {/* List to display identity verification status */}
                 <ul>
                     {identityData.map((item, index) => (
                         <li key={index} className={styles.alignLeft}>
                             <strong className={styles.text1}>{item.identity} : </strong>
+                            {/* Displaying verification status in green if true, red if false */}
                             {item.verificationStatus.toString() === 'true' ? <p className={styles.text2} style={{ color: 'green' }}>Verified</p> : <p className={styles.text2} style={{ color: 'red' }}>Not Verified</p>}
                         </li>
                     ))}
                 </ul>
+                
+                {/* Close button */}
                 <div className={styles.alignRight}>
                     <button className={styles.buttonModal} onClick={onRequestClose}>Close</button>
                 </div>
