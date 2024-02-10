@@ -1,3 +1,5 @@
+/* VerificationStatus.js is a component that displays the verification status of user identities. It fetches the verification status from the blockchain and displays it in a modal. */
+
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import web3 from '../contracts/web3';

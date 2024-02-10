@@ -1,3 +1,5 @@
+/* Verify.js */
+
 export function VerifyIdentity(identityType) {
     const randomInt = Math.floor(Math.random() * 100);
   
