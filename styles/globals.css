@@ -11,7 +11,9 @@
   font-weight: 100 900;
   src: url("../fonts/TelegrafVariable.woff2") format("woff2");
 }
+
 @tailwind base;
+
 @layer base {
   :root {
     --color-accent: #6d57ff;
@@ -29,9 +31,13 @@
     @apply m-0 h-screen w-full bg-light text-black font-telegraf;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     @apply font-agrandir font-bold;
   }
+
   h1 {
     @apply text-5xl;
   }
@@ -45,6 +51,7 @@
   }
 
 }
+
 @tailwind components;
 @tailwind utilities;
 
@@ -69,16 +76,13 @@
 body {
   color: rgb(var(--foreground-rgb));
   background-color: #000;
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 body::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 @layer utilities {
@@ -86,4 +90,3 @@ body::-webkit-scrollbar {
     text-wrap: balance;
   }
 }
-
