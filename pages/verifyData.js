@@ -30,18 +30,6 @@ const VerifyDataPage = () => {
   const [filteredRequests, setFilteredRequests] = useState([]);
   const prevFilteredRequestsLength = useRef(0);
 
-  const handleDirectRequest = () => {
-    setSelectedIdentities('');
-    setContractModalOpen(true);
-    setRequesterId(userId);
-  };
-
-  const handleAskCID = () => {
-    setSelectedIdentities('');
-    setCIDModalOpen(true);
-    setRequesterId(userId);
-  }
-
   const userExists = async (metamaskAddress) => {
     try {
       const contract = new web3.eth.Contract(
@@ -53,6 +41,30 @@ const VerifyDataPage = () => {
       return flag;
     } catch (error) {
       console.error('Error:', error.message);
+    }
+  }
+
+  const handleDirectRequest = async () => {
+    const _userExists = await userExists(receiverId);
+    if (_userExists) {
+      setSelectedIdentities('');
+      setContractModalOpen(true);
+      setRequesterId(userId);
+    } else {
+      alert('User does not exist');
+      setReceiverId('');
+    }
+  };
+
+  const handleAskCID = async () => {
+    const _userExists = await userExists(receiverId);
+    if (_userExists) {
+      setSelectedIdentities('');
+      setCIDModalOpen(true);
+      setRequesterId(userId);
+    } else {
+      alert('User does not exist');
+      setReceiverId('');
     }
   }
 
@@ -113,7 +125,7 @@ const VerifyDataPage = () => {
     });
   };
 
-  //   new request
+  //  new request
   const handleSubmit = async (e) => {
     e.preventDefault();
     // setRequesterId(userId)
@@ -136,7 +148,7 @@ const VerifyDataPage = () => {
         console.log('Verification request created successfully');
         const email = await getEmail(receiverId)
         console.log(email)
-        sendNotification({to: `${email}`,subject : `Verification request from user ${requesterId}`, text: `Dear user ${receiverId}, \nUser ${requesterId} has requested some verifications from you.\nRegards,\nTeam BlockCV` })
+        sendNotification({ to: `${email}`, subject: `Verification request from user ${requesterId}`, text: `Dear user ${receiverId}, \nUser ${requesterId} has requested some verifications from you.\nRegards,\nTeam BlockCV` })
         mutate(url);
         // Handle success, if needed
       } else {
@@ -177,12 +189,12 @@ const VerifyDataPage = () => {
       return email;
     } catch (error) {
       console.error('Error:', error.message);
-    } 
+    }
   }
 
   return (
     <div className={styles.container}>
-      <Navbar/>
+      <Navbar />
       <h1 className={styles.heading}>New Verification Request</h1>
       <div className={styles.container2}>
 
