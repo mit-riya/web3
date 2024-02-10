@@ -251,6 +251,12 @@
     background-color: #1F2833;
 }
 
+.buttonModal:disabled {
+    background-color: #C5C6C7; /* light grey when disabled */
+    color: #0B0C10; /* dark text when disabled */
+    cursor: not-allowed;
+  }
+
 /* Hide scrollbar for webkit browsers */
 .modalcontent::-webkit-scrollbar {
     display: none;
