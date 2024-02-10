@@ -189,8 +189,8 @@ const MyIdentities = () => {
       <Navbar/>
       <h1 className={styles.heading}>My Info</h1>
       {loading && <p>Loading...</p>}
-      {/* {!loadingAccount && Object.keys(groupedIdentities).length === 0 && <p>No identities found.</p>} */}
-      {!loading && Object.keys(groupedIdentities).length > 0 && (
+      {!account && <p>No identities found.</p>}
+      {account && !loading && Object.keys(groupedIdentities).length > 0 && (
         <div className={styles.tileWrapper}>
           {Object.entries(groupedIdentities).map(([category, identities]) => (
             <div key={category} className={styles.tileWrapper}>
