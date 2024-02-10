@@ -15,6 +15,11 @@ class SetUser extends Component {
     handleSetUser = async () => {
         const { email } = this.state; // Destructure email from the state
         try {
+            const emailInput = document.getElementById('email');
+            if (!emailInput.validity.valid){
+                alert("Invalid input. Enter your mail.");
+                return;
+            }
             if(this.state.account != null )return;
             if (!email) { // Check if email is empty
                 alert('Email cannot be empty.');
@@ -43,6 +48,7 @@ class SetUser extends Component {
                     <>
                         <input 
                             type="email" 
+                            id="email"
                             value={this.state.email} 
                             onChange={this.handleEmailChange}
                             placeholder="Enter your email"
