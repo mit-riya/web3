@@ -8,12 +8,25 @@ class UserContextProvider extends Component {
         account: null,
         email: null,
         AllIdentities: [], // Initialize AllIdentities as an empty array
+        loadingAccount: true,
     } 
 
     componentDidMount() {
-        this.loadAllIdentities(); // Load AllIdentities when the component mounts
+        const account = localStorage.getItem('account');
+        const email = localStorage.getItem('email');
+        if (account && email) {
+            this.setState({ account, email });
+        }
+    
+        this.loadAllIdentities().then(() => {
+            this.setState({ loadingAccount: false }); // Set loading to false once everything is loaded
+        }).catch(error => {
+            console.error("Failed to load identities or user data", error);
+            this.setState({ loadingAccount: false }); // Ensure loading is set to false even if there's an error
+        });
     }
-
+    
+    
     loadAllIdentities = async () => {
         if (window.ethereum) {
             try {
@@ -40,20 +53,18 @@ class UserContextProvider extends Component {
     };
 
     setAccount = async (email) => {
-        let connectedAccount = this.state.account;
         if (window.ethereum) {
             try {
                 await window.ethereum.request({ method: 'eth_requestAccounts' });
-                // Load the user's Ethereum address
                 const connectedAccount = (await web3.eth.getAccounts())[0];
-                // Request account access
-                // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                // // Get the first account from the array
-                // connectedAccount = accounts[0];
-
+    
+                // Save account and email to state and localStorage
                 this.setState({ account: connectedAccount, email });
-                const contract = new web3.eth.Contract(process.env.CONTRACT_ABI, process.env.CONTRACT_ADDRESS);
-
+                localStorage.setItem('account', connectedAccount);
+                localStorage.setItem('email', email);
+    
+                // Assume you have the contract setup as before
+                const contract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_CONTRACT_ABI), process.env.REACT_APP_CONTRACT_ADDRESS);
                 await contract.methods.addEmail(email).send({ from: connectedAccount });
                 
                 console.log('MetaMask is connected!', connectedAccount);
@@ -64,11 +75,15 @@ class UserContextProvider extends Component {
             console.error('MetaMask is not installed');
         }
     }
-
+    
     logout = () => {
+        // Clear account and email from state and localStorage
         this.setState({ account: null, email: null });
+        localStorage.removeItem('account');
+        localStorage.removeItem('email');
         console.log('Logged out');
     }
+    
 
     render() { 
         return (

@@ -7,7 +7,7 @@ import { UserContext } from './context/userContext';
 import Navbar from '@/components/navbar';
 
 const MyIdentities = () => {
-  const { account } = useContext(UserContext);
+  const { account, loadingAccount } = useContext(UserContext);
   const { AllIdentities } = useContext(UserContext);
   const [identities, setIdentities] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,9 +16,13 @@ const MyIdentities = () => {
   const [selectedIdentityIndex, setSelectedIdentityIndex] = useState(null);
   const [addFunction, setAddFunction] = useState(true);
 
+  // useEffect(() => {
+  //   loadIdentities();
+  // }, []);
+
   useEffect(() => {
     loadIdentities();
-  }, []);
+  }, [loadingAccount]);
 
   const loadIdentities = async () => {
     setLoading(true);
@@ -185,7 +189,7 @@ const MyIdentities = () => {
       <Navbar/>
       <h1 className={styles.heading}>My Info</h1>
       {loading && <p>Loading...</p>}
-      {!loading && Object.keys(groupedIdentities).length === 0 && <p>No identities found.</p>}
+      {/* {!loadingAccount && Object.keys(groupedIdentities).length === 0 && <p>No identities found.</p>} */}
       {!loading && Object.keys(groupedIdentities).length > 0 && (
         <div className={styles.tileWrapper}>
           {Object.entries(groupedIdentities).map(([category, identities]) => (
