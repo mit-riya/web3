@@ -4,6 +4,7 @@
 This is a website for automated resume verification while protecting individuals' privacy by leveraging blockchain technology. Our solution involves securely storing and verifying documents, ensuring authenticity without compromising sensitive information. Third parties can access verification status without full document access, along with an option for requesting document access, enhancing privacy and user control. The immutability of blockchain assures trust in the verification process.
 ![image](https://github.com/mit-riya/web3/assets/95142933/758959be-1eab-4bbf-9b36-209ca1d1ba20)
 
+Deployed on https://trustfolio.vercel.app/
 
 ## Technologies used
 
